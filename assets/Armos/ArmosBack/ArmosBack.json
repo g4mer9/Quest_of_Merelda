@@ -1,0 +1,62 @@
+{
+	"textures": [
+		{
+			"image": "ArmosBack.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 36,
+				"h": 18
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "ArmosBack-1.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "ArmosBack-2.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 19,
+						"y": 1,
+						"w": 16,
+						"h": 16
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:73bdf4f7576cf260acf8cb11dd6602a7:206468097ab60d7fc022c0812ce955ef:dbf92680b3b111572ec32b3eec8ade5a$"
+	}
+}

@@ -1,0 +1,62 @@
+{
+	"textures": [
+		{
+			"image": "MoblinSide.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 38,
+				"h": 18
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "MoblinSide-0.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 17,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 17,
+						"h": 16
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 17,
+						"h": 16
+					}
+				},
+				{
+					"filename": "MoblinSide-1.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 17,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 17,
+						"h": 16
+					},
+					"frame": {
+						"x": 20,
+						"y": 1,
+						"w": 17,
+						"h": 16
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:5973e0b0b86538db4791818883b9b90f:637aedb47178f857f5c956e607d83cdd:eeaf5b738ffe567aaf2d150460ed6f99$"
+	}
+}

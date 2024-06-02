@@ -1,0 +1,62 @@
+{
+	"textures": [
+		{
+			"image": "Keese.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 32,
+				"h": 14
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "Keese-1.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 3,
+						"w": 12,
+						"h": 12
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 12,
+						"h": 12
+					}
+				},
+				{
+					"filename": "Keese-0.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 3,
+						"w": 16,
+						"h": 10
+					},
+					"frame": {
+						"x": 15,
+						"y": 1,
+						"w": 16,
+						"h": 10
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:e96249dbbf7f1e8e5f4fa3f681e5ffb5:b61d16f6efa318ced14c24fcf0294fcb:9ce4bddaf6ba8dfec1d9f85978884427$"
+	}
+}

@@ -1,0 +1,251 @@
+{
+	"textures": [
+		{
+			"image": "Gleeok.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 95,
+				"h": 53
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "Gleeok-0.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 24,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 24,
+						"h": 32
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 24,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Gleeok-5.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 24,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 17,
+						"h": 17
+					},
+					"frame": {
+						"x": 1,
+						"y": 35,
+						"w": 17,
+						"h": 17
+					}
+				},
+				{
+					"filename": "Gleeok-6.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 24,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 17,
+						"h": 17
+					},
+					"frame": {
+						"x": 20,
+						"y": 35,
+						"w": 17,
+						"h": 17
+					}
+				},
+				{
+					"filename": "Gleeok-2.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 24,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 24,
+						"h": 32
+					},
+					"frame": {
+						"x": 27,
+						"y": 1,
+						"w": 24,
+						"h": 32
+					}
+				},
+				{
+					"filename": "Gleeok-4.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 24,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 9,
+						"h": 17
+					},
+					"frame": {
+						"x": 39,
+						"y": 35,
+						"w": 9,
+						"h": 17
+					}
+				},
+				{
+					"filename": "Gleeok-9.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 24,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 17,
+						"h": 16
+					},
+					"frame": {
+						"x": 50,
+						"y": 35,
+						"w": 17,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Gleeok-1.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 24,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 1,
+						"w": 24,
+						"h": 31
+					},
+					"frame": {
+						"x": 53,
+						"y": 1,
+						"w": 24,
+						"h": 31
+					}
+				},
+				{
+					"filename": "Gleeok-10.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 24,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 15,
+						"h": 16
+					},
+					"frame": {
+						"x": 79,
+						"y": 1,
+						"w": 15,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Gleeok-8.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 24,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 9,
+						"h": 16
+					},
+					"frame": {
+						"x": 69,
+						"y": 34,
+						"w": 9,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Gleeok-7.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 24,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 9,
+						"h": 13
+					},
+					"frame": {
+						"x": 79,
+						"y": 19,
+						"w": 9,
+						"h": 13
+					}
+				},
+				{
+					"filename": "Gleeok-3.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 24,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 1,
+						"w": 9,
+						"h": 14
+					},
+					"frame": {
+						"x": 80,
+						"y": 34,
+						"w": 9,
+						"h": 14
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:42ff65eb72b1f28b1e7c04906f4b155b:3589b3b43e833635ea6b08d4a9246fab:636b65f49069b4fd68d5fcbe0869cc26$"
+	}
+}

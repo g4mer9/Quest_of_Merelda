@@ -1,0 +1,62 @@
+{
+	"textures": [
+		{
+			"image": "Peahat.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 36,
+				"h": 18
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "Peahat-0.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Peahat-1.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 19,
+						"y": 1,
+						"w": 16,
+						"h": 16
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:e12b6bd68479c3afc32211639772370a:f9a20c4f0f94ee62989307f6fb81596e:8da77718c4ed62a43045a22496f6d64f$"
+	}
+}

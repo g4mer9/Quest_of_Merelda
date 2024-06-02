@@ -1,0 +1,62 @@
+{
+	"textures": [
+		{
+			"image": "DarknutSide.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 36,
+				"h": 18
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "DarknutSide-0.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "DarknutSide-1.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 19,
+						"y": 1,
+						"w": 16,
+						"h": 16
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:d51783bf45817509e386d87fe18e22bc:2269519e9a2db125059711dffd8d7d04:543a7d9849c15e43d61a6a93a627a6e5$"
+	}
+}

@@ -1,0 +1,62 @@
+{
+	"textures": [
+		{
+			"image": "LynelBack.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 16,
+				"h": 36
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "LynelBack-0.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 14,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 14,
+						"h": 16
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 14,
+						"h": 16
+					}
+				},
+				{
+					"filename": "LynelBack-1.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 14,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 14,
+						"h": 16
+					},
+					"frame": {
+						"x": 1,
+						"y": 19,
+						"w": 14,
+						"h": 16
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:3d4d99a38d6fc53a75665dc42e61a846:6de228cebef0af6bf123f527ab9291e0:f29a999a9a4c9c62f0bd8577e9160290$"
+	}
+}

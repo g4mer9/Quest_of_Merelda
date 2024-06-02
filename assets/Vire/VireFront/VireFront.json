@@ -1,0 +1,62 @@
+{
+	"textures": [
+		{
+			"image": "VireFront.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 34,
+				"h": 18
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "VireFront-1.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 0,
+						"w": 14,
+						"h": 16
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 14,
+						"h": 16
+					}
+				},
+				{
+					"filename": "VireFront-0.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 15
+					},
+					"frame": {
+						"x": 17,
+						"y": 1,
+						"w": 16,
+						"h": 15
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:57ce966fb444a7829210bfc0c25395e3:cace020b8baa7e3ef29d68484b01784f:ea0ca025e320b94481c54fba2eea77b2$"
+	}
+}

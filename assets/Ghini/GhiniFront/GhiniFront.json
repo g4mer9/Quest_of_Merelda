@@ -1,0 +1,62 @@
+{
+	"textures": [
+		{
+			"image": "GhiniFront.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 36,
+				"h": 18
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "Gibdo-0.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Gibdo-1.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 19,
+						"y": 1,
+						"w": 16,
+						"h": 16
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:f26314df1cf269f20c6e975cee75a2ab:8dacfbdc9ef8018b16943bc87eb0de27:5a0d8506ff80a2b741acbefd2f1c8d93$"
+	}
+}

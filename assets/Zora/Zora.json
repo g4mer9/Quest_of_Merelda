@@ -1,0 +1,104 @@
+{
+	"textures": [
+		{
+			"image": "Zora.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 52,
+				"h": 18
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "Zora-2.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Zora-3.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 19,
+						"y": 1,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "Zora-1.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 9,
+						"w": 12,
+						"h": 7
+					},
+					"frame": {
+						"x": 37,
+						"y": 1,
+						"w": 12,
+						"h": 7
+					}
+				},
+				{
+					"filename": "Zora-0.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 10,
+						"w": 14,
+						"h": 6
+					},
+					"frame": {
+						"x": 37,
+						"y": 10,
+						"w": 14,
+						"h": 6
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:9a320ea0f9bae57bd35213f6014e3d3f:37eaae7e98baf5fdfcfc614b1d53754e:eee11ac44719135237f890e2eb103cca$"
+	}
+}

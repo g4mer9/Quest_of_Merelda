@@ -1,0 +1,62 @@
+{
+	"textures": [
+		{
+			"image": "OctoFront.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 18,
+				"h": 35
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "OctoFront-0.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "OctoFront-1.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 15
+					},
+					"frame": {
+						"x": 1,
+						"y": 19,
+						"w": 16,
+						"h": 15
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:c1b8d6092c5ba884dbe8ff1f1e65179e:af1452f72ddcea3119a9c62ba99819eb:f064065003a879c090e2ae9aa8695dd3$"
+	}
+}

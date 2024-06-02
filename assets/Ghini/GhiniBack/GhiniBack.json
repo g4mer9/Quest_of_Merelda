@@ -1,0 +1,41 @@
+{
+	"textures": [
+		{
+			"image": "GhiniBack.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 18,
+				"h": 18
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "GhiniBack.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 16,
+						"h": 16
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:88509843e024b365779438f17dbe90bd:eab4211fa0bc2988538f7f95cb485345:b96d35cc358e2d91f792dcaf3262de5c$"
+	}
+}

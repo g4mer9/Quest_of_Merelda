@@ -1,0 +1,83 @@
+{
+	"textures": [
+		{
+			"image": "DigdoggerRight.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 30,
+				"h": 102
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "DigdoggerRight-0.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 28,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 28,
+						"h": 32
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 28,
+						"h": 32
+					}
+				},
+				{
+					"filename": "DigdoggerRight-1.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 28,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 28,
+						"h": 32
+					},
+					"frame": {
+						"x": 1,
+						"y": 35,
+						"w": 28,
+						"h": 32
+					}
+				},
+				{
+					"filename": "DigdoggerRight-2.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 28,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 28,
+						"h": 32
+					},
+					"frame": {
+						"x": 1,
+						"y": 69,
+						"w": 28,
+						"h": 32
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:66d5138e799abff9e2a0376400ba52d2:2bfd0f2add3b5fda62d150a92c260296:d3960b5b880761562d3a2ebb81358cb1$"
+	}
+}

@@ -1,0 +1,62 @@
+{
+	"textures": [
+		{
+			"image": "OctoSide.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 35,
+				"h": 18
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "OctoSide-0.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "OctoSide-1.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 0,
+						"w": 15,
+						"h": 16
+					},
+					"frame": {
+						"x": 19,
+						"y": 1,
+						"w": 15,
+						"h": 16
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:068113f3d14f87b2c59e1a1c726eb15e:c15777cfe09951753eac5eda67804d16:b54eb8f1f94c0a1376786dd6562b5b25$"
+	}
+}

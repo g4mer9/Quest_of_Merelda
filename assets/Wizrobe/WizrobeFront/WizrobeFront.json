@@ -1,0 +1,62 @@
+{
+	"textures": [
+		{
+			"image": "WizrobeFront.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 34,
+				"h": 18
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "WizrobeFront-0.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 15,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 15,
+						"h": 16
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 15,
+						"h": 16
+					}
+				},
+				{
+					"filename": "WizrobeFront-1.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 15,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 15,
+						"h": 16
+					},
+					"frame": {
+						"x": 18,
+						"y": 1,
+						"w": 15,
+						"h": 16
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:279bc567d89afc2e20f6810db6df28cd:461245224fe7b47f01800885fb0dd345:825ee2081399116042e5fef5b58af4d5$"
+	}
+}
