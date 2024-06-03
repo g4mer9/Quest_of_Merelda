@@ -7,6 +7,7 @@ class Adventure extends Phaser.Scene {
         // variables and settings
         this.xVelocity = 100;
         this.yVelocity = 100;
+        this.move = true;
     }
 
     create() {
@@ -61,6 +62,18 @@ class Adventure extends Phaser.Scene {
         this.mapCamera = this.cameras.main
         this.mapCamera.setViewport(0, 0, 320, 144);
         this.mapCamera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+        this.mapCamera.scrollX = 320
+        this.mapCamera.scrollY = 432
+    }
+
+    screenSetup() {
+        console.log("in screenSetup!");
+        this.move = false;
+    }
+
+    screenStart() {
+        console.log("in screenStart!");
+        this.move = true;
     }
 
     checkCameraBounds() {
@@ -69,44 +82,40 @@ class Adventure extends Phaser.Scene {
         const boundsHeight = 144;
         const playerScreenX = my.sprite.player.x - cam.scrollX;
         const playerScreenY = my.sprite.player.y - cam.scrollY;
-        console.log(playerScreenY, ", ", boundsHeight)
+        const panDuration = 1000
+        console.log("move: ", this.move)
         // Move camera horizontal 
-        if (playerScreenX > boundsWidth && cam.scrollX + boundsWidth < this.map.widthInPixels) {
-            cam.scrollX += boundsWidth;
-        }
-        else if (playerScreenX < 0 && cam.scrollX > 0) {
-            cam.scrollX -= boundsWidth;
+        if (playerScreenX > boundsWidth) {
+            this.screenSetup();
+            cam.pan(cam.scrollX + boundsWidth + boundsWidth / 2, cam.scrollY + boundsHeight / 2, panDuration);
+            this.time.delayedCall(panDuration + 50, () => this.screenStart())        
+        } else if (playerScreenX < 0) {
+            this.screenSetup();
+            cam.pan(cam.scrollX - boundsWidth + boundsWidth / 2, cam.scrollY + boundsHeight / 2, panDuration);
+            this.time.delayedCall(panDuration + 50, () => this.screenStart())        
         }
         // Move camera vertical
-        if (playerScreenY > boundsHeight && cam.scrollY + boundsHeight < this.map.heightInPixels) {
-            cam.scrollY += boundsHeight;
-        }
-        else if (playerScreenY < 0 && cam.scrollY >0) {
-            cam.scrollY -= boundsHeight;
+        if (playerScreenY > boundsHeight) {
+            this.screenSetup();
+            cam.pan(cam.scrollX + boundsWidth / 2, cam.scrollY + boundsHeight + boundsHeight / 2, panDuration);
+            this.time.delayedCall(panDuration + 50, () => this.screenStart())        
+        } else if (playerScreenY < 0) {
+            this.screenSetup();
+            cam.pan(cam.scrollX + boundsWidth / 2, cam.scrollY - boundsHeight + boundsHeight / 2, panDuration);
+            this.time.delayedCall(panDuration + 50, () => this.screenStart())        
         }
     }
 
-    isCameraMoving() {
-        const cam = this.cameras.main;
-        // Check if the camera is currently moving (panning)
-        return cam.isMoving;
-    }
     update() {
-        if (this.isCameraMoving()) {
-            my.sprite.player.body.setVelocity(0, 0); // Player stops moving
-        }
-        //else move
-            
         this.checkCameraBounds();
-        //console.log("x: ",my.sprite.player.body.x / 8,", y: ", my.sprite.player.body.y / 8);
-        if(cursors.left.isDown) {
+        if(cursors.left.isDown && this.move) {
             // TODO: have the player accelerate to the left
             my.sprite.player.body.setVelocityX(-this.xVelocity);
             my.sprite.player.body.setVelocityY(0);
             my.sprite.player.setFlip(true, false);
             my.sprite.player.anims.play('green_walk_side', true);
 
-        } else if(cursors.right.isDown) {
+        } else if(cursors.right.isDown && this.move) {
             // TODO: have the player accelerate to the right
             my.sprite.player.body.setVelocityX(this.xVelocity);
             my.sprite.player.body.setVelocityY(0);
@@ -114,14 +123,14 @@ class Adventure extends Phaser.Scene {
             my.sprite.player.anims.play('green_walk_side', true);
 
         } 
-        else if(cursors.up.isDown) {
+        else if(cursors.up.isDown && this.move) {
             // TODO: have the player accelerate to the right
             my.sprite.player.body.setVelocityX(0);
             my.sprite.player.body.setVelocityY(-this.yVelocity);
             my.sprite.player.anims.play('green_walk_up', true);
 
         }
-        else if(cursors.down.isDown) {
+        else if(cursors.down.isDown && this.move) {
             my.sprite.player.body.setVelocityX(0);
             // TODO: have the player accelerate to the right
             my.sprite.player.body.setVelocityY(this.yVelocity);
