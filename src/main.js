@@ -22,6 +22,7 @@ let game_config = {
         width: 320,
         height: 144,
     },
+    fps: { forceSetTimeOut: true, target: 30 },
     scene: [Load, Adventure],
     render: {
         pixelArt: true  // prevent pixel art from getting blurred when scaled
@@ -46,6 +47,7 @@ let hud_config = {
         width: 320,
         height: 48,
     },
+    fps: { forceSetTimeOut: true, target: 60 },
     transparent: true,
     scene: [HudScene] // Separate scene for HUD elements
 };

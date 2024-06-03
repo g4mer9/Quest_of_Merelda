@@ -5,9 +5,9 @@ class Adventure extends Phaser.Scene {
 
     init() {
         // variables and settings
-        this.xVelocity = 100;
-        this.yVelocity = 100;
-        this.move = true;
+        this.move = true; // can move
+        this.moving = false; // is moving
+        this.tileSize = 8;
     }
 
     create() {
@@ -43,8 +43,13 @@ class Adventure extends Phaser.Scene {
         }); 
 
         // set up player avatar
-        my.sprite.player = this.physics.add.sprite(480, 550, "link_green_walk", "link_green_walk_down0.png");
+        my.sprite.player = this.physics.add.sprite(480, 550, "link_green_walk", "LinkMove-2.png");
         my.sprite.player.setCollideWorldBounds(false);
+        my.sprite.player.element = 'green';
+
+        // adjust position to be on tile
+        my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
+        my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
 
         // Enable collision handling
         this.physics.add.collider(my.sprite.player, this.groundLayer);
@@ -83,7 +88,6 @@ class Adventure extends Phaser.Scene {
         const playerScreenX = my.sprite.player.x - cam.scrollX;
         const playerScreenY = my.sprite.player.y - cam.scrollY;
         const panDuration = 1000
-        console.log("move: ", this.move)
         // Move camera horizontal 
         if (playerScreenX > boundsWidth) {
             this.screenSetup();
@@ -107,41 +111,50 @@ class Adventure extends Phaser.Scene {
     }
 
     update() {
+        let anim;
         this.checkCameraBounds();
-        if(cursors.left.isDown && this.move) {
-            // TODO: have the player accelerate to the left
-            my.sprite.player.body.setVelocityX(-this.xVelocity);
-            my.sprite.player.body.setVelocityY(0);
-            my.sprite.player.setFlip(true, false);
-            my.sprite.player.anims.play('green_walk_side', true);
 
-        } else if(cursors.right.isDown && this.move) {
-            // TODO: have the player accelerate to the right
-            my.sprite.player.body.setVelocityX(this.xVelocity);
-            my.sprite.player.body.setVelocityY(0);
-            my.sprite.player.resetFlip();
-            my.sprite.player.anims.play('green_walk_side', true);
-
-        } 
-        else if(cursors.up.isDown && this.move) {
-            // TODO: have the player accelerate to the right
-            my.sprite.player.body.setVelocityX(0);
-            my.sprite.player.body.setVelocityY(-this.yVelocity);
-            my.sprite.player.anims.play('green_walk_up', true);
-
-        }
-        else if(cursors.down.isDown && this.move) {
-            my.sprite.player.body.setVelocityX(0);
-            // TODO: have the player accelerate to the right
-            my.sprite.player.body.setVelocityY(this.yVelocity);
-            my.sprite.player.anims.play('green_walk_down', true);
-
-        }
-        else {
-            // TODO: set acceleration to 0 and have DRAG take over
-            my.sprite.player.body.setVelocityX(0);
-            my.sprite.player.body.setVelocityY(0);
+        if (this.move && !this.moving) {
+            if(cursors.left.isDown) {
+                // TODO: have the player accelerate to the left
+                let tX = my.sprite.player.x - 8;
+                my.sprite.player.setVelocity(-80, 0);
+                anim = my.sprite.player.element+'_walk_side';
+                my.sprite.player.anims.play(anim, true);
+                my.sprite.player.setFlip(true, false);
+            } else if(cursors.right.isDown) {
+                // TODO: have the player accelerate to the right
+                my.sprite.player.setVelocity(80, 0);
+                anim = my.sprite.player.element+'_walk_side';
+                my.sprite.player.anims.play(anim, true);
+                my.sprite.player.resetFlip();    
+            } 
+            else if(cursors.up.isDown) {
+                // TODO: have the player accelerate to the right
+                my.sprite.player.setVelocity(0, -80);
+                anim = my.sprite.player.element+'_walk_up';
+                my.sprite.player.anims.play(anim, true);
+            }
+            else if(cursors.down.isDown && this.move) {
+                // TODO: have the player accelerate to the right
+                my.sprite.player.setVelocity(0, 80);
+                anim = my.sprite.player.element+'_walk_down';
+                my.sprite.player.anims.play(anim, true);
+            }
+            else {
+                // TODO: set acceleration to 0 and have DRAG take over
+                my.sprite.player.setVelocity(0, 0)
+                my.sprite.player.anims.stop();
+                // adjust position to be on tile
+                my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
+                my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
+            }
+        } else {
+            my.sprite.player.setVelocity(0, 0)
             my.sprite.player.anims.stop();
+            // adjust position to be on tile
+            my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
+            my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
         }
     }
 }

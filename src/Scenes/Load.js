@@ -8,7 +8,7 @@ class Load extends Phaser.Scene {
 
         // Load characters spritesheet
         this.load.atlas('link_green_walk', 'link/LinkMove/LinkMove.png', 'link/LinkMove/LinkMove.json');
-        this.load.atlas('link_green_item', 'link/LinkMove/LinkItem.png', 'link/LinkMove/LinkItem.json');
+        //this.load.atlas('link_green_item', 'link/LinkMove/LinkItem.png', 'link/LinkMove/LinkItem.json');
 
         // Load tilemap information
         this.load.image("forest_tileset", "zelda_forest_tileset.png");
