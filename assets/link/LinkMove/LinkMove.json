@@ -4,7 +4,7 @@
 			"image": "LinkMove.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 102,
+				"w": 84,
 				"h": 18
 			},
 			"scale": 1,
@@ -96,42 +96,42 @@
 				{
 					"filename": "LinkMove-4.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
-						"w": 16,
+						"w": 12,
 						"h": 16
 					},
 					"spriteSourceSize": {
-						"x": 1,
+						"x": 0,
 						"y": 0,
-						"w": 14,
+						"w": 12,
 						"h": 16
 					},
 					"frame": {
 						"x": 71,
 						"y": 1,
-						"w": 14,
+						"w": 12,
 						"h": 16
 					}
 				},
 				{
 					"filename": "LinkMove-5.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
-						"w": 16,
+						"w": 12,
 						"h": 16
 					},
 					"spriteSourceSize": {
-						"x": 1,
+						"x": 0,
 						"y": 0,
-						"w": 14,
+						"w": 12,
 						"h": 16
 					},
 					"frame": {
-						"x": 87,
+						"x": 71,
 						"y": 1,
-						"w": 14,
+						"w": 12,
 						"h": 16
 					}
 				}
@@ -141,6 +141,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:17d97bab632b5e33a3ac7fb016f8b308:1c7cd621e56854d32aeb81ff50aaba85:014b1a3b5935af40ce2df29fe9efef6d$"
+		"smartupdate": "$TexturePacker:SmartUpdate:571d8a1cf8ead4f2af063f3d2fe0ca1b:d1604e54efa27957228c122480182187:014b1a3b5935af40ce2df29fe9efef6d$"
 	}
 }

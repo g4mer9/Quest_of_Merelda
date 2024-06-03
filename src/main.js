@@ -47,9 +47,12 @@ let hud_config = {
         width: 320,
         height: 48,
     },
-    fps: { forceSetTimeOut: true, target: 60 },
+    fps: { forceSetTimeOut: true, target: 30 },
     transparent: true,
-    scene: [HudScene] // Separate scene for HUD elements
+    scene: [Load, HudScene], // Separate scene for HUD elements
+    render: {
+        pixelArt: true  // prevent pixel art from getting blurred when scaled
+    }
 };
 
 var cursors;

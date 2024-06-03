@@ -8,6 +8,11 @@ class Adventure extends Phaser.Scene {
         this.move = true; // can move
         this.moving = false; // is moving
         this.tileSize = 8;
+        this.playerVelocity = 80;
+        this.gameFrame = 0;
+        this.relative_gameFrame = 0;
+        this.actionable_timer = 0;
+        this.actionable = true;
     }
 
     create() {
@@ -25,14 +30,15 @@ class Adventure extends Phaser.Scene {
         this.groundLayer = this.map.createLayer("Ground-n-Platforms", this.tileset, 0, 0);
         this.groundLayer.setScale(2.0);
 **/
+        this.xKey = this.input.keyboard.addKey('X');
        
 
         this.map = this.add.tilemap("overworld", 8, 8, 0, 0);
-
+        this.overworld_tileset = this.map.addTilesetImage("zelda_overworld_tileset", "overworld_tileset");
         this.forest_tileset = this.map.addTilesetImage("zelda_forest_tileset", "forest_tileset");
         this.mountain_tileset = this.map.addTilesetImage("zelda_mountain_tileset","mountain_tileset");
         //this.groundLayer = this.map.createLayer("basic_geometry_layer", 0, 96);
-        this.groundLayer = this.map.createLayer("basic-geometry-layer", [this.forest_tileset, this.mountain_tileset], 0, 0);
+        this.groundLayer = this.map.createLayer("basic-geometry-layer", [this.forest_tileset, this.mountain_tileset, this.overworld_tileset], 0, 0);
         //this.groundLayer.setVisible(true);
 
         //this.groundLayer.setScale(2.0);
@@ -43,9 +49,10 @@ class Adventure extends Phaser.Scene {
         }); 
 
         // set up player avatar
-        my.sprite.player = this.physics.add.sprite(480, 550, "link_green_walk", "LinkMove-2.png");
+        my.sprite.player = this.physics.add.sprite(480, 550, "link_green_walk", "LinkMove-4.png");
         my.sprite.player.setCollideWorldBounds(false);
         my.sprite.player.element = 'green';
+        my.sprite.player.facing = 'up';
 
         // adjust position to be on tile
         my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
@@ -72,13 +79,25 @@ class Adventure extends Phaser.Scene {
     }
 
     screenSetup() {
-        console.log("in screenSetup!");
+        // console.log("in screenSetup!");
         this.move = false;
     }
 
     screenStart() {
-        console.log("in screenStart!");
+        // console.log("in screenStart!");
+        this.actionable_timer = 0;
         this.move = true;
+    }
+
+    // Function to update player hitbox based on animation
+    updatePlayerHitbox(animation) {
+        if (animation === 'side'|| animation === 'down') {
+            my.sprite.player.body.setSize(16, 16)
+            my.sprite.player.body.setOffset(0, 0)
+        } else if (animation === 'up') {
+            my.sprite.player.body.setSize(12, 15)
+            my.sprite.player.body.setOffset(0, 0)
+        }
     }
 
     checkCameraBounds() {
@@ -92,21 +111,25 @@ class Adventure extends Phaser.Scene {
         if (playerScreenX > boundsWidth) {
             this.screenSetup();
             cam.pan(cam.scrollX + boundsWidth + boundsWidth / 2, cam.scrollY + boundsHeight / 2, panDuration);
-            this.time.delayedCall(panDuration + 50, () => this.screenStart())        
+            this.time.delayedCall(panDuration + 50, () => this.screenStart())   
+            this.relative_gameFrame = 0;     
         } else if (playerScreenX < 0) {
             this.screenSetup();
             cam.pan(cam.scrollX - boundsWidth + boundsWidth / 2, cam.scrollY + boundsHeight / 2, panDuration);
             this.time.delayedCall(panDuration + 50, () => this.screenStart())        
+            this.relative_gameFrame = 0;     
         }
         // Move camera vertical
         if (playerScreenY > boundsHeight) {
             this.screenSetup();
             cam.pan(cam.scrollX + boundsWidth / 2, cam.scrollY + boundsHeight + boundsHeight / 2, panDuration);
-            this.time.delayedCall(panDuration + 50, () => this.screenStart())        
+            this.time.delayedCall(panDuration + 50, () => this.screenStart()) 
+            this.relative_gameFrame = 0;     
         } else if (playerScreenY < 0) {
             this.screenSetup();
             cam.pan(cam.scrollX + boundsWidth / 2, cam.scrollY - boundsHeight + boundsHeight / 2, panDuration);
-            this.time.delayedCall(panDuration + 50, () => this.screenStart())        
+            this.time.delayedCall(panDuration + 50, () => this.screenStart())  
+            this.relative_gameFrame = 0;     
         }
     }
 
@@ -114,40 +137,107 @@ class Adventure extends Phaser.Scene {
         let anim;
         this.checkCameraBounds();
 
+        if(this.actionable_timer > 0 ) this.actionable_timer--;
+        else {
+            this.actionable = true; 
+            let anim = null;
+            if(my.sprite.player.anims.currentAnim && my.sprite.player.anims.currentAnim.key.includes("item")){ this.move = true;
+                switch (my.sprite.player.facing) {
+                case 'up':
+                    anim = my.sprite.player.element+'_walk_up';
+                    my.sprite.player.anims.play(anim, true);
+                    my.sprite.player.anims.stop();
+                    this.updatePlayerHitbox("up");
+                    break;
+                case 'down':
+                    anim = my.sprite.player.element+'_walk_down';
+                    my.sprite.player.anims.play(anim, true);
+                    my.sprite.player.anims.stop();
+                    this.updatePlayerHitbox("down");
+                    break;
+                case 'right':
+                    anim = my.sprite.player.element+'_walk_side';
+                    my.sprite.player.anims.play(anim, true);
+                    my.sprite.player.anims.stop();
+                    this.updatePlayerHitbox("right");
+                    my.sprite.player.resetFlip();    
+                    break;
+                case 'left':
+                    anim = my.sprite.player.element+'_walk_side';
+                    my.sprite.player.anims.play(anim, true);
+                    my.sprite.player.anims.stop();
+                    this.updatePlayerHitbox("left");
+                    my.sprite.player.setFlip(true, false);  
+                    break;
+                    
+
+                }
+            }
+
+        }
+
         if (this.move && !this.moving) {
-            if(cursors.left.isDown) {
+            if(this.actionable && Phaser.Input.Keyboard.JustDown(this.xKey)) {
+                this.actionable = false;
+                this.actionable_timer = 8;
+                let anim = null;
+                this.move = false;
+                switch (my.sprite.player.facing) {
+                    case 'up':
+                        anim = my.sprite.player.element+'_item_up';
+                        break;
+                    case 'down':
+                        anim = my.sprite.player.element+'_item_down';
+                        break;
+                    case 'right':
+                        anim = my.sprite.player.element+'_item_side';
+                        break;
+                    case 'left':
+                        anim = my.sprite.player.element+'_item_side';
+                        break;
+                }
+                my.sprite.player.anims.play(anim, true);
+            }
+            else if(cursors.left.isDown) {
                 // TODO: have the player accelerate to the left
                 let tX = my.sprite.player.x - 8;
-                my.sprite.player.setVelocity(-80, 0);
-                anim = my.sprite.player.element+'_walk_side';
+                my.sprite.player.setVelocity(-this.playerVelocity, 0);
+                let anim = my.sprite.player.element+'_walk_side';
                 my.sprite.player.anims.play(anim, true);
+                this.updatePlayerHitbox("side");
+                my.sprite.player.facing = 'left';
                 my.sprite.player.setFlip(true, false);
             } else if(cursors.right.isDown) {
                 // TODO: have the player accelerate to the right
-                my.sprite.player.setVelocity(80, 0);
-                anim = my.sprite.player.element+'_walk_side';
+                my.sprite.player.setVelocity(this.playerVelocity, 0);
+                let anim = my.sprite.player.element+'_walk_side';
                 my.sprite.player.anims.play(anim, true);
+                this.updatePlayerHitbox("side")
+                my.sprite.player.facing = 'right';
                 my.sprite.player.resetFlip();    
             } 
             else if(cursors.up.isDown) {
                 // TODO: have the player accelerate to the right
-                my.sprite.player.setVelocity(0, -80);
-                anim = my.sprite.player.element+'_walk_up';
+                my.sprite.player.setVelocity(0, -this.playerVelocity);
+                let anim = my.sprite.player.element+'_walk_up';
                 my.sprite.player.anims.play(anim, true);
+                my.sprite.player.facing = 'up';
+                this.updatePlayerHitbox("up")
             }
             else if(cursors.down.isDown && this.move) {
                 // TODO: have the player accelerate to the right
-                my.sprite.player.setVelocity(0, 80);
-                anim = my.sprite.player.element+'_walk_down';
+                my.sprite.player.setVelocity(0, this.playerVelocity);
+                let anim = my.sprite.player.element+'_walk_down';
                 my.sprite.player.anims.play(anim, true);
+                my.sprite.player.facing = 'down';
+                this.updatePlayerHitbox("down")
             }
             else {
                 // TODO: set acceleration to 0 and have DRAG take over
                 my.sprite.player.setVelocity(0, 0)
                 my.sprite.player.anims.stop();
                 // adjust position to be on tile
-                my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
-                my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
+                
             }
         } else {
             my.sprite.player.setVelocity(0, 0)
@@ -156,5 +246,13 @@ class Adventure extends Phaser.Scene {
             my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
             my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
         }
+
+        if(my.sprite.player.body.deltaX() == 0 && my.sprite.player.body.deltaY() == 0) {
+            my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
+            my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
+        }
+
+        this.gameFrame++;
+        this.relative_gameFrame++;
     }
 }
