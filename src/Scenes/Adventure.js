@@ -57,43 +57,33 @@ class Adventure extends Phaser.Scene {
             this.physics.world.debugGraphic.clear()
         }, this);
 
-        this.cameras.main.setViewport(0, 0, 320, 144);
-        this.cameras.main.setScroll(0, 0);
-
-        // Map Camera
-        this.mapCamera = this.cameras.add(0, 0, 320, 144);
-        //this.mapCamera.startFollow(my.sprite.player.body, true, 10000, 10000);
-        //this.mapCamera.stopFollow();
-        this.mapCamera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels); // Adjust for the HUD offset
-
+        // adjust camera to full game canvas
+        this.mapCamera = this.cameras.main
+        this.mapCamera.setViewport(0, 0, 320, 144);
+        this.mapCamera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
     }
 
     checkCameraBounds() {
         const cam = this.mapCamera;
-        const boundsWidth = cam.width;
-        const boundsHeight = cam.height;
+        const boundsWidth = 320;
+        const boundsHeight = 144;
         const playerScreenX = my.sprite.player.x - cam.scrollX;
         const playerScreenY = my.sprite.player.y - cam.scrollY;
         console.log(playerScreenY, ", ", boundsHeight)
-        // Move camera right
-        //if(playerScreenY < 40 && my.sprite.player.body.velocity.y <=0) my.sprite.player.y -= 20;
+        // Move camera horizontal 
         if (playerScreenX > boundsWidth && cam.scrollX + boundsWidth < this.map.widthInPixels) {
             cam.scrollX += boundsWidth;
         }
-        // Move camera left
         else if (playerScreenX < 0 && cam.scrollX > 0) {
             cam.scrollX -= boundsWidth;
         }
-        else if (playerScreenY > boundsHeight && cam.scrollY + boundsHeight < this.map.heightInPixels) {
+        // Move camera vertical
+        if (playerScreenY > boundsHeight && cam.scrollY + boundsHeight < this.map.heightInPixels) {
             cam.scrollY += boundsHeight;
-            //my.sprite.player.body.y += 50;
         }
         else if (playerScreenY < 0 && cam.scrollY >0) {
-            cam.scrollY -=boundsHeight;
-            //my.sprite.player.body.y += 100;
+            cam.scrollY -= boundsHeight;
         }
-
-        // Similar logic for vertical movement if needed
     }
 
     isCameraMoving() {

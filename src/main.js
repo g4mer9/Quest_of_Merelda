@@ -15,7 +15,14 @@
 // game config
 let game_config = {
     parent: 'phaser-game',
-    type: Phaser.CANVAS,
+    type: Phaser.AUTO,
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: 320,
+        height: 144,
+    },
+    scene: [Load, Adventure],
     render: {
         pixelArt: true  // prevent pixel art from getting blurred when scaled
     },
@@ -28,24 +35,16 @@ let game_config = {
                 y: 0
             }
         }
-    },
-    scale: {
-        mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: 320,
-        height: 144,
-    },
-    scene: [Load, Adventure]
+    }
 }
 let hud_config = {
     parent: 'hud-canvas',
-    type: Phaser.CANVAS,
-    canvas: document.getElementById('hudCanvas'),
+    type: Phaser.AUTO,
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
         width: 320,
-    height: 48, // Smaller height for HUD
+        height: 48,
     },
     transparent: true,
     scene: [HudScene] // Separate scene for HUD elements
