@@ -12,24 +12,11 @@ class Adventure extends Phaser.Scene {
         this.gameFrame = 0;
         this.relative_gameFrame = 0;
         this.actionable_timer = 0;
+        this.actionable_offset = 0;
         this.actionable = true;
     }
 
     create() {
-        /**
-        // Create a new tilemap game object which uses 18x18 pixel tiles, and is
-        // 45 tiles wide and 25 tiles tall.
-        this.map = this.add.tilemap("platformer-level-1", 18, 18, 45, 25);
-
-        // Add a tileset to the map
-        // First parameter: name we gave the tileset in Tiled
-        // Second parameter: key for the tilesheet (from this.load.image in Load.js)
-        this.tileset = this.map.addTilesetImage("kenny_tilemap_packed", "tilemap_tiles");
-
-        // Create a layer
-        this.groundLayer = this.map.createLayer("Ground-n-Platforms", this.tileset, 0, 0);
-        this.groundLayer.setScale(2.0);
-**/
         this.xKey = this.input.keyboard.addKey('X');
        
 
@@ -43,13 +30,13 @@ class Adventure extends Phaser.Scene {
 
         //this.groundLayer.setScale(2.0);
 
- // Make it collidable
+        // Make it collidable
         this.groundLayer.setCollisionByProperty({
             collides: true
         }); 
 
         // set up player avatar
-        my.sprite.player = this.physics.add.sprite(480, 550, "link_green_walk", "LinkMove-4.png");
+        my.sprite.player = this.physics.add.sprite(480, 550, "link_green_walk", "LinkMove-4.png").setDepth(1000);
         my.sprite.player.setCollideWorldBounds(false);
         my.sprite.player.element = 'green';
         my.sprite.player.facing = 'up';
@@ -57,6 +44,15 @@ class Adventure extends Phaser.Scene {
         // adjust position to be on tile
         my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
         my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
+
+        //set up sword
+        my.sprite.sword_up = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "sword_up").setDepth(1);
+        my.sprite.sword_up.visible = false;
+        my.sprite.sword_up.body.enable = false;
+
+        my.sprite.sword_side = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "sword_side").setDepth(2);
+        my.sprite.sword_side.visible = false;
+        my.sprite.sword_side.body.enable = false;
 
         // Enable collision handling
         this.physics.add.collider(my.sprite.player, this.groundLayer);
@@ -81,12 +77,14 @@ class Adventure extends Phaser.Scene {
     screenSetup() {
         // console.log("in screenSetup!");
         this.move = false;
+        this.mapCamera.isMoving = true;
     }
 
     screenStart() {
         // console.log("in screenStart!");
         this.actionable_timer = 0;
         this.move = true;
+        this.mapCamera.isMoving = false;
     }
 
     // Function to update player hitbox based on animation
@@ -136,38 +134,43 @@ class Adventure extends Phaser.Scene {
     update() {
         let anim;
         this.checkCameraBounds();
-
+        if(this.actionable_offset > 0) this.actionable_offset--;
         if(this.actionable_timer > 0 ) this.actionable_timer--;
         else {
-            this.actionable = true; 
+            if(this.actionable_offset <= 0) this.actionable = true; 
             let anim = null;
-            if(my.sprite.player.anims.currentAnim && my.sprite.player.anims.currentAnim.key.includes("item")){ this.move = true;
+            if(my.sprite.player.anims.currentAnim && my.sprite.player.anims.currentAnim.key.includes("item")){ 
+                if(!this.mapCamera.isMoving)this.move = true;
                 switch (my.sprite.player.facing) {
                 case 'up':
                     anim = my.sprite.player.element+'_walk_up';
                     my.sprite.player.anims.play(anim, true);
                     my.sprite.player.anims.stop();
                     this.updatePlayerHitbox("up");
+                    my.sprite.sword_up.visible = false;
                     break;
                 case 'down':
                     anim = my.sprite.player.element+'_walk_down';
                     my.sprite.player.anims.play(anim, true);
                     my.sprite.player.anims.stop();
                     this.updatePlayerHitbox("down");
+                    my.sprite.sword_up.visible = false;
                     break;
                 case 'right':
                     anim = my.sprite.player.element+'_walk_side';
                     my.sprite.player.anims.play(anim, true);
                     my.sprite.player.anims.stop();
                     this.updatePlayerHitbox("right");
-                    my.sprite.player.resetFlip();    
+                    my.sprite.player.resetFlip();
+                    my.sprite.sword_side.visible = false;    
                     break;
                 case 'left':
                     anim = my.sprite.player.element+'_walk_side';
                     my.sprite.player.anims.play(anim, true);
                     my.sprite.player.anims.stop();
                     this.updatePlayerHitbox("left");
-                    my.sprite.player.setFlip(true, false);  
+                    my.sprite.player.setFlip(true, false);
+                    my.sprite.sword_side.visible = false;  
                     break;
                     
 
@@ -176,24 +179,47 @@ class Adventure extends Phaser.Scene {
 
         }
 
-        if (this.move && !this.moving) {
-            if(this.actionable && Phaser.Input.Keyboard.JustDown(this.xKey)) {
+        if (this.move && !this.moving && this.actionable) {
+            if(Phaser.Input.Keyboard.JustDown(this.xKey)) {
+                my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
+                my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
                 this.actionable = false;
                 this.actionable_timer = 8;
+                this.actionable_offset = this.actionable_timer + 4;
                 let anim = null;
                 this.move = false;
                 switch (my.sprite.player.facing) {
                     case 'up':
                         anim = my.sprite.player.element+'_item_up';
+                        my.sprite.sword_up.x = my.sprite.player.x;
+                        my.sprite.sword_up.y = my.sprite.player.y - 11;
+                        my.sprite.sword_up.visible = true;
+                        my.sprite.sword_up.body.enable = true;
+                        my.sprite.sword_up.resetFlip(); 
                         break;
                     case 'down':
                         anim = my.sprite.player.element+'_item_down';
+                        my.sprite.sword_up.x = my.sprite.player.x;
+                        my.sprite.sword_up.y = my.sprite.player.y + 11;
+                        my.sprite.sword_up.visible = true;
+                        my.sprite.sword_up.body.enable = true;
+                        my.sprite.sword_up.setFlip(false, true);
                         break;
                     case 'right':
                         anim = my.sprite.player.element+'_item_side';
+                        my.sprite.sword_side.x = my.sprite.player.x + 11;
+                        my.sprite.sword_side.y = my.sprite.player.y;
+                        my.sprite.sword_side.visible = true;
+                        my.sprite.sword_side.body.enable = true;
+                        my.sprite.sword_side.resetFlip(); 
                         break;
                     case 'left':
                         anim = my.sprite.player.element+'_item_side';
+                        my.sprite.sword_side.x = my.sprite.player.x - 11;
+                        my.sprite.sword_side.y = my.sprite.player.y;
+                        my.sprite.sword_side.visible = true;
+                        my.sprite.sword_side.body.enable = true;
+                        my.sprite.sword_side.setFlip(true, false);
                         break;
                 }
                 my.sprite.player.anims.play(anim, true);

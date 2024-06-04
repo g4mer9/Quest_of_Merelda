@@ -1,6 +1,6 @@
-class Load extends Phaser.Scene {
+class HUDLoad extends Phaser.Scene {
     constructor() {
-        super("loadScene");
+        super("HUDloadScene");
     }
 
     preload() {
@@ -14,7 +14,6 @@ class Load extends Phaser.Scene {
         this.load.image("map_cursor", "small_assets/map_cursor_bottom.png");
         this.load.image("ice_wand_up", "small_assets/ice_wand_up.png");
         this.load.image("sword_up", "small_assets/sword_up.png");
-        this.load.image("sword_side", "small_assets/sword_side.png");
 
         // Load tilemap information
         this.load.image("graveyard_tileset", "zelda_graveyard_tileset.png");
@@ -104,7 +103,6 @@ class Load extends Phaser.Scene {
         });
 
          // ...and pass to the next Scene
-         this.scene.start("adventureScene");
          this.scene.start("HudScene");
     }
 
