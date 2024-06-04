@@ -1,6 +1,6 @@
-class Load extends Phaser.Scene {
+class HUDLoad extends Phaser.Scene {
     constructor() {
-        super("loadScene");
+        super("HUDloadScene");
     }
 
     preload() {
@@ -9,20 +9,11 @@ class Load extends Phaser.Scene {
         // Load characters spritesheet
         this.load.atlas('link_green_walk', 'link/LinkMove/LinkMove.png', 'link/LinkMove/LinkMove.json');
         this.load.atlas('link_green_item', 'link/LinkItem/LinkItem.png', 'link/LinkItem/LinkItem.json');
-        this.load.atlas('link_green_pickup', 'link/LinkPickup/LinkPickup.png', 'link/LinkPickup/LinkPickup.json');
         //this.load.atlas('link_green_item', 'link/LinkMove/LinkItem.png', 'link/LinkMove/LinkItem.json');
-        this.load.atlas('armos_back', 'Armos/ArmosBack/ArmosBack.png', 'Armos/ArmosBack/ArmosBack.json');
-        this.load.atlas('armos_front', 'Armos/ArmosFront/ArmosFront.png', 'Armos/ArmosFront/ArmosFront.json');
-        this.load.atlas('leever', 'Leever/Leever.png', 'Leever/Leever.json');
-        this.load.atlas('octo_front', 'Octo/OctoFront/OctoFront.png', 'Octo/OctoFront/OctoFront.json');
-        this.load.atlas('octo_side', 'Octo/OctoSide/OctoSide.png', 'Octo/OctoSide/OctoSide.json');
-        
         this.load.image("rupee_HUD", "small_assets/rupee_HUD.png");
         this.load.image("map_cursor", "small_assets/map_cursor_bottom.png");
         this.load.image("ice_wand_up", "small_assets/ice_wand_up.png");
-        this.load.image("ice_wand_side", "small_assets/ice_wand_side.png");
         this.load.image("sword_up", "small_assets/sword_up.png");
-        this.load.image("sword_side", "small_assets/sword_side.png");
 
         // Load tilemap information
         this.load.image("graveyard_tileset", "zelda_graveyard_tileset.png");
@@ -111,86 +102,7 @@ class Load extends Phaser.Scene {
             repeat: -1
         });
 
-        this.anims.create({
-            key: 'green_pickup',
-            frames: this.anims.generateFrameNames('link_green_pickup', {
-                prefix: "LinkPickup-",
-                start: 1,
-                end: 0,
-                suffix: ".png",
-                zeroPad: 1
-            }),
-            frameRate: 0,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'armos_back',
-            frames: this.anims.generateFrameNames('armos_back', {
-                prefix: "ArmosBack-",
-                start: 1,
-                end: 2,
-                suffix: ".png",
-                zeroPad: 1
-            }),
-            frameRate: 8,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'armos_front',
-            frames: this.anims.generateFrameNames('armos_front', {
-                prefix: "ArmosFront-",
-                start: 1,
-                end: 2,
-                suffix: ".png",
-                zeroPad: 1
-            }),
-            frameRate: 8,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'octo_front',
-            frames: this.anims.generateFrameNames('octo_front', {
-                prefix: "OctoFront-",
-                start: 0,
-                end: 1,
-                suffix: ".png",
-                zeroPad: 1
-            }),
-            frameRate: 8,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'octo_side',
-            frames: this.anims.generateFrameNames('octo_side', {
-                prefix: "OctoSide-",
-                start: 0,
-                end: 1,
-                suffix: ".png",
-                zeroPad: 1
-            }),
-            frameRate: 8,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'leever_walk',
-            frames: this.anims.generateFrameNames('leever', {
-                prefix: "Leever-",
-                start: 3,
-                end: 4,
-                suffix: ".png",
-                zeroPad: 1
-            }),
-            frameRate: 8,
-            repeat: -1
-        });
-
          // ...and pass to the next Scene
-         this.scene.start("adventureScene");
          this.scene.start("HudScene");
     }
 
