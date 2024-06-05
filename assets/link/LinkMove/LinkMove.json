@@ -4,7 +4,7 @@
 			"image": "LinkMove.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 84,
+				"w": 98,
 				"h": 18
 			},
 			"scale": 1,
@@ -129,7 +129,7 @@
 						"h": 16
 					},
 					"frame": {
-						"x": 71,
+						"x": 85,
 						"y": 1,
 						"w": 12,
 						"h": 16
@@ -141,6 +141,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:571d8a1cf8ead4f2af063f3d2fe0ca1b:d1604e54efa27957228c122480182187:014b1a3b5935af40ce2df29fe9efef6d$"
+		"smartupdate": "$TexturePacker:SmartUpdate:b604c8d9180107770c20f37841ef0ff7:e0bd00058f59057792d836c9a4c22c74:014b1a3b5935af40ce2df29fe9efef6d$"
 	}
 }

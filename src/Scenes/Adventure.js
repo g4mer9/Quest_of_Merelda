@@ -18,7 +18,8 @@ class Adventure extends Phaser.Scene {
 
     create() {
         this.xKey = this.input.keyboard.addKey('X');
-       
+        this.zKey = this.input.keyboard.addKey('Z');
+        this.enemies = [];
 
         this.map = this.add.tilemap("overworld", 8, 8, 0, 0);
         this.overworld_tileset = this.map.addTilesetImage("zelda_overworld_tileset", "overworld_tileset");
@@ -54,6 +55,15 @@ class Adventure extends Phaser.Scene {
         my.sprite.sword_side.visible = false;
         my.sprite.sword_side.body.enable = false;
 
+        
+        my.sprite.ice_wand_up = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "ice_wand_up").setDepth(1);
+        my.sprite.ice_wand_up.visible = false;
+        my.sprite.ice_wand_up.body.enable = false;
+
+        my.sprite.ice_wand_side = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "ice_wand_side").setDepth(2);
+        my.sprite.ice_wand_side.visible = false;
+        my.sprite.ice_wand_side.body.enable = false;
+
         // Enable collision handling
         this.physics.add.collider(my.sprite.player, this.groundLayer);
 
@@ -85,6 +95,7 @@ class Adventure extends Phaser.Scene {
         this.actionable_timer = 0;
         this.move = true;
         this.mapCamera.isMoving = false;
+        this.relative_gameFrame = 0;
     }
 
     // Function to update player hitbox based on animation
@@ -139,7 +150,7 @@ class Adventure extends Phaser.Scene {
         else {
             if(this.actionable_offset <= 0) this.actionable = true; 
             let anim = null;
-            if(my.sprite.player.anims.currentAnim && my.sprite.player.anims.currentAnim.key.includes("item")){ 
+            if(my.sprite.player.anims.currentAnim && (my.sprite.player.anims.currentAnim.key.includes("item")  || my.sprite.player.anims.currentAnim.key.includes("pickup"))){ 
                 if(!this.mapCamera.isMoving)this.move = true;
                 switch (my.sprite.player.facing) {
                 case 'up':
@@ -148,13 +159,14 @@ class Adventure extends Phaser.Scene {
                     my.sprite.player.anims.stop();
                     this.updatePlayerHitbox("up");
                     my.sprite.sword_up.visible = false;
+                    my.sprite.ice_wand_up.visible = false;
                     break;
                 case 'down':
                     anim = my.sprite.player.element+'_walk_down';
                     my.sprite.player.anims.play(anim, true);
                     my.sprite.player.anims.stop();
                     this.updatePlayerHitbox("down");
-                    my.sprite.sword_up.visible = false;
+                    my.sprite.ice_wand_up.visible = false;
                     break;
                 case 'right':
                     anim = my.sprite.player.element+'_walk_side';
@@ -162,7 +174,7 @@ class Adventure extends Phaser.Scene {
                     my.sprite.player.anims.stop();
                     this.updatePlayerHitbox("right");
                     my.sprite.player.resetFlip();
-                    my.sprite.sword_side.visible = false;    
+                    my.sprite.ice_wand_side.visible = false; 
                     break;
                 case 'left':
                     anim = my.sprite.player.element+'_walk_side';
@@ -170,7 +182,7 @@ class Adventure extends Phaser.Scene {
                     my.sprite.player.anims.stop();
                     this.updatePlayerHitbox("left");
                     my.sprite.player.setFlip(true, false);
-                    my.sprite.sword_side.visible = false;  
+                    my.sprite.ice_wand_side.visible = false; 
                     break;
                     
 
@@ -181,8 +193,6 @@ class Adventure extends Phaser.Scene {
 
         if (this.move && !this.moving && this.actionable) {
             if(Phaser.Input.Keyboard.JustDown(this.xKey)) {
-                my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
-                my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
                 this.actionable = false;
                 this.actionable_timer = 8;
                 this.actionable_offset = this.actionable_timer + 4;
@@ -223,6 +233,49 @@ class Adventure extends Phaser.Scene {
                         break;
                 }
                 my.sprite.player.anims.play(anim, true);
+            } else if(Phaser.Input.Keyboard.JustDown(this.zKey)) {
+                my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
+                my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
+                this.actionable = false;
+                this.actionable_timer = 8;
+                this.actionable_offset = this.actionable_timer + 4;
+                let anim = null;
+                this.move = false;
+                switch (my.sprite.player.facing) {
+                    case 'up':
+                        anim = my.sprite.player.element+'_item_up';
+                        my.sprite.ice_wand_up.x = my.sprite.player.x;
+                        my.sprite.ice_wand_up.y = my.sprite.player.y - 11;
+                        my.sprite.ice_wand_up.visible = true;
+                        my.sprite.ice_wand_up.body.enable = true;
+                        my.sprite.ice_wand_up.resetFlip(); 
+                        break;
+                    case 'down':
+                        anim = my.sprite.player.element+'_item_down';
+                        my.sprite.ice_wand_up.x = my.sprite.player.x;
+                        my.sprite.ice_wand_up.y = my.sprite.player.y + 11;
+                        my.sprite.ice_wand_up.visible = true;
+                        my.sprite.ice_wand_up.body.enable = true;
+                        my.sprite.ice_wand_up.setFlip(false, true);
+                        break;
+                    case 'right':
+                        anim = my.sprite.player.element+'_item_side';
+                        my.sprite.ice_wand_side.x = my.sprite.player.x + 11;
+                        my.sprite.ice_wand_side.y = my.sprite.player.y;
+                        my.sprite.ice_wand_side.visible = true;
+                        my.sprite.ice_wand_side.body.enable = true;
+                        my.sprite.ice_wand_side.resetFlip(); 
+                        break;
+                    case 'left':
+                        anim = my.sprite.player.element+'_item_side';
+                        my.sprite.ice_wand_side.x = my.sprite.player.x - 11;
+                        my.sprite.ice_wand_side.y = my.sprite.player.y;
+                        my.sprite.ice_wand_side.visible = true;
+                        my.sprite.ice_wand_side.body.enable = true;
+                        my.sprite.ice_wand_side.setFlip(true, false);
+                        break;
+                }
+                my.sprite.player.anims.play(anim, true);
             }
             else if(cursors.left.isDown) {
                 // TODO: have the player accelerate to the left
@@ -241,24 +294,21 @@ class Adventure extends Phaser.Scene {
                 this.updatePlayerHitbox("side")
                 my.sprite.player.facing = 'right';
                 my.sprite.player.resetFlip();    
-            } 
-            else if(cursors.up.isDown) {
+            } else if(cursors.up.isDown) {
                 // TODO: have the player accelerate to the right
                 my.sprite.player.setVelocity(0, -this.playerVelocity);
                 let anim = my.sprite.player.element+'_walk_up';
                 my.sprite.player.anims.play(anim, true);
                 my.sprite.player.facing = 'up';
                 this.updatePlayerHitbox("up")
-            }
-            else if(cursors.down.isDown && this.move) {
+            }else if(cursors.down.isDown) {
                 // TODO: have the player accelerate to the right
                 my.sprite.player.setVelocity(0, this.playerVelocity);
                 let anim = my.sprite.player.element+'_walk_down';
                 my.sprite.player.anims.play(anim, true);
                 my.sprite.player.facing = 'down';
                 this.updatePlayerHitbox("down")
-            }
-            else {
+            }else {
                 // TODO: set acceleration to 0 and have DRAG take over
                 my.sprite.player.setVelocity(0, 0)
                 my.sprite.player.anims.stop();
@@ -266,11 +316,9 @@ class Adventure extends Phaser.Scene {
                 
             }
         } else {
+            
             my.sprite.player.setVelocity(0, 0)
             my.sprite.player.anims.stop();
-            // adjust position to be on tile
-            my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
-            my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
         }
 
         if(my.sprite.player.body.deltaX() == 0 && my.sprite.player.body.deltaY() == 0) {

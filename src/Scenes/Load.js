@@ -9,7 +9,7 @@ class Load extends Phaser.Scene {
         // Load characters spritesheet
         this.load.atlas('link_green_walk', 'link/LinkMove/LinkMove.png', 'link/LinkMove/LinkMove.json');
         this.load.atlas('link_green_item', 'link/LinkItem/LinkItem.png', 'link/LinkItem/LinkItem.json');
-        this.load.atlas('link_green_pickup', 'link/LinkPickup/LinkPickup.png', 'link/LinkPickup/LinkPickup.json');
+        this.load.image('link_green_pickup', 'link/LinkPickup/LinkPickup-0.png');
         //this.load.atlas('link_green_item', 'link/LinkMove/LinkItem.png', 'link/LinkMove/LinkItem.json');
         this.load.atlas('armos_back', 'Armos/ArmosBack/ArmosBack.png', 'Armos/ArmosBack/ArmosBack.json');
         this.load.atlas('armos_front', 'Armos/ArmosFront/ArmosFront.png', 'Armos/ArmosFront/ArmosFront.json');
