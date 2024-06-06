@@ -49,7 +49,7 @@ let hud_config = {
     },
     fps: { forceSetTimeOut: true, target: 30 },
     transparent: true,
-    scene: [Load, HudScene], // Separate scene for HUD elements
+    scene: [HUDLoad, HudScene], // Separate scene for HUD elements
     render: {
         pixelArt: true  // prevent pixel art from getting blurred when scaled
     }
@@ -57,7 +57,12 @@ let hud_config = {
 
 var cursors;
 const SCALE = 2.0;
-var my = {sprite: {}, text: {}};
+var my = {sprite: {}, text: {}, 
+    playerVal: {max: 3,
+        health: 3,
+        rupees: 0,
+        keys: 0}
+};
 
 const hud = new Phaser.Game(hud_config);
 const game = new Phaser.Game(game_config);

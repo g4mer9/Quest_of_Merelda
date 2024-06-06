@@ -17,8 +17,6 @@ class Load extends Phaser.Scene {
         this.load.atlas('octo_front', 'Octo/OctoFront/OctoFront.png', 'Octo/OctoFront/OctoFront.json');
         this.load.atlas('octo_side', 'Octo/OctoSide/OctoSide.png', 'Octo/OctoSide/OctoSide.json');
         
-        this.load.image("rupee_HUD", "small_assets/rupee_HUD.png");
-        this.load.image("map_cursor", "small_assets/map_cursor_bottom.png");
         this.load.image("ice_wand_up", "small_assets/ice_wand_up.png");
         this.load.image("ice_wand_side", "small_assets/ice_wand_side.png");
         this.load.image("sword_up", "small_assets/sword_up.png");
@@ -34,8 +32,6 @@ class Load extends Phaser.Scene {
     }
 
     create() {
-        
-        
         this.anims.create({
             key: 'green_walk_up',
             frames: this.anims.generateFrameNames('link_green_walk', {
@@ -178,8 +174,7 @@ class Load extends Phaser.Scene {
         });
 
          // ...and pass to the next Scene
-         this.scene.start("adventureScene");
-         this.scene.start("HudScene");
+         this.scene.start("AdventureScene");
     }
 
     // Never get here since a new scene is started in create()

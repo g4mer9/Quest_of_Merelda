@@ -1,6 +1,6 @@
 class Adventure extends Phaser.Scene {
     constructor() {
-        super("adventureScene");
+        super("AdventureScene");
     }
 
     init() {
@@ -44,7 +44,7 @@ class Adventure extends Phaser.Scene {
         }); 
 
         // set up player avatar
-        my.sprite.player = this.physics.add.sprite(480, 550, "link_green_walk", "LinkMove-4.png").setDepth(1000);
+        my.sprite.player = this.physics.add.sprite(480, 694, "link_green_walk", "LinkMove-4.png").setDepth(1000);
         my.sprite.player.x_coord = 1;
         my.sprite.player.y_coord = 4;
         my.sprite.player.map_pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
@@ -92,7 +92,7 @@ class Adventure extends Phaser.Scene {
         this.mapCamera.setViewport(0, 0, 320, 144);
         this.mapCamera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.mapCamera.scrollX = 320
-        this.mapCamera.scrollY = 432
+        this.mapCamera.scrollY = 576
     }
 
     screenSetup() {
