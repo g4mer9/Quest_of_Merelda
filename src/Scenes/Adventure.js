@@ -47,7 +47,8 @@ class Adventure extends Phaser.Scene {
         my.sprite.player = this.physics.add.sprite(480, 694, "link_green_walk", "LinkMove-4.png").setDepth(1000);
         my.sprite.player.x_coord = 1;
         my.sprite.player.y_coord = 4;
-        my.sprite.player.map_pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
+        my.playerVal.pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
+        events.emit('mapCursor');
         
         my.sprite.player.setCollideWorldBounds(false);
         my.sprite.player.element = 'green';
@@ -100,10 +101,10 @@ class Adventure extends Phaser.Scene {
         this.move = false;
         this.mapCamera.isMoving = true;
         this.spawn_locations.forEach((spawn) =>{
-            //console.log(spawn.screen, ", ", my.sprite.player.map_pos)
-            if(spawn.screen == my.sprite.player.map_pos) {
+            //console.log(spawn.screen, ", ", my.playerVal.pos)
+            if(spawn.screen == my.playerVal.pos) {
                 my.sprite.enemy = this.physics.add.sprite(spawn.x, spawn.y, spawn.type);
-                my.sprite.enemy.map_pos = my.sprite.player.map_pos;
+                my.sprite.enemy.map_pos = my.playerVal.pos;
                 this.enemies.push(my.sprite.enemy);
             }
         })
@@ -115,7 +116,7 @@ class Adventure extends Phaser.Scene {
         this.move = true;
         this.mapCamera.isMoving = false;
         this.relative_gameFrame = 0;
-        //console.log(my.sprite.player.map_pos)
+        //console.log(my.playerVal.pos)
     }
 
     // Function to update player hitbox based on animation
@@ -139,7 +140,8 @@ class Adventure extends Phaser.Scene {
         // Move camera horizontal 
         if (playerScreenX > boundsWidth) {
             my.sprite.player.x_coord++;
-            my.sprite.player.map_pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
+            my.playerVal.pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
+            events.emit('mapCursor');
             this.screenSetup();
             cam.pan(cam.scrollX + boundsWidth + boundsWidth / 2, cam.scrollY + boundsHeight / 2, panDuration);
             this.time.delayedCall(panDuration + 50, () => this.screenStart())   
@@ -148,7 +150,8 @@ class Adventure extends Phaser.Scene {
             
         } else if (playerScreenX < 0) {
             my.sprite.player.x_coord--;   
-            my.sprite.player.map_pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
+            my.playerVal.pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
+            events.emit('mapCursor');
             this.screenSetup();
             cam.pan(cam.scrollX - boundsWidth + boundsWidth / 2, cam.scrollY + boundsHeight / 2, panDuration);
             this.time.delayedCall(panDuration + 50, () => this.screenStart())        
@@ -157,8 +160,8 @@ class Adventure extends Phaser.Scene {
         // Move camera vertical
         if (playerScreenY > boundsHeight) {
             my.sprite.player.y_coord++;   
-            my.sprite.player.map_pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
-
+            my.playerVal.pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
+            events.emit('mapCursor');
             this.screenSetup();
             cam.pan(cam.scrollX + boundsWidth / 2, cam.scrollY + boundsHeight + boundsHeight / 2, panDuration);
             this.time.delayedCall(panDuration + 50, () => this.screenStart()) 
@@ -166,7 +169,8 @@ class Adventure extends Phaser.Scene {
             
         } else if (playerScreenY < 0) {
             my.sprite.player.y_coord--;
-            my.sprite.player.map_pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
+            my.playerVal.pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
+            events.emit('mapCursor');
             this.screenSetup();
             cam.pan(cam.scrollX + boundsWidth / 2, cam.scrollY - boundsHeight + boundsHeight / 2, panDuration);
             this.time.delayedCall(panDuration + 50, () => this.screenStart())  

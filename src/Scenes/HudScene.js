@@ -35,7 +35,28 @@ class HudScene extends Phaser.Scene {
         }
     }
 
+    updateMap() {
+        // clear previous map cursors
+        this.top_layer.forEachTile(tile => {
+            if (tile.index === 514) {
+                this.top_layer.removeTileAt(tile.x, tile.y);
+            }
+        })
+        // calculate and place next cursors
+        let x = my.playerVal.pos.charCodeAt(0)-59;
+        let y = Number(my.playerVal.pos[1]);
+        console.log(x+","+y);
+        let left = this.top_layer.putTileAt(514, x-1, y);
+        left.rotation = Math.PI/2;
+        let right = this.top_layer.putTileAt(514, x+1, y);
+        right.rotation = 3*Math.PI/2
+        let up = this.top_layer.putTileAt(514, x, y-1);
+        up.flipY = true;
+        this.top_layer.putTileAt(514, x, y+1);
+    }
+
     update(){
         this.updateHealth();
+        events.on('mapCursor', this.updateMap, this);
     }
 }

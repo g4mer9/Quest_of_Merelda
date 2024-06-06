@@ -61,8 +61,11 @@ var my = {sprite: {}, text: {},
     playerVal: {max: 6,
         health: 6,
         rupees: 0,
-        keys: 0}
+        keys: 0,
+        pos: ''
+    }
 };
 
 const hud = new Phaser.Game(hud_config);
 const game = new Phaser.Game(game_config);
+const events = new Phaser.Events.EventEmitter();
