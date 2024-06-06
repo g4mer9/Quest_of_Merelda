@@ -17,6 +17,13 @@ class Adventure extends Phaser.Scene {
     }
 
     create() {
+        this.map_coords = [['A0', '', 'C0', ''], //MUST BE ACCESSED VIA map_coords[y][x]
+                            ['A1', 'B1', 'C1', 'D1', ''],
+                            ['A2', 'B2', 'C2', 'D2', ''],
+                            ['A3', 'B3', 'C3', 'D3', 'D4'],
+                            ['A4', 'B4', 'C4', 'D4', ''],
+                            ['', '', '', 'D5', '']];
+        this.spawn_locations = [{screen: 'C4', type: 'octo_front', x: 850, y: 550}, {screen: 'C4', type: 'octo_front', x: 866, y: 550}];
         this.xKey = this.input.keyboard.addKey('X');
         this.zKey = this.input.keyboard.addKey('Z');
         this.enemies = [];
@@ -38,6 +45,10 @@ class Adventure extends Phaser.Scene {
 
         // set up player avatar
         my.sprite.player = this.physics.add.sprite(480, 550, "link_green_walk", "LinkMove-4.png").setDepth(1000);
+        my.sprite.player.x_coord = 1;
+        my.sprite.player.y_coord = 4;
+        my.sprite.player.map_pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
+        
         my.sprite.player.setCollideWorldBounds(false);
         my.sprite.player.element = 'green';
         my.sprite.player.facing = 'up';
@@ -88,6 +99,14 @@ class Adventure extends Phaser.Scene {
         // console.log("in screenSetup!");
         this.move = false;
         this.mapCamera.isMoving = true;
+        this.spawn_locations.forEach((spawn) =>{
+            //console.log(spawn.screen, ", ", my.sprite.player.map_pos)
+            if(spawn.screen == my.sprite.player.map_pos) {
+                my.sprite.enemy = this.physics.add.sprite(spawn.x, spawn.y, spawn.type);
+                my.sprite.enemy.map_pos = my.sprite.player.map_pos;
+                this.enemies.push(my.sprite.enemy);
+            }
+        })
     }
 
     screenStart() {
@@ -96,6 +115,7 @@ class Adventure extends Phaser.Scene {
         this.move = true;
         this.mapCamera.isMoving = false;
         this.relative_gameFrame = 0;
+        //console.log(my.sprite.player.map_pos)
     }
 
     // Function to update player hitbox based on animation
@@ -118,27 +138,40 @@ class Adventure extends Phaser.Scene {
         const panDuration = 1000
         // Move camera horizontal 
         if (playerScreenX > boundsWidth) {
+            my.sprite.player.x_coord++;
+            my.sprite.player.map_pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
             this.screenSetup();
             cam.pan(cam.scrollX + boundsWidth + boundsWidth / 2, cam.scrollY + boundsHeight / 2, panDuration);
             this.time.delayedCall(panDuration + 50, () => this.screenStart())   
             this.relative_gameFrame = 0;     
+            
+            
         } else if (playerScreenX < 0) {
+            my.sprite.player.x_coord--;   
+            my.sprite.player.map_pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
             this.screenSetup();
             cam.pan(cam.scrollX - boundsWidth + boundsWidth / 2, cam.scrollY + boundsHeight / 2, panDuration);
             this.time.delayedCall(panDuration + 50, () => this.screenStart())        
-            this.relative_gameFrame = 0;     
-        }
+            this.relative_gameFrame = 0;  
+            }
         // Move camera vertical
         if (playerScreenY > boundsHeight) {
+            my.sprite.player.y_coord++;   
+            my.sprite.player.map_pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
+
             this.screenSetup();
             cam.pan(cam.scrollX + boundsWidth / 2, cam.scrollY + boundsHeight + boundsHeight / 2, panDuration);
             this.time.delayedCall(panDuration + 50, () => this.screenStart()) 
-            this.relative_gameFrame = 0;     
+            this.relative_gameFrame = 0;  
+            
         } else if (playerScreenY < 0) {
+            my.sprite.player.y_coord--;
+            my.sprite.player.map_pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
             this.screenSetup();
             cam.pan(cam.scrollX + boundsWidth / 2, cam.scrollY - boundsHeight + boundsHeight / 2, panDuration);
             this.time.delayedCall(panDuration + 50, () => this.screenStart())  
             this.relative_gameFrame = 0;     
+            
         }
     }
 
@@ -166,6 +199,7 @@ class Adventure extends Phaser.Scene {
                     my.sprite.player.anims.play(anim, true);
                     my.sprite.player.anims.stop();
                     this.updatePlayerHitbox("down");
+                    my.sprite.sword_up.visible = false;
                     my.sprite.ice_wand_up.visible = false;
                     break;
                 case 'right':
@@ -174,6 +208,7 @@ class Adventure extends Phaser.Scene {
                     my.sprite.player.anims.stop();
                     this.updatePlayerHitbox("right");
                     my.sprite.player.resetFlip();
+                    my.sprite.sword_side.visible = false;
                     my.sprite.ice_wand_side.visible = false; 
                     break;
                 case 'left':
@@ -182,6 +217,7 @@ class Adventure extends Phaser.Scene {
                     my.sprite.player.anims.stop();
                     this.updatePlayerHitbox("left");
                     my.sprite.player.setFlip(true, false);
+                    my.sprite.sword_side.visible = false;
                     my.sprite.ice_wand_side.visible = false; 
                     break;
                     

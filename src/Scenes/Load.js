@@ -35,6 +35,7 @@ class Load extends Phaser.Scene {
 
     create() {
         
+        
         this.anims.create({
             key: 'green_walk_up',
             frames: this.anims.generateFrameNames('link_green_walk', {
@@ -103,19 +104,6 @@ class Load extends Phaser.Scene {
             frames: this.anims.generateFrameNames('link_green_item', {
                 prefix: "LinkItem-",
                 start: 0,
-                end: 0,
-                suffix: ".png",
-                zeroPad: 1
-            }),
-            frameRate: 0,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'green_pickup',
-            frames: this.anims.generateFrameNames('link_green_pickup', {
-                prefix: "LinkPickup-",
-                start: 1,
                 end: 0,
                 suffix: ".png",
                 zeroPad: 1
