@@ -58,8 +58,8 @@ let hud_config = {
 var cursors;
 const SCALE = 2.0;
 var my = {sprite: {}, text: {}, 
-    playerVal: {max: 3,
-        health: 3,
+    playerVal: {max: 6,
+        health: 6,
         rupees: 0,
         keys: 0}
 };
