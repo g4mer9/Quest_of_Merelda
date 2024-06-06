@@ -22,9 +22,9 @@
         {
          "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1027, 0, 0, 0, 0, 257, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1027, 0, 0, 0, 0, 257, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 549, 549, 549, 549, 549, 549, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 549, 549, 549, 549, 549, 549, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 549, 549, 549, 549, 549, 549, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
          "height":6,
          "id":2,
@@ -46,7 +46,7 @@
         {
          "columns":16,
          "firstgid":1,
-         "image":"zelda_graveyard_tileset.png",
+         "image":"..\/..\/..\/..\/.vscode\/repos\/Quest_of_Merelda\/assets\/zelda_graveyard_tileset.png",
          "imageheight":128,
          "imagewidth":128,
          "margin":0,
@@ -59,7 +59,7 @@
         {
          "columns":1,
          "firstgid":257,
-         "image":"small_assets\/sword_up.png",
+         "image":"..\/..\/..\/..\/.vscode\/repos\/Quest_of_Merelda\/assets\/small_assets\/sword_up.png",
          "imageheight":16,
          "imagewidth":7,
          "margin":0,
@@ -72,7 +72,7 @@
         {
          "columns":16,
          "firstgid":258,
-         "image":"zelda_forest_tileset.png",
+         "image":"..\/..\/..\/..\/.vscode\/repos\/Quest_of_Merelda\/assets\/zelda_forest_tileset.png",
          "imageheight":128,
          "imagewidth":128,
          "margin":0,
@@ -85,7 +85,7 @@
         {
          "columns":1,
          "firstgid":514,
-         "image":"small_assets\/map_cursor_bottom.png",
+         "image":"..\/..\/..\/..\/.vscode\/repos\/Quest_of_Merelda\/assets\/small_assets\/map_cursor_bottom.png",
          "imageheight":8,
          "imagewidth":8,
          "margin":0,
@@ -98,7 +98,7 @@
         {
          "columns":16,
          "firstgid":515,
-         "image":"zelda_mountain_tileset.png",
+         "image":"..\/..\/..\/..\/.vscode\/repos\/Quest_of_Merelda\/assets\/zelda_mountain_tileset.png",
          "imageheight":128,
          "imagewidth":128,
          "margin":0,
@@ -2422,7 +2422,7 @@
         {
          "columns":16,
          "firstgid":771,
-         "image":"zelda_overworld_tileset.png",
+         "image":"..\/..\/..\/..\/.vscode\/repos\/Quest_of_Merelda\/assets\/zelda_overworld_tileset.png",
          "imageheight":128,
          "imagewidth":128,
          "margin":0,
@@ -3040,7 +3040,7 @@
         {
          "columns":1,
          "firstgid":1027,
-         "image":"small_assets\/ice_wand_up.png",
+         "image":"..\/..\/..\/..\/.vscode\/repos\/Quest_of_Merelda\/assets\/small_assets\/ice_wand_up.png",
          "imageheight":16,
          "imagewidth":8,
          "margin":0,
@@ -3053,7 +3053,7 @@
         {
          "columns":1,
          "firstgid":1028,
-         "image":"small_assets\/HUD_arrow.png",
+         "image":"..\/..\/..\/..\/.vscode\/repos\/Quest_of_Merelda\/assets\/small_assets\/HUD_arrow.png",
          "imageheight":8,
          "imagewidth":8,
          "margin":0,

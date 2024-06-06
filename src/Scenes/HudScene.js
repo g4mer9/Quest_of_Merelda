@@ -23,12 +23,16 @@ class HudScene extends Phaser.Scene {
         for (let i = 0; i < 2; i++) {
             for (let j = 1; j <= 6; j++) {
                 if (((i*12)+(j*2)) > my.playerVal.max) {
+                    // current heart above max health
                     break;
                 } else if (((i*12)+(j*2)) <= my.playerVal.health) {
+                    // current heart full
                     this.top_layer.putTileAt(748, j+31, i+3);
                 } else if (((i*12)+(j*2)-1) <= my.playerVal.health) {
+                    // current heart half full
                     this.top_layer.putTileAt(629, j+31, i+3);
                 } else {
+                    // current heart empty
                     this.top_layer.putTileAt(614, j+31, i+3);
                 }
             }
@@ -45,7 +49,6 @@ class HudScene extends Phaser.Scene {
         // calculate and place next cursors
         let x = my.playerVal.pos.charCodeAt(0)-59;
         let y = Number(my.playerVal.pos[1]);
-        //console.log(x+","+y);
         let left = this.top_layer.putTileAt(514, x-1, y);
         left.rotation = Math.PI/2;
         let right = this.top_layer.putTileAt(514, x+1, y);
@@ -55,8 +58,48 @@ class HudScene extends Phaser.Scene {
         this.top_layer.putTileAt(514, x, y+1);
     }
 
+    updateRupees() {
+        let num = my.playerVal.rupees;
+        if (num < 10) {
+            // convert single digit to tile
+            if (num % 2 === 0){
+                this.top_layer.putTileAt((num/2)+1, 16, 2);
+            } else {
+                this.top_layer.putTileAt(((num+1)/2)+16, 16, 2);
+            }
+        } else {
+            // extract digits
+            num = String(num);
+            let tens = Number(num[0]);
+            let ones = Number(num[1]);
+            // convert tens to tile
+            if (tens % 2 === 0){
+                this.top_layer.putTileAt((tens/2)+1, 16, 2);
+            } else {
+                this.top_layer.putTileAt(((tens+1)/2)+16, 16, 2);
+            }
+            // convert ones to tile
+            if (ones % 2 === 0){
+                this.top_layer.putTileAt((ones/2)+1, 17, 2);
+            } else {
+                this.top_layer.putTileAt(((ones+1)/2)+16, 17, 2);
+            }
+        }
+    }
+
+    updateKeys(){
+        let num = my.playerVal.keys;
+        if (num % 2 === 0){
+            this.top_layer.putTileAt((num/2)+1, 16, 4);
+        } else {
+            this.top_layer.putTileAt(((num+1)/2)+16, 16, 4);
+        }
+    }
+
     update(){
         this.updateHealth();
         events.on('mapCursor', this.updateMap, this);
+        this.updateRupees();
+        this.updateKeys();
     }
 }
