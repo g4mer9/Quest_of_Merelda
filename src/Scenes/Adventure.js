@@ -440,13 +440,13 @@ class Adventure extends Phaser.Scene {
             }
         } else { //not moveable
             if(my.sprite.player.dir) {
-                my.sprite.player.x += 2.5 * Math.cos(my.sprite.player.dir);
-                my.sprite.player.y += 2.5 * Math.sin(my.sprite.player.dir);
-                // my.sprite.player.body.x += 3 * Math.cos(my.sprite.player.dir);
-                // my.sprite.player.body.y += 3 * Math.sin(my.sprite.player.dir);
-                my.sprite.player.body.updateFromGameObject()
+                // my.sprite.player.x += 2.5 * Math.cos(my.sprite.player.dir);
+                // my.sprite.player.y += 2.5 * Math.sin(my.sprite.player.dir);
+                let tx = this.playerVelocity * 2 * Math.cos(my.sprite.player.dir);
+                let ty = this.playerVelocity * 2 * Math.sin(my.sprite.player.dir);
+                my.sprite.player.setVelocity(tx, ty);
             }
-            my.sprite.player.setVelocity(0, 0)
+            else my.sprite.player.setVelocity(0, 0)
             my.sprite.player.anims.stop();
         }
 
