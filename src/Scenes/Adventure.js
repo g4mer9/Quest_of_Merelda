@@ -228,20 +228,20 @@ class Adventure extends Phaser.Scene {
             else if(enemy.isMoving) {
 
                 //stopping code
-                if(enemy.body.deltaX() == 0 && enemy.body.deltaY() == 0) enemy.isMoving = false;
+                if((enemy.body.deltaX() == 0 && enemy.body.deltaY() == 0)) enemy.isMoving = false;
                 else {
                     switch(enemy.facing){
                         case 'left':
-                            if(enemy.x < enemy.targetX) enemy.isMoving = false;
+                            if(enemy.x < enemy.targetX || (enemy.body.velocity.x && enemy.body.velocity.x > -this.playerVelocity / 2)) enemy.isMoving = false;
                             break
                         case 'up':
-                            if(enemy.y < enemy.targetY) enemy.isMoving = false;
+                            if(enemy.y < enemy.targetY || (enemy.body.velocity.y && enemy.body.velocity.y > -this.playerVelocity / 2)) enemy.isMoving = false;
                             break
                         case 'right':
-                            if(enemy.x > enemy.targetX) enemy.isMoving = false;
+                            if(enemy.x > enemy.targetX || (enemy.body.velocity.x && enemy.body.velocity.x < this.playerVelocity / 2)) enemy.isMoving = false;
                             break
                         case 'down':
-                            if(enemy.y > enemy.targetY) enemy.isMoving = false;
+                            if(enemy.y > enemy.targetY|| (enemy.body.velocity.y && enemy.body.velocity.y < this.playerVelocity / 2)) enemy.isMoving = false;
                             break
                     }
                 } if(!enemy.isMoving){
@@ -330,32 +330,32 @@ class Adventure extends Phaser.Scene {
                 switch (my.sprite.player.facing) {
                     case 'up':
                         anim = my.sprite.player.element+'_item_up';
-                        my.sprite.sword_up.x = my.sprite.player.x;
-                        my.sprite.sword_up.y = my.sprite.player.y - 11;
+                        my.sprite.sword_up.body.x = my.sprite.player.body.x;
+                        my.sprite.sword_up.body.y = my.sprite.player.body.y - 11;
                         my.sprite.sword_up.visible = true;
                         my.sprite.sword_up.body.enable = true;
                         my.sprite.sword_up.resetFlip(); 
                         break;
                     case 'down':
                         anim = my.sprite.player.element+'_item_down';
-                        my.sprite.sword_up.x = my.sprite.player.x;
-                        my.sprite.sword_up.y = my.sprite.player.y + 11;
+                        my.sprite.sword_up.body.x = my.sprite.player.x;
+                        my.sprite.sword_up.body.y = my.sprite.player.y + 11;
                         my.sprite.sword_up.visible = true;
                         my.sprite.sword_up.body.enable = true;
                         my.sprite.sword_up.setFlip(false, true);
                         break;
                     case 'right':
                         anim = my.sprite.player.element+'_item_side';
-                        my.sprite.sword_side.x = my.sprite.player.x + 11;
-                        my.sprite.sword_side.y = my.sprite.player.y;
+                        my.sprite.sword_side.body.x = my.sprite.player.x + 11;
+                        my.sprite.sword_side.body.y = my.sprite.player.y;
                         my.sprite.sword_side.visible = true;
                         my.sprite.sword_side.body.enable = true;
                         my.sprite.sword_side.resetFlip(); 
                         break;
                     case 'left':
                         anim = my.sprite.player.element+'_item_side';
-                        my.sprite.sword_side.x = my.sprite.player.x - 11;
-                        my.sprite.sword_side.y = my.sprite.player.y;
+                        my.sprite.sword_side.body.x = my.sprite.player.x - 11;
+                        my.sprite.sword_side.body.y = my.sprite.player.y;
                         my.sprite.sword_side.visible = true;
                         my.sprite.sword_side.body.enable = true;
                         my.sprite.sword_side.setFlip(true, false);
@@ -373,32 +373,32 @@ class Adventure extends Phaser.Scene {
                 switch (my.sprite.player.facing) {
                     case 'up':
                         anim = my.sprite.player.element+'_item_up';
-                        my.sprite.ice_wand_up.x = my.sprite.player.x;
-                        my.sprite.ice_wand_up.y = my.sprite.player.y - 11;
+                        my.sprite.ice_wand_up.body.x = my.sprite.player.x;
+                        my.sprite.ice_wand_up.body.y = my.sprite.player.y - 11;
                         my.sprite.ice_wand_up.visible = true;
                         my.sprite.ice_wand_up.body.enable = true;
                         my.sprite.ice_wand_up.resetFlip(); 
                         break;
                     case 'down':
                         anim = my.sprite.player.element+'_item_down';
-                        my.sprite.ice_wand_up.x = my.sprite.player.x;
-                        my.sprite.ice_wand_up.y = my.sprite.player.y + 11;
+                        my.sprite.ice_wand_up.body.x = my.sprite.player.x;
+                        my.sprite.ice_wand_up.body.y = my.sprite.player.y + 11;
                         my.sprite.ice_wand_up.visible = true;
                         my.sprite.ice_wand_up.body.enable = true;
                         my.sprite.ice_wand_up.setFlip(false, true);
                         break;
                     case 'right':
                         anim = my.sprite.player.element+'_item_side';
-                        my.sprite.ice_wand_side.x = my.sprite.player.x + 11;
-                        my.sprite.ice_wand_side.y = my.sprite.player.y;
+                        my.sprite.ice_wand_side.body.x = my.sprite.player.x + 11;
+                        my.sprite.ice_wand_side.body.y = my.sprite.player.y;
                         my.sprite.ice_wand_side.visible = true;
                         my.sprite.ice_wand_side.body.enable = true;
                         my.sprite.ice_wand_side.resetFlip(); 
                         break;
                     case 'left':
                         anim = my.sprite.player.element+'_item_side';
-                        my.sprite.ice_wand_side.x = my.sprite.player.x - 11;
-                        my.sprite.ice_wand_side.y = my.sprite.player.y;
+                        my.sprite.ice_wand_side.body.x = my.sprite.player.x - 11;
+                        my.sprite.ice_wand_side.body.y = my.sprite.player.y;
                         my.sprite.ice_wand_side.visible = true;
                         my.sprite.ice_wand_side.body.enable = true;
                         my.sprite.ice_wand_side.setFlip(true, false);
