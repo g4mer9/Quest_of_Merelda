@@ -38,44 +38,58 @@ class Adventure extends Phaser.Scene {
         this.groundLayer.setCollisionByProperty({//collision with geometry layer
             collides: true
         }); 
-
-//PLAYER SETUP============================================================================================================================
-        my.sprite.player = this.physics.add.sprite(480, 694, "link_green_walk", "LinkMove-4.png").setDepth(1000);
-        my.sprite.player.x_coord = 1;
-        my.sprite.player.y_coord = 4;
-        my.playerVal.pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
-        events.emit('mapCursor');
-        my.sprite.player.setCollideWorldBounds(false);//no out of bounds collision
-        my.sprite.player.element = 'green';
-        my.sprite.player.facing = 'up';
-        this.physics.add.collider(my.sprite.player, this.groundLayer);
-
-        // adjust position to be on tile
-        my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
-        my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
+        my.sprite.player = this.add.container(480, 694); // container for player sprites
 
 //ITEMS====================================================================================================================================
         //set up sword
-        my.sprite.sword_up = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "sword_up").setDepth(1);
+        my.sprite.sword_up = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "sword_up").setDepth(99);
+        my.sprite.sword_up.setScale(.75);
+        my.sprite.player.add(my.sprite.sword_up);
         my.sprite.sword_up.visible = false;
         my.sprite.sword_up.body.enable = false;
-        my.sprite.sword_side = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "sword_side").setDepth(2);
+        my.sprite.sword_side = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "sword_side").setDepth(99);
+        my.sprite.sword_side.setScale(.75);
+        my.sprite.player.add(my.sprite.sword_side);
         my.sprite.sword_side.visible = false;
         my.sprite.sword_side.body.enable = false;
 
         //set up wand
-        my.sprite.ice_wand_up = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "ice_wand_up").setDepth(1);
+        my.sprite.ice_wand_up = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "ice_wand_up").setDepth(99);
+        my.sprite.player.add(my.sprite.ice_wand_up);
         my.sprite.ice_wand_up.visible = false;
         my.sprite.ice_wand_up.body.enable = false;
-        my.sprite.ice_wand_side = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "ice_wand_side").setDepth(2);
+        my.sprite.ice_wand_side = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "ice_wand_side").setDepth(99);
+        my.sprite.player.add(my.sprite.ice_wand_side);
         my.sprite.ice_wand_side.visible = false;
         my.sprite.ice_wand_side.body.enable = false;
+
+//PLAYER SETUP============================================================================================================================
+        my.sprite.link = this.physics.add.sprite(0, 0, "link_green_walk", "LinkMove-4.png").setDepth(100);
+        my.sprite.player.add(my.sprite.link);
+        this.physics.world.enable(my.sprite.player);
+        my.sprite.player.x_coord = 1;
+        my.sprite.player.y_coord = 4;
+        my.playerVal.pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
+        events.emit('mapCursor');
+        my.sprite.player.body.setCollideWorldBounds(false);//no out of bounds collision
+        my.sprite.player.element = 'green';
+        my.sprite.player.facing = 'up';
+        this.physics.add.collider(my.sprite.player, this.groundLayer);
+
+        // Set the size and offset container physics to match link
+        my.sprite.player.body.setSize(my.sprite.link.width, my.sprite.link.height, true);
+        my.sprite.player.body.setOffset(-my.sprite.link.width / 2, -my.sprite.link.height / 2);
+
+        // Adjust position to be on tile
+        my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
+        my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
 
 //DEUBG====================================================================================================================================
         this.input.keyboard.on('keydown-D', () => {
             this.physics.world.drawDebug = this.physics.world.drawDebug ? false : true
             this.physics.world.debugGraphic.clear()
         }, this);
+
 //CAMERA===================================================================================================================================
         // adjust camera to full game canvas
         this.mapCamera = this.cameras.main
@@ -169,11 +183,11 @@ class Adventure extends Phaser.Scene {
     // Function to update player hitbox based on animation
     updatePlayerHitbox(animation) {
         if (animation === 'side'|| animation === 'down') {
-            my.sprite.player.body.setSize(16, 16)
-            my.sprite.player.body.setOffset(0, 0)
+            my.sprite.link.body.setSize(16, 16)
+            my.sprite.link.body.setOffset(0, 0)
         } else if (animation === 'up') {
-            my.sprite.player.body.setSize(12, 15)
-            my.sprite.player.body.setOffset(0, 0)
+            my.sprite.link.body.setSize(12, 15)
+            my.sprite.link.body.setOffset(0, 0)
         }
     }
     
@@ -265,7 +279,6 @@ class Adventure extends Phaser.Scene {
         }
 
 //PLAYER CHECKS=========================================================================================================================
-        let anim;
         //if(my.sprite.player.dir)console.log(this.actionable_timer)
         if(this.iframes_counter > 0) this.iframes_counter--;
         if(this.actionable_offset > 0) this.actionable_offset--;
@@ -275,41 +288,41 @@ class Adventure extends Phaser.Scene {
             let anim = null;
 
             //item or pickup anim or hitstun ended, so walk anim must be restored
-            if(my.sprite.player.anims.currentAnim && (my.sprite.player.anims.currentAnim.key.includes("item")  || my.sprite.player.anims.currentAnim.key.includes("pickup") || my.sprite.player.dir)){ 
+            if(my.sprite.link.anims.currentAnim && (my.sprite.link.anims.currentAnim.key.includes("item")  || my.sprite.link.anims.currentAnim.key.includes("pickup") || my.sprite.player.dir)){ 
                 my.sprite.player.dir = null;
                 if(!this.mapCamera.isMoving)this.move = true;
                 switch (my.sprite.player.facing) {
                 case 'up':
                     anim = my.sprite.player.element+'_walk_up';
-                    my.sprite.player.anims.play(anim, true);
-                    my.sprite.player.anims.stop();
+                    my.sprite.link.anims.play(anim, true);
+                    my.sprite.link.anims.stop();
                     this.updatePlayerHitbox("up");
                     my.sprite.sword_up.visible = false;
                     my.sprite.ice_wand_up.visible = false;
                     break;
                 case 'down':
                     anim = my.sprite.player.element+'_walk_down';
-                    my.sprite.player.anims.play(anim, true);
-                    my.sprite.player.anims.stop();
+                    my.sprite.link.anims.play(anim, true);
+                    my.sprite.link.anims.stop();
                     this.updatePlayerHitbox("down");
                     my.sprite.sword_up.visible = false;
                     my.sprite.ice_wand_up.visible = false;
                     break;
                 case 'right':
                     anim = my.sprite.player.element+'_walk_side';
-                    my.sprite.player.anims.play(anim, true);
-                    my.sprite.player.anims.stop();
+                    my.sprite.link.anims.play(anim, true);
+                    my.sprite.link.anims.stop();
                     this.updatePlayerHitbox("right");
-                    my.sprite.player.resetFlip();
+                    my.sprite.link.resetFlip();
                     my.sprite.sword_side.visible = false;
                     my.sprite.ice_wand_side.visible = false; 
                     break;
                 case 'left':
                     anim = my.sprite.player.element+'_walk_side';
-                    my.sprite.player.anims.play(anim, true);
-                    my.sprite.player.anims.stop();
+                    my.sprite.link.anims.play(anim, true);
+                    my.sprite.link.anims.stop();
                     this.updatePlayerHitbox("left");
-                    my.sprite.player.setFlip(true, false);
+                    my.sprite.link.setFlip(true, false);
                     my.sprite.sword_side.visible = false;
                     my.sprite.ice_wand_side.visible = false; 
                     break;
@@ -330,38 +343,34 @@ class Adventure extends Phaser.Scene {
                 switch (my.sprite.player.facing) {
                     case 'up':
                         anim = my.sprite.player.element+'_item_up';
-                        my.sprite.sword_up.body.x = my.sprite.player.body.x;
-                        my.sprite.sword_up.body.y = my.sprite.player.body.y - 11;
+                        my.sprite.sword_up.setPosition(1, -12);
                         my.sprite.sword_up.visible = true;
                         my.sprite.sword_up.body.enable = true;
                         my.sprite.sword_up.resetFlip(); 
                         break;
                     case 'down':
                         anim = my.sprite.player.element+'_item_down';
-                        my.sprite.sword_up.body.x = my.sprite.player.x;
-                        my.sprite.sword_up.body.y = my.sprite.player.y + 11;
+                        my.sprite.sword_up.setPosition(0, 12);
                         my.sprite.sword_up.visible = true;
                         my.sprite.sword_up.body.enable = true;
                         my.sprite.sword_up.setFlip(false, true);
                         break;
                     case 'right':
                         anim = my.sprite.player.element+'_item_side';
-                        my.sprite.sword_side.body.x = my.sprite.player.x + 11;
-                        my.sprite.sword_side.body.y = my.sprite.player.y;
+                        my.sprite.sword_side.setPosition(12, 1);
                         my.sprite.sword_side.visible = true;
                         my.sprite.sword_side.body.enable = true;
                         my.sprite.sword_side.resetFlip(); 
                         break;
                     case 'left':
                         anim = my.sprite.player.element+'_item_side';
-                        my.sprite.sword_side.body.x = my.sprite.player.x - 11;
-                        my.sprite.sword_side.body.y = my.sprite.player.y;
+                        my.sprite.sword_side.setPosition(-13, 1);
                         my.sprite.sword_side.visible = true;
                         my.sprite.sword_side.body.enable = true;
                         my.sprite.sword_side.setFlip(true, false);
                         break;
                 }
-                my.sprite.player.anims.play(anim, true);
+                my.sprite.link.anims.play(anim, true);
             } else if(Phaser.Input.Keyboard.JustDown(this.zKey)) { //item button pressed
                 my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
                 my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
@@ -373,68 +382,64 @@ class Adventure extends Phaser.Scene {
                 switch (my.sprite.player.facing) {
                     case 'up':
                         anim = my.sprite.player.element+'_item_up';
-                        my.sprite.ice_wand_up.body.x = my.sprite.player.x;
-                        my.sprite.ice_wand_up.body.y = my.sprite.player.y - 11;
+                        my.sprite.ice_wand_up.setPosition(0, -11);
                         my.sprite.ice_wand_up.visible = true;
                         my.sprite.ice_wand_up.body.enable = true;
                         my.sprite.ice_wand_up.resetFlip(); 
                         break;
                     case 'down':
                         anim = my.sprite.player.element+'_item_down';
-                        my.sprite.ice_wand_up.body.x = my.sprite.player.x;
-                        my.sprite.ice_wand_up.body.y = my.sprite.player.y + 11;
+                        my.sprite.ice_wand_up.setPosition(0, 11);
                         my.sprite.ice_wand_up.visible = true;
                         my.sprite.ice_wand_up.body.enable = true;
                         my.sprite.ice_wand_up.setFlip(false, true);
                         break;
                     case 'right':
                         anim = my.sprite.player.element+'_item_side';
-                        my.sprite.ice_wand_side.body.x = my.sprite.player.x + 11;
-                        my.sprite.ice_wand_side.body.y = my.sprite.player.y;
+                        my.sprite.ice_wand_side.setPosition(12, 1);
                         my.sprite.ice_wand_side.visible = true;
                         my.sprite.ice_wand_side.body.enable = true;
-                        my.sprite.ice_wand_side.resetFlip(); 
+                        my.sprite.ice_wand_side.resetFlip();
                         break;
                     case 'left':
                         anim = my.sprite.player.element+'_item_side';
-                        my.sprite.ice_wand_side.body.x = my.sprite.player.x - 11;
-                        my.sprite.ice_wand_side.body.y = my.sprite.player.y;
+                        my.sprite.ice_wand_side.setPosition(-12, 1);
                         my.sprite.ice_wand_side.visible = true;
                         my.sprite.ice_wand_side.body.enable = true;
                         my.sprite.ice_wand_side.setFlip(true, false);
                         break;
                 }
-                my.sprite.player.anims.play(anim, true);
+                my.sprite.link.anims.play(anim, true);
             } else if(cursors.left.isDown) { //move left pressed
-                my.sprite.player.setVelocity(-this.playerVelocity, 0);
+                my.sprite.player.body.setVelocity(-this.playerVelocity, 0);
                 let anim = my.sprite.player.element+'_walk_side';
-                my.sprite.player.anims.play(anim, true);
+                my.sprite.link.anims.play(anim, true);
                 this.updatePlayerHitbox("side");
                 my.sprite.player.facing = 'left';
-                my.sprite.player.setFlip(true, false);
+                my.sprite.link.setFlip(true, false);
             } else if(cursors.right.isDown) { //move right pressed
-                my.sprite.player.setVelocity(this.playerVelocity, 0);
+                my.sprite.player.body.setVelocity(this.playerVelocity, 0);
                 let anim = my.sprite.player.element+'_walk_side';
-                my.sprite.player.anims.play(anim, true);
+                my.sprite.link.anims.play(anim, true);
                 this.updatePlayerHitbox("side")
                 my.sprite.player.facing = 'right';
-                my.sprite.player.resetFlip();    
+                my.sprite.link.resetFlip();    
             } else if(cursors.up.isDown) { //move up pressed
-                my.sprite.player.setVelocity(0, -this.playerVelocity);
+                my.sprite.player.body.setVelocity(0, -this.playerVelocity);
                 let anim = my.sprite.player.element+'_walk_up';
-                my.sprite.player.anims.play(anim, true);
+                my.sprite.link.anims.play(anim, true);
                 my.sprite.player.facing = 'up';
                 this.updatePlayerHitbox("up")
             }else if(cursors.down.isDown) { //move down pressed
-                my.sprite.player.setVelocity(0, this.playerVelocity);
+                my.sprite.player.body.setVelocity(0, this.playerVelocity);
                 let anim = my.sprite.player.element+'_walk_down';
-                my.sprite.player.anims.play(anim, true);
+                my.sprite.link.anims.play(anim, true);
                 my.sprite.player.facing = 'down';
                 this.updatePlayerHitbox("down")
             }else { //no movement or button pressed
                 // TODO: set acceleration to 0 and have DRAG take over
-                my.sprite.player.setVelocity(0, 0)
-                my.sprite.player.anims.stop();
+                my.sprite.player.body.setVelocity(0, 0)
+                my.sprite.link.anims.stop();
                 // adjust position to be on tile
                 
             }
@@ -444,10 +449,10 @@ class Adventure extends Phaser.Scene {
                 // my.sprite.player.y += 2.5 * Math.sin(my.sprite.player.dir);
                 let tx = this.playerVelocity * 2 * Math.cos(my.sprite.player.dir);
                 let ty = this.playerVelocity * 2 * Math.sin(my.sprite.player.dir);
-                my.sprite.player.setVelocity(tx, ty);
+                my.sprite.player.body.setVelocity(tx, ty);
             }
-            else my.sprite.player.setVelocity(0, 0)
-            my.sprite.player.anims.stop();
+            else my.sprite.player.body.setVelocity(0, 0)
+            my.sprite.link.anims.stop();
         }
 
         if(my.sprite.player.body.deltaX() == 0 && my.sprite.player.body.deltaY() == 0) {//snap to tile if you have no momentum

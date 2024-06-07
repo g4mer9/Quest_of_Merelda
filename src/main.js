@@ -25,7 +25,9 @@ let game_config = {
     fps: { forceSetTimeOut: true, target: 30 },
     scene: [Load, Adventure],
     render: {
-        pixelArt: true  // prevent pixel art from getting blurred when scaled
+        pixelArt: true,  // prevent pixel art from getting blurred when scaled
+        antialias: false,
+        roundPixels: true
     },
     physics: {
         default: 'arcade',
@@ -51,7 +53,9 @@ let hud_config = {
     transparent: true,
     scene: [HUDLoad, HudScene], // Separate scene for HUD elements
     render: {
-        pixelArt: true  // prevent pixel art from getting blurred when scaled
+        pixelArt: true,  // prevent pixel art from getting blurred when scaled
+        antialias: false,
+        roundPixels: true
     }
 };
 
