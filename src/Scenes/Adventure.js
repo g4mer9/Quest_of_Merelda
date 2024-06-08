@@ -21,7 +21,7 @@ class Adventure extends Phaser.Scene {
                             ['A3', 'B3', 'C3', 'D3', 'E3'],
                             ['A4', 'B4', 'C4', 'D4', ''],
                             ['', '', '', 'D5', '']];
-        this.spawn_locations = [{screen: 'C4', type: 'octo_front', x: 850, y: 650}, {screen: 'C4', type: 'octo_front', x: 866, y: 650}];
+        this.spawn_locations = [{screen: 'C4', type: 'octo', weakness: 'ice', health: 4, x: 850, y: 650}, {screen: 'C4', type: 'octo', weakness: 'ice', health: 4, x: 866, y: 650}];
         this.xKey = this.input.keyboard.addKey('X');
         this.zKey = this.input.keyboard.addKey('Z');
         this.enemies = [];
@@ -31,10 +31,23 @@ class Adventure extends Phaser.Scene {
         cursors = this.input.keyboard.createCursorKeys();
 //CREATING MAP/TILESETS===================================================================================================================
         this.map = this.add.tilemap("overworld", 8, 8, 0, 0);
+        
         this.overworld_tileset = this.map.addTilesetImage("zelda_overworld_tileset", "overworld_tileset");
         this.forest_tileset = this.map.addTilesetImage("zelda_forest_tileset", "forest_tileset");
         this.mountain_tileset = this.map.addTilesetImage("zelda_mountain_tileset","mountain_tileset");
-        this.groundLayer = this.map.createLayer("basic-geometry-layer", [this.forest_tileset, this.mountain_tileset, this.overworld_tileset], 0, 0);
+        this.graveyard_tileset = this.map.addTilesetImage("zelda_graveyard_tileset","graveyard_tileset");
+        this.groundLayer = this.map.createLayer("basic-geometry-layer", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset], 0, 0);
+        this.enemyBoundary = this.map.createLayer("boundaries", this.forest_tileset, 0, 0);
+        this.transitionsLayer = this.map.createLayer("transitions", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset], 0, 0);
+        this.enemyBoundary.visible = false;
+
+        this.undermap = this.add.tilemap("underworld", 8, 8, 0, 0);
+        this.teal_tileset = this.undermap.addTilesetImage("teal_dungeon", "teal_dungeon_tileset");
+        this.undergroundLayer = this.undermap.createLayer("basic-geometry-layer", this.teal_tileset, 0, 0);
+        
+        this.enemyBoundary.setCollisionByProperty({//collision with geometry layer
+            collides: true
+        }); 
         this.groundLayer.setCollisionByProperty({//collision with geometry layer
             collides: true
         }); 
@@ -75,6 +88,8 @@ class Adventure extends Phaser.Scene {
         my.sprite.player.element = 'green';
         my.sprite.player.facing = 'up';
         this.physics.add.collider(my.sprite.player, this.groundLayer);
+        //this.physics.add.collider(my.sprite.player, transitionsLayer, handleTransition, null, this)
+
 
         // Set the size and offset container physics to match link
         my.sprite.player.body.setSize(my.sprite.link.width, my.sprite.link.height, true);
@@ -108,9 +123,14 @@ class Adventure extends Phaser.Scene {
         this.spawn_locations.forEach((spawn) =>{
             //console.log(spawn.screen, ", ", my.playerVal.pos)
             if(spawn.screen == my.playerVal.pos) {
-                my.sprite.enemy = this.physics.add.sprite(spawn.x, spawn.y, spawn.type);
+                my.sprite.enemy = this.physics.add.sprite(spawn.x, spawn.y, spawn.type+"_front");
+                my.sprite.enemy.type = spawn.type;
+                my.sprite.enemy.weakness = spawn.weakness;
+                my.sprite.enemy.health = spawn.health;
                 my.sprite.enemy.map_pos = my.playerVal.pos;
+                my.sprite.enemy.iframes_counter = 0;
                 this.physics.add.collider(my.sprite.enemy, this.groundLayer);
+                this.physics.add.collider(my.sprite.enemy, this.enemyBoundary);
                 this.enemies.forEach((enemy) =>{
                     this.physics.add.collider(my.sprite.enemy, enemy);
                 })
@@ -177,7 +197,7 @@ class Adventure extends Phaser.Scene {
         }
     }
 
-
+ 
 //MISC FUNCTIONS=========================================================================================================================
 
     // Function to update player hitbox based on animation
@@ -191,12 +211,21 @@ class Adventure extends Phaser.Scene {
         }
     }
     
-    //sprite collision
-    collides(a, b) {
-        if (Math.abs(a.x - b.x) > (a.displayWidth / 2 + b.displayWidth / 2 - 10))return false;
-        if (Math.abs(a.y - b.y) > (a.displayHeight + b.displayHeight - 10)) return false;
-        return true;
-    }
+    // //sprite collision
+    // collides(a, b) {
+    //     if (Math.abs(a.x - b.x) > (a.displayWidth / 2 + b.displayWidth / 2 - 10))return false;
+    //     if (Math.abs(a.y - b.y) > (a.displayHeight + b.displayHeight - 10)) return false;
+    //     return true;
+    // }
+
+    collides(sprite1, sprite2) {
+        // Ensure both sprites are enabled and part of the Arcade Physics system
+        if (sprite1.body && sprite2.body) {
+          // Use Phaser's built-in collision check method
+          return this.physics.world.collide(sprite1, sprite2)
+        }
+        return false
+      }
     
     e_move(enemy) {
         let rand = Math.random();
@@ -204,43 +233,69 @@ class Adventure extends Phaser.Scene {
             let targetX = enemy.x - (Math.floor(Math.random() * (6 - 1) + 1) * 8);
             enemy.targetX = targetX;
             enemy.facing = 'left';
+            let anim = enemy.type+'_side';
+            enemy.anims.play(anim, true);
+            enemy.resetFlip();
+            
             enemy.setVelocity(-this.playerVelocity / 2, 0);
         }
         else if(rand >= .25 && rand < .5) {//move up
             let targetY = enemy.y - (Math.floor(Math.random() * (6 - 1) + 1) * 8);
             enemy.targetY = targetY;
             enemy.facing = 'up';
+            let anim = enemy.type+'_front';
+            enemy.anims.play(anim, true);
+            enemy.setFlip(false, true);
             enemy.setVelocity(0, -this.playerVelocity / 2);
         }
         else if(rand >= .5 && rand < .75) { //move right
             let targetX = enemy.x + (Math.floor(Math.random() * (6 - 1) + 1) * 8);
             enemy.targetX = targetX;
             enemy.facing = 'right';
+            let anim = enemy.type+'_side';
+            enemy.anims.play(anim, true);
+            enemy.setFlip(true, false);
             enemy.setVelocity(this.playerVelocity / 2, 0);
         }
         else if(rand > .75) {//move down
             let targetY = enemy.y + (Math.floor(Math.random() * (6 - 1) + 1) * 8);
             enemy.targetY = targetY;
             enemy.facing = 'down';
+            let anim = enemy.type+'_front';
+            enemy.anims.play(anim, true);
+            enemy.resetFlip();
             enemy.setVelocity(0, this.playerVelocity / 2);
         }
     }
 
     update() {
         if(!this.mapCamera.isMoving)this.checkCameraBounds();
+        my.sprite.sword_side.setVelocity(0, 0);
+        my.sprite.sword_up.setVelocity(0, 0);
         //console.log(this.actionable_timer)
 
 //ENEMY CHECKS==========================================================================================================================
         if(this.enemies.length != 0) for (let i = this.enemies.length - 1; i >= 0; i--) {
             let enemy = this.enemies[i];
+            if(enemy.iframes_counter >0) enemy.iframes_counter--;
+            if(enemy.map_pos != my.playerVal.pos && !this.mapCamera.isMoving) {enemy.delete = true; } //kill when out of bounds
+            if((this.collides(enemy, my.sprite.sword_side) && my.sprite.sword_side.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.sword_up) && my.sprite.sword_up.visible && enemy.iframes_counter <= 0)) {
+                if(my.sprite.player.element == enemy.weakness) enemy.health -= 2;
+                else enemy.health--;
+                enemy.iframes_counter = 20;
+                let angle = Phaser.Math.Angle.Between(my.sprite.player.x, my.sprite.player.y, enemy.x, enemy.y);
+                enemy.dir = angle;
+                if(enemy.health <= 0) enemy.delete = true;
+            }
             let prob = 1/5;
             //console.log(enemy.x - enemy.targetX, enemy.y - enemy.targetY)
-            if(Math.random() < prob && !enemy.isMoving) {
+            if(Math.random() < prob && !enemy.isMoving && enemy.iframes_counter <= 0) {
+                enemy.dir = null;
                 enemy.isMoving = true;
                 this.e_move(enemy);
             }
-            else if(enemy.isMoving) {
-
+            else if(enemy.isMoving && enemy.iframes_counter <= 0) {
+                enemy.dir = null;
                 //stopping code
                 if((enemy.body.deltaX() == 0 && enemy.body.deltaY() == 0)) enemy.isMoving = false;
                 else {
@@ -265,21 +320,33 @@ class Adventure extends Phaser.Scene {
                     enemy.anims.stop();
                 }
             }
+            else if(enemy.dir) {
+                let tx = this.playerVelocity * Math.cos(enemy.dir);
+                let ty = this.playerVelocity * Math.sin(enemy.dir);
+                enemy.body.setVelocity(tx, ty);
+            }
 
-            if(this.collides(enemy, my.sprite.player) && this.iframes_counter == 0){
+            if(this.collides(enemy, my.sprite.link) && this.iframes_counter == 0){
                 let angle = Phaser.Math.Angle.Between(enemy.x, enemy.y, my.sprite.player.x, my.sprite.player.y);
                 my.sprite.player.dir = angle;
+                my.playerVal.health--;
                 this.actionable = false;
                 this.actionable_timer = 7;
                 this.iframes_counter = 20;
                 this.move = false;
             }
 
-            if(enemy.delete == true) this.enemies.splice(i, 1);
+            if(enemy.delete == true) {
+                this.enemies.splice(i, 1);
+                enemy.destroy(1);
+            }
         }
 
 //PLAYER CHECKS=========================================================================================================================
         //if(my.sprite.player.dir)console.log(this.actionable_timer)
+        my.sprite.link.body.x = my.sprite.player.body.x;
+        my.sprite.link.body.y = my.sprite.player.body.y;
+        if(my.sprite.player.dir == 0) this.move = true;
         if(this.iframes_counter > 0) this.iframes_counter--;
         if(this.actionable_offset > 0) this.actionable_offset--;
         if(this.actionable_timer > 0 ) this.actionable_timer--;
@@ -290,6 +357,7 @@ class Adventure extends Phaser.Scene {
             //item or pickup anim or hitstun ended, so walk anim must be restored
             if(my.sprite.link.anims.currentAnim && (my.sprite.link.anims.currentAnim.key.includes("item")  || my.sprite.link.anims.currentAnim.key.includes("pickup") || my.sprite.player.dir)){ 
                 my.sprite.player.dir = null;
+                my.sprite.link.setVelocity(0, 0);
                 if(!this.mapCamera.isMoving)this.move = true;
                 switch (my.sprite.player.facing) {
                 case 'up':
@@ -374,6 +442,11 @@ class Adventure extends Phaser.Scene {
             } else if(Phaser.Input.Keyboard.JustDown(this.zKey)) { //item button pressed
                 my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
                 my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
+                switch(my.playerVal.item) {
+                    case 'ice':
+                        my.sprite.player.element = 'ice';
+                        break
+                }
                 this.actionable = false;
                 this.actionable_timer = 8;
                 this.actionable_offset = this.actionable_timer + 4;

@@ -10,6 +10,10 @@ class Load extends Phaser.Scene {
         this.load.atlas('link_green_walk', 'link/LinkMove/LinkMove.png', 'link/LinkMove/LinkMove.json');
         this.load.atlas('link_green_item', 'link/LinkItem/LinkItem.png', 'link/LinkItem/LinkItem.json');
         this.load.image('link_green_pickup', 'link/LinkPickup/LinkPickup-0.png');
+        
+        this.load.atlas('link_ice_walk', 'Link-Ice/LinkMove-Ice/LinkMove-Ice.png', 'Link-Ice/LinkMove-Ice/LinkMove-Ice.json');
+        this.load.atlas('link_ice_item', 'Link-Ice/LinkItem-Ice/LinkItem-Ice.png', 'Link-Ice/LinkItem-Ice/LinkItem-Ice.json');
+        this.load.image('link_ice_pickup', 'Link-Ice/LinkPickup-Ice/LinkPickup-Ice-0.png');
         //this.load.atlas('link_green_item', 'link/LinkMove/LinkItem.png', 'link/LinkMove/LinkItem.json');
         this.load.atlas('armos_back', 'Armos/ArmosBack/ArmosBack.png', 'Armos/ArmosBack/ArmosBack.json');
         this.load.atlas('armos_front', 'Armos/ArmosFront/ArmosFront.png', 'Armos/ArmosFront/ArmosFront.json');
@@ -23,11 +27,16 @@ class Load extends Phaser.Scene {
         this.load.image("sword_side", "small_assets/sword_side.png");
 
         // Load tilemap information
+        this.load.image("teal_dungeon_tileset", "teal_dungeon.png");
+        this.load.image("grey_dungeon_tileset", "grey_dungeon.png");
+        this.load.image("blue_dungeon_tileset", "blue_dungeon.png");
+        this.load.image("orange_dungeon_tileset", "orange_dungeon.png");
         this.load.image("graveyard_tileset", "zelda_graveyard_tileset.png");
         this.load.image("overworld_tileset", "zelda_overworld_tileset.png");
         this.load.image("forest_tileset", "zelda_forest_tileset.png");
         this.load.image("mountain_tileset", "zelda_mountain_tileset.png");                         // Packed tilemap
         this.load.tilemapTiledJSON("HUD", "HUD.tmj"); 
+        this.load.tilemapTiledJSON("underworld", "underworld.tmj"); 
         this.load.tilemapTiledJSON("overworld", "overworld.tmj");   // Tilemap in JSON
     }
 
@@ -68,6 +77,82 @@ class Load extends Phaser.Scene {
                 zeroPad: 1
             }),
             frameRate: 8,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'ice_walk_up',
+            frames: this.anims.generateFrameNames('link_ice_walk', {
+                prefix: "LinkMove-Ice-",
+                start: 4,
+                end: 5,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'ice_walk_side',
+            frames: this.anims.generateFrameNames('link_ice_walk', {
+                prefix: "LinkMove-Ice-",
+                start: 2,
+                end: 3,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'ice_walk_down',
+            frames: this.anims.generateFrameNames('link_ice_walk', {
+                prefix: "LinkMove-Ice-",
+                start: 0,
+                end: 1,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'ice_item_side',
+            frames: this.anims.generateFrameNames('link_ice_item', {
+                prefix: "LinkItem-Ice-",
+                start: 1,
+                end: 1,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'ice_item_up',
+            frames: this.anims.generateFrameNames('link_ice_item', {
+                prefix: "LinkItem-Ice-",
+                start: 2,
+                end: 2,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'ice_item_down',
+            frames: this.anims.generateFrameNames('link_ice_item', {
+                prefix: "LinkItem-Ice-",
+                start: 0,
+                end: 0,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 0,
             repeat: -1
         });
 

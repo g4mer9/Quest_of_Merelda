@@ -66,6 +66,7 @@ var my = {sprite: {}, text: {},
         health: 6,
         rupees: 0,
         keys: 0,
+        item: 'ice',
         pos: ''
     }
 };
