@@ -25,6 +25,7 @@ class Load extends Phaser.Scene {
         this.load.image("ice_wand_side", "small_assets/ice_wand_side.png");
         this.load.image("sword_up", "small_assets/sword_up.png");
         this.load.image("sword_side", "small_assets/sword_side.png");
+        this.load.image("heart_container", "small_assets/heart_container.png");
 
         // Load tilemap information
         this.load.image("teal_dungeon_tileset", "teal_dungeon.png");
@@ -41,6 +42,8 @@ class Load extends Phaser.Scene {
     }
 
     create() {
+
+//GREEN=========================================================================================================================
         this.anims.create({
             key: 'green_walk_up',
             frames: this.anims.generateFrameNames('link_green_walk', {
@@ -79,6 +82,47 @@ class Load extends Phaser.Scene {
             frameRate: 8,
             repeat: -1
         });
+
+
+        this.anims.create({
+            key: 'green_item_side',
+            frames: this.anims.generateFrameNames('link_green_item', {
+                prefix: "LinkItem-",
+                start: 1,
+                end: 1,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'green_item_up',
+            frames: this.anims.generateFrameNames('link_green_item', {
+                prefix: "LinkItem-",
+                start: 2,
+                end: 2,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'green_item_down',
+            frames: this.anims.generateFrameNames('link_green_item', {
+                prefix: "LinkItem-",
+                start: 0,
+                end: 0,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 0,
+            repeat: -1
+        });
+
+
+//ICE==================================================================================================================
 
         this.anims.create({
             key: 'ice_walk_up',
@@ -156,42 +200,8 @@ class Load extends Phaser.Scene {
             repeat: -1
         });
 
-        this.anims.create({
-            key: 'green_item_side',
-            frames: this.anims.generateFrameNames('link_green_item', {
-                prefix: "LinkItem-",
-                start: 1,
-                end: 1,
-                suffix: ".png",
-                zeroPad: 1
-            }),
-            frameRate: 0,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'green_item_up',
-            frames: this.anims.generateFrameNames('link_green_item', {
-                prefix: "LinkItem-",
-                start: 2,
-                end: 2,
-                suffix: ".png",
-                zeroPad: 1
-            }),
-            frameRate: 0,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'green_item_down',
-            frames: this.anims.generateFrameNames('link_green_item', {
-                prefix: "LinkItem-",
-                start: 0,
-                end: 0,
-                suffix: ".png",
-                zeroPad: 1
-            }),
-            frameRate: 0,
-            repeat: -1
-        });
+
+//ENEMIES===============================================================================================================
 
         this.anims.create({
             key: 'armos_back',

@@ -15,12 +15,13 @@ class Adventure extends Phaser.Scene {
         this.actionable_offset = 0;
         this.iframes_counter = 0;
         this.actionable = true;
+        this.overworld = true;
         this.map_coords = [['A0', '', 'C0', ''], //MUST BE ACCESSED VIA map_coords[y][x]
-                            ['A1', 'B1', 'C1', 'D1', ''],
-                            ['A2', 'B2', 'C2', 'D2', ''],
-                            ['A3', 'B3', 'C3', 'D3', 'E3'],
-                            ['A4', 'B4', 'C4', 'D4', ''],
-                            ['', '', '', 'D5', '']];
+                            ['A1', 'B1', 'C1', 'D1', '',  '',     'ldG1',  ''],
+                            ['A2', 'B2', 'C2', 'D2', '',  '',     'ldG2',  ''],
+                            ['A3', 'B3', 'C3', 'D3', 'E3', '',    'ldG3', 'ldH3'],
+                            ['A4', 'B4', 'C4', 'D4',  '', 'ldF4', 'ldG4', 'ldH4'],
+                            ['',    '',   '',  'D5',  '', 'ldF5', 'ldG5', 'ldH5']];
         this.spawn_locations = [{screen: 'C4', type: 'octo', weakness: 'ice', health: 4, x: 850, y: 650}, {screen: 'C4', type: 'octo', weakness: 'ice', health: 4, x: 866, y: 650}];
         this.xKey = this.input.keyboard.addKey('X');
         this.zKey = this.input.keyboard.addKey('Z');
@@ -36,14 +37,12 @@ class Adventure extends Phaser.Scene {
         this.forest_tileset = this.map.addTilesetImage("zelda_forest_tileset", "forest_tileset");
         this.mountain_tileset = this.map.addTilesetImage("zelda_mountain_tileset","mountain_tileset");
         this.graveyard_tileset = this.map.addTilesetImage("zelda_graveyard_tileset","graveyard_tileset");
-        this.groundLayer = this.map.createLayer("basic-geometry-layer", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset], 0, 0);
+        this.teal_tileset = this.map.addTilesetImage("teal_dungeon", "teal_dungeon_tileset");
+
+        this.groundLayer = this.map.createLayer("basic-geometry-layer", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset, this.teal_tileset], 0, 0);
         this.enemyBoundary = this.map.createLayer("boundaries", this.forest_tileset, 0, 0);
         this.transitionsLayer = this.map.createLayer("transitions", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset], 0, 0);
         this.enemyBoundary.visible = false;
-
-        this.undermap = this.add.tilemap("underworld", 8, 8, 0, 0);
-        this.teal_tileset = this.undermap.addTilesetImage("teal_dungeon", "teal_dungeon_tileset");
-        this.undergroundLayer = this.undermap.createLayer("basic-geometry-layer", this.teal_tileset, 0, 0);
         
         this.enemyBoundary.setCollisionByProperty({//collision with geometry layer
             collides: true
@@ -51,6 +50,7 @@ class Adventure extends Phaser.Scene {
         this.groundLayer.setCollisionByProperty({//collision with geometry layer
             collides: true
         }); 
+        //this.transitionsLayer.setCollisionByExclusion([-1])
         my.sprite.player = this.add.container(480, 694); // container for player sprites
 
 //ITEMS====================================================================================================================================
@@ -76,6 +76,16 @@ class Adventure extends Phaser.Scene {
         my.sprite.ice_wand_side.visible = false;
         my.sprite.ice_wand_side.body.enable = false;
 
+        this.heart_containers = this.map.createFromObjects("objects", {
+            name: "heart_container",
+            key: "heart_container"
+        });
+        this.physics.world.enable(this.heart_containers, Phaser.Physics.Arcade.STATIC_BODY);
+        this.heart_containers_group = this.add.group(this.heart_containers);
+
+        
+
+
 //PLAYER SETUP============================================================================================================================
         my.sprite.link = this.physics.add.sprite(0, 0, "link_green_walk", "LinkMove-4.png").setDepth(100);
         my.sprite.player.add(my.sprite.link);
@@ -88,8 +98,22 @@ class Adventure extends Phaser.Scene {
         my.sprite.player.element = 'green';
         my.sprite.player.facing = 'up';
         this.physics.add.collider(my.sprite.player, this.groundLayer);
-        //this.physics.add.collider(my.sprite.player, transitionsLayer, handleTransition, null, this)
+        this.physics.add.overlap(my.sprite.player, this.transitionsLayer, this.handleTransition, null, this)
 
+        this.physics.add.overlap(my.sprite.player, this.heart_containers_group, (obj1, obj2) => {
+            //this.sound.play('sfx_gem');
+            if(this.move) {
+                this.move = false;
+                this.actionable_timer = 20;
+                let anim = 'link_'+my.sprite.player.element+'_pickup';
+                my.sprite.link.setTexture(anim);
+                //obj2.destroy(); // remove coin on overlap
+                this.time.delayedCall(600, () => obj2.destroy())
+                my.playerVal.max +=2;
+                my.playerVal.health = my.playerVal.max;
+            }
+            
+        });
 
         // Set the size and offset container physics to match link
         my.sprite.player.body.setSize(my.sprite.link.width, my.sprite.link.height, true);
@@ -112,6 +136,9 @@ class Adventure extends Phaser.Scene {
         this.mapCamera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.mapCamera.scrollX = 320
         this.mapCamera.scrollY = 576
+
+
+        
     }
 
 //SCREEN FUNCTIONS=========================================================================================================================
@@ -145,6 +172,7 @@ class Adventure extends Phaser.Scene {
         this.move = true;
         this.mapCamera.isMoving = false;
         this.relative_gameFrame = 0;
+        //console.log(my.playerVal.pos, my.sprite.player.x_coord, my.sprite.player.y_coord)
         
     }
 
@@ -159,7 +187,7 @@ class Adventure extends Phaser.Scene {
         if (playerScreenX > boundsWidth) {
             my.sprite.player.x_coord++;
             my.playerVal.pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
-            events.emit('mapCursor');
+            if(this.overworld) events.emit('mapCursor');
             this.screenSetup();
             cam.pan(cam.scrollX + boundsWidth + boundsWidth / 2, cam.scrollY + boundsHeight / 2, panDuration);
             this.time.delayedCall(panDuration + 50, () => this.screenStart())   
@@ -169,7 +197,7 @@ class Adventure extends Phaser.Scene {
         } else if (playerScreenX < 0) {
             my.sprite.player.x_coord--;   
             my.playerVal.pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
-            events.emit('mapCursor');
+            if(this.overworld) events.emit('mapCursor');
             this.screenSetup();
             cam.pan(cam.scrollX - boundsWidth + boundsWidth / 2, cam.scrollY + boundsHeight / 2, panDuration);
             this.time.delayedCall(panDuration + 50, () => this.screenStart())        
@@ -179,7 +207,7 @@ class Adventure extends Phaser.Scene {
         if (playerScreenY > boundsHeight) {
             my.sprite.player.y_coord++;   
             my.playerVal.pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
-            events.emit('mapCursor');
+            if(this.overworld) events.emit('mapCursor');
             this.screenSetup();
             cam.pan(cam.scrollX + boundsWidth / 2, cam.scrollY + boundsHeight + boundsHeight / 2, panDuration);
             this.time.delayedCall(panDuration + 50, () => this.screenStart()) 
@@ -188,12 +216,24 @@ class Adventure extends Phaser.Scene {
         } else if (playerScreenY < 0) {
             my.sprite.player.y_coord--;
             my.playerVal.pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
-            events.emit('mapCursor');
+            if(this.overworld) events.emit('mapCursor');
             this.screenSetup();
             cam.pan(cam.scrollX + boundsWidth / 2, cam.scrollY - boundsHeight + boundsHeight / 2, panDuration);
             this.time.delayedCall(panDuration + 50, () => this.screenStart())  
             this.relative_gameFrame = 0;     
             
+        }
+    }
+
+    handleTransition(player, tile) {
+        if(tile.index != -1) {
+            player.x = tile.properties['tx'];
+            player.y = tile.properties['ty'];
+            this.mapCamera.scrollX = tile.properties['cx'];
+            this.mapCamera.scrollY = tile.properties['cy'];
+            player.x_coord = tile.properties['x_coord'];
+            player.y_coord = tile.properties['y_coord'];
+            this.overworld = tile.properties['overworld'];
         }
     }
 
@@ -269,6 +309,8 @@ class Adventure extends Phaser.Scene {
     }
 
     update() {
+        //console.log(this.move, this.actionable_timer)
+        //console.log(my.sprite.player.x, my.sprite.player.y);
         if(!this.mapCamera.isMoving)this.checkCameraBounds();
         my.sprite.sword_side.setVelocity(0, 0);
         my.sprite.sword_up.setVelocity(0, 0);
@@ -355,7 +397,7 @@ class Adventure extends Phaser.Scene {
             let anim = null;
 
             //item or pickup anim or hitstun ended, so walk anim must be restored
-            if(my.sprite.link.anims.currentAnim && (my.sprite.link.anims.currentAnim.key.includes("item")  || my.sprite.link.anims.currentAnim.key.includes("pickup") || my.sprite.player.dir)){ 
+            if(my.sprite.link.anims.currentAnim && (my.sprite.link.anims.currentAnim.key.includes("item")  || (my.sprite.link.texture.key.includes("pickup")) || my.sprite.player.dir)){ 
                 my.sprite.player.dir = null;
                 my.sprite.link.setVelocity(0, 0);
                 if(!this.mapCamera.isMoving)this.move = true;
