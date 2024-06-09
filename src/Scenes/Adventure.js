@@ -60,6 +60,9 @@ class Adventure extends Phaser.Scene {
         this.xKey = this.input.keyboard.addKey('X');
         this.zKey = this.input.keyboard.addKey('Z');
         this.enemies = [];
+        this.hearts = [];
+        this.yellow_rupees = [];
+        this.blue_rupees = [];
     }
 
     create() {
@@ -76,6 +79,7 @@ class Adventure extends Phaser.Scene {
         this.groundLayer = this.map.createLayer("basic-geometry-layer", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset, this.teal_tileset], 0, 0);
         this.enemyBoundary = this.map.createLayer("boundaries", this.forest_tileset, 0, 0);
         this.transitionsLayer = this.map.createLayer("transitions", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset], 0, 0);
+        this.foregroundLayer = this.map.createLayer("foreground", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset, this.teal_tileset], 0, 0).setDepth(100000);
         this.enemyBoundary.visible = false;
         
         this.enemyBoundary.setCollisionByProperty({//collision with geometry layer
@@ -111,7 +115,7 @@ class Adventure extends Phaser.Scene {
         my.sprite.ice_wand_side.body.enable = false;
 
 //OBJECT SETUP==============================================================================================================================
-
+        
         this.heart_containers = this.map.createFromObjects("objects", {
             name: "heart_container",
             key: "heart_container"
@@ -134,6 +138,50 @@ class Adventure extends Phaser.Scene {
                 key: "ice_wand_up"
             });
             this.physics.world.enable(this.ice_wand_obj, Phaser.Physics.Arcade.STATIC_BODY);
+
+        }   
+
+        this.lightning_wand_obj = null;
+        if(!my.gameState.items.includes("lightning")) {
+
+            this.lightning_wand_obj = this.map.createFromObjects("objects", {
+                name: "lightning_wand",
+                key: "lightning_wand_up"
+            });
+            this.physics.world.enable(this.lightning_wand_obj, Phaser.Physics.Arcade.STATIC_BODY);
+
+        }   
+
+        this.light_wand_obj = null;
+        if(!my.gameState.items.includes("light")) {
+
+            this.light_wand_obj = this.map.createFromObjects("objects", {
+                name: "light_wand",
+                key: "light_wand_up"
+            });
+            this.physics.world.enable(this.light_wand_obj, Phaser.Physics.Arcade.STATIC_BODY);
+
+        }   
+
+        this.fire_wand_obj = null;
+        if(!my.gameState.items.includes("fire")) {
+
+            this.fire_wand_obj = this.map.createFromObjects("objects", {
+                name: "fire_wand",
+                key: "fire_wand_up"
+            });
+            this.physics.world.enable(this.fire_wand_obj, Phaser.Physics.Arcade.STATIC_BODY);
+
+        }   
+
+        this.dark_wand_obj = null;
+        if(!my.gameState.items.includes("dark")) {
+
+            this.dark_wand_obj = this.map.createFromObjects("objects", {
+                name: "dark_wand",
+                key: "dark_wand_up"
+            });
+            this.physics.world.enable(this.dark_wand_obj, Phaser.Physics.Arcade.STATIC_BODY);
 
         }   
 
@@ -160,6 +208,31 @@ class Adventure extends Phaser.Scene {
         // Adjust position to be on tile
         my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
         my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
+
+//HEARTS AND RUPEES==========================================================================================================================
+        this.physics.add.overlap(my.sprite.player, this.hearts, (obj1, obj2) => {
+            if(my.playerVal.health >= my.playerVal.max - 1) my.playerVal.health = my.playerVal.max;
+            else my.playerVal.health+=2;
+            this.hearts.pop();
+            obj2.destroy();
+        });     
+
+        this.physics.add.overlap(my.sprite.player, this.yellow_rupees, (obj1, obj2) => {
+            if(my.playerVal.rupees >= 98) my.playerVal.rupees = 99;
+            else my.playerVal.rupees += 1;
+            my.gameState.rupees = my.playerVal.rupees;
+            this.yellow_rupees.pop();
+            obj2.destroy();
+        });     
+
+        this.physics.add.overlap(my.sprite.player, this.blue_rupees, (obj1, obj2) => {
+            if(my.playerVal.rupees >= 94) my.playerVal.rupees = 99;
+            else my.playerVal.rupees += 5;
+            my.gameState.rupees = my.playerVal.rupees;
+
+            this.blue_rupees.pop();
+            obj2.destroy();
+        });    
 
 //HEART CONTAINERS===========================================================================================================================
         this.physics.add.overlap(my.sprite.player, this.heart_containers_group, (obj1, obj2) => {
@@ -412,7 +485,28 @@ class Adventure extends Phaser.Scene {
                 enemy.iframes_counter = 20;
                 let angle = Phaser.Math.Angle.Between(my.sprite.player.x, my.sprite.player.y, enemy.x, enemy.y);
                 enemy.dir = angle;
-                if(enemy.health <= 0) enemy.delete = true;
+                if(enemy.health <= 0) {
+                    let prob = Math.random();
+                    enemy.delete = true;
+                    if(prob < 0.25) {
+                        const heart_obj = new Heart(this, enemy.x, enemy.y); 
+                        this.add.existing(heart_obj); 
+                        this.hearts.push(heart_obj); 
+                        this.physics.world.enable(this.hearts, Phaser.Physics.Arcade.STATIC_BODY);
+                    }
+                    else if(prob > .25 && prob < .5) {
+                        const rupee_obj = new Blue_Rupee(this, enemy.x, enemy.y); 
+                        this.add.existing(rupee_obj); 
+                        this.blue_rupees.push(rupee_obj); 
+                        this.physics.world.enable(this.blue_rupees, Phaser.Physics.Arcade.STATIC_BODY);
+                    }
+                    else if(prob > .5 && prob < .75) {
+                        const rupee_obj = new Yellow_Rupee(this, enemy.x, enemy.y); 
+                        this.add.existing(rupee_obj); 
+                        this.yellow_rupees.push(rupee_obj); 
+                        this.physics.world.enable(this.yellow_rupees, Phaser.Physics.Arcade.STATIC_BODY);
+                    }
+                }
             }
             let prob = 1/5;
             //console.log(enemy.x - enemy.targetX, enemy.y - enemy.targetY)
@@ -664,3 +758,24 @@ class Adventure extends Phaser.Scene {
         this.relative_gameFrame++;
     }
 }
+
+class Heart extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y) {
+      super(scene, x, y, 'heart')
+      scene.add.existing(this)
+    }
+  }
+
+  class Yellow_Rupee extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y) {
+      super(scene, x, y, 'yellow_rupee')
+      scene.add.existing(this)
+    }
+  }
+
+  class Blue_Rupee extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y) {
+      super(scene, x, y, 'blue_rupee')
+      scene.add.existing(this)
+    }
+  }

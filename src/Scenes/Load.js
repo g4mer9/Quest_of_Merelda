@@ -26,6 +26,9 @@ class Load extends Phaser.Scene {
         this.load.image("sword_up", "small_assets/sword_up.png");
         this.load.image("sword_side", "small_assets/sword_side.png");
         this.load.image("heart_container", "small_assets/heart_container.png");
+        this.load.image("heart", "small_assets/heart.png");
+        this.load.image("blue_rupee", "small_assets/blue_rupee.png");
+        this.load.image("yellow_rupee", "small_assets/yellow_rupee.png");
 
         // Load tilemap information
         this.load.image("teal_dungeon_tileset", "teal_dungeon.png");
