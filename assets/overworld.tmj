@@ -667,7 +667,7 @@
                  "visible":true,
                  "width":8,
                  "x":376,
-                 "y":663.666666666667
+                 "y":663.667
                 }, 
                 {
                  "gid":1286,
@@ -678,7 +678,7 @@
                  "type":"",
                  "visible":true,
                  "width":8,
-                 "x":392.333333333333,
+                 "x":392.333,
                  "y":664
                 }, 
                 {
@@ -691,7 +691,7 @@
                  "visible":true,
                  "width":8,
                  "x":408,
-                 "y":664.333333333333
+                 "y":664.333
                 }, 
                 {
                  "gid":1288,
@@ -702,8 +702,20 @@
                  "type":"",
                  "visible":true,
                  "width":8,
-                 "x":423.666666666667,
-                 "y":664.666666666667
+                 "x":423.667,
+                 "y":664.667
+                }, 
+                {
+                 "gid":1289,
+                 "height":16,
+                 "id":28,
+                 "name":"bow",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":8,
+                 "x":440.666666666667,
+                 "y":664
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -712,7 +724,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":28,
+ "nextobjectid":29,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
@@ -5700,6 +5712,19 @@
          "imagewidth":8,
          "margin":0,
          "name":"lightning_wand_up",
+         "spacing":0,
+         "tilecount":1,
+         "tileheight":16,
+         "tilewidth":8
+        }, 
+        {
+         "columns":1,
+         "firstgid":1289,
+         "image":"small_assets\/bow.png",
+         "imageheight":16,
+         "imagewidth":8,
+         "margin":0,
+         "name":"bow",
          "spacing":0,
          "tilecount":1,
          "tileheight":16,

@@ -106,11 +106,11 @@ class Adventure extends Phaser.Scene {
         my.sprite.player.add(my.sprite.sword_side);
         my.sprite.sword_side.visible = false;
         my.sprite.sword_side.body.enable = false;
-        my.sprite.arrow_up = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "arrow_up").setDepth(99);
+        my.sprite.arrow_up = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "arrow_up").setDepth(1);
         my.sprite.arrow_up.visible = false;
         my.sprite.arrow_up.body.enable = false;
         my.sprite.arrow_up.isMoving = false;
-        my.sprite.arrow_side = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "arrow_side").setDepth(99);
+        my.sprite.arrow_side = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "arrow_side").setDepth(1);
         my.sprite.arrow_side.visible = false;
         my.sprite.arrow_side.body.enable = false;
         my.sprite.arrow_side.isMoving = false;
@@ -289,7 +289,8 @@ class Adventure extends Phaser.Scene {
                 //obj2.destroy(); // remove coin on overlap
                 this.time.delayedCall(600, () => obj2.destroy())
                 my.gameState.items.push("ice");
-                if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                //if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                my.playerVal.item_index = my.gameState.items.length - 1;
                 my.playerVal.item = my.gameState.items[my.playerVal.item_index];
             }
             
@@ -305,7 +306,8 @@ class Adventure extends Phaser.Scene {
                 //obj2.destroy(); // remove coin on overlap
                 this.time.delayedCall(600, () => obj2.destroy())
                 my.gameState.items.push("dark");
-                if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                //if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                my.playerVal.item_index = my.gameState.items.length - 1;
                 my.playerVal.item = my.gameState.items[my.playerVal.item_index];
             }
             
@@ -321,7 +323,8 @@ class Adventure extends Phaser.Scene {
                 //obj2.destroy(); // remove coin on overlap
                 this.time.delayedCall(600, () => obj2.destroy())
                 my.gameState.items.push("light");
-                if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                //if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                my.playerVal.item_index = my.gameState.items.length - 1;
                 my.playerVal.item = my.gameState.items[my.playerVal.item_index];
             }
             
@@ -337,7 +340,8 @@ class Adventure extends Phaser.Scene {
                 //obj2.destroy(); // remove coin on overlap
                 this.time.delayedCall(600, () => obj2.destroy())
                 my.gameState.items.push("lightning");
-                if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                //if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                my.playerVal.item_index = my.gameState.items.length - 1;
                 my.playerVal.item = my.gameState.items[my.playerVal.item_index];
             }
             
@@ -353,7 +357,8 @@ class Adventure extends Phaser.Scene {
                 //obj2.destroy(); // remove coin on overlap
                 this.time.delayedCall(600, () => obj2.destroy())
                 my.gameState.items.push("fire");
-                if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                //if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                my.playerVal.item_index = my.gameState.items.length - 1;
                 my.playerVal.item = my.gameState.items[my.playerVal.item_index];
             }
             
@@ -369,7 +374,8 @@ class Adventure extends Phaser.Scene {
                 //obj2.destroy(); // remove coin on overlap
                 this.time.delayedCall(600, () => obj2.destroy())
                 my.gameState.items.push("bow");
-                if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                //if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                my.playerVal.item_index = my.gameState.items.length - 1;
                 my.playerVal.item = my.gameState.items[my.playerVal.item_index];
             }
             
@@ -592,24 +598,44 @@ class Adventure extends Phaser.Scene {
         if(my.playerVal.health <= 0) this.kill_screen();
         //console.log(this.actionable_timer)
 
+
+//ARROW MOVEMENT======================================================================================================================================================
         if(my.sprite.arrow_side.isMoving) {
+            const boundsWidth = 320;
+            const boundsHeight = 144;
+            const playerScreenX = my.sprite.arrow_side.x - this.mapCamera.scrollX;
+            const playerScreenY = my.sprite.arrow_side.y - this.mapCamera.scrollY;
             switch(my.sprite.arrow_side.dir) {
                 case 'left':
-                    my.sprite.arrow_side.setVelocity(-10, 0);
+                    my.sprite.arrow_side.setVelocity(-100, 0);
                     break
                 case 'right':
-                    my.sprite.arrow_side.setVelocity(10, 0);
+                    my.sprite.arrow_side.setVelocity(100, 0);
                     break
+            }
+            if(playerScreenX > boundsWidth || playerScreenX < 0 || playerScreenY > boundsHeight || playerScreenY < 0) {
+                my.sprite.arrow_side.isMoving = false;
+                my.sprite.arrow_side.setVelocity(0, 0);
+                my.sprite.arrow_side.visible = false;
             }
         }
         if(my.sprite.arrow_up.isMoving) {
+            const boundsWidth = 320;
+            const boundsHeight = 144;
+            const playerScreenX = my.sprite.arrow_up.x - this.mapCamera.scrollX;
+            const playerScreenY = my.sprite.arrow_up.y - this.mapCamera.scrollY;
             switch(my.sprite.arrow_up.dir) {
-                case 'left':
-                    my.sprite.arrow_up.setVelocity(-10, 0);
+                case 'up':
+                    my.sprite.arrow_up.setVelocity(0, -100);
                     break
-                case 'right':
-                    my.sprite.arrow_up.setVelocity(10, 0);
+                case 'down':
+                    my.sprite.arrow_up.setVelocity(0, 100);
                     break
+            }
+            if(playerScreenX > boundsWidth || playerScreenX < 0 || playerScreenY > boundsHeight || playerScreenY < 0) {
+                my.sprite.arrow_up.isMoving = false;
+                my.sprite.arrow_up.setVelocity(0, 0);
+                my.sprite.arrow_up.visible = false;
             }
         }
 
@@ -618,7 +644,13 @@ class Adventure extends Phaser.Scene {
             let enemy = this.enemies[i];
             if(enemy.iframes_counter >0) enemy.iframes_counter--;
             if(enemy.map_pos != my.playerVal.pos && !this.mapCamera.isMoving) {enemy.delete = true; } //kill when out of bounds
-            if((this.collides(enemy, my.sprite.sword_side) && my.sprite.sword_side.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.sword_up) && my.sprite.sword_up.visible && enemy.iframes_counter <= 0)) {
+            if((this.collides(enemy, my.sprite.sword_side) && my.sprite.sword_side.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.sword_up) && my.sprite.sword_up.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.arrow_side) && my.sprite.arrow_side.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.arrow_up) && my.sprite.arrow_up.visible && enemy.iframes_counter <= 0)) {
+                my.sprite.arrow_side.isMoving = false;
+                my.sprite.arrow_side.setVelocity(0, 0);
+                my.sprite.arrow_side.visible = false;
+                my.sprite.arrow_up.isMoving = false;
+                my.sprite.arrow_up.setVelocity(0, 0);
+                my.sprite.arrow_up.visible = false;
                 if(my.sprite.player.element == enemy.weakness) enemy.health -= 2;
                 else enemy.health--;
                 enemy.iframes_counter = 20;
@@ -875,8 +907,8 @@ class Adventure extends Phaser.Scene {
                             my.sprite.arrow_side.visible = true;
                             my.sprite.arrow_side.body.enable = true;
                             my.sprite.arrow_side.resetFlip();
-                            my.sprite.arrow_side.isMoving = false;
-                            my.sprite.arrow_up.dir = 'right';
+                            my.sprite.arrow_side.isMoving = true;
+                            my.sprite.arrow_side.dir = 'right';
                         }
                         break;
                     case 'left':
@@ -893,8 +925,8 @@ class Adventure extends Phaser.Scene {
                             my.sprite.arrow_side.visible = true;
                             my.sprite.arrow_side.body.enable = true;
                             my.sprite.arrow_side.setFlip(true, false);
-                            my.sprite.arrow_side.isMoving = false;
-                            my.sprite.arrow_up.dir = 'left';
+                            my.sprite.arrow_side.isMoving = true;
+                            my.sprite.arrow_side.dir = 'left';
                         }
                         break;
                 }
