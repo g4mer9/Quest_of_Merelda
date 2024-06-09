@@ -67,6 +67,7 @@ var my = {sprite: {}, text: {},
         rupees: 0,
         keys: 0,
         item: '',
+        item_index: 0,
         pos: ''
     },
     gameState: {

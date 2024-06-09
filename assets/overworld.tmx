@@ -3186,9 +3186,9 @@
    </properties>
   </object>
   <object id="22" name="ice_wand" gid="1282" x="544.125" y="640" width="8" height="16"/>
-  <object id="24" gid="1285" x="376" y="663.667" width="8" height="16"/>
-  <object id="25" gid="1286" x="392.333" y="664" width="8" height="16"/>
-  <object id="26" gid="1287" x="408" y="664.333" width="8" height="16"/>
-  <object id="27" gid="1288" x="423.667" y="664.667" width="8" height="16"/>
+  <object id="24" name="dark_wand" gid="1285" x="376" y="663.667" width="8" height="16"/>
+  <object id="25" name="fire_wand" gid="1286" x="392.333" y="664" width="8" height="16"/>
+  <object id="26" name="light_wand" gid="1287" x="408" y="664.333" width="8" height="16"/>
+  <object id="27" name="lightning_wand" gid="1288" x="423.667" y="664.667" width="8" height="16"/>
  </objectgroup>
 </map>

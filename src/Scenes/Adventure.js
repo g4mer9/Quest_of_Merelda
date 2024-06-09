@@ -23,6 +23,7 @@ class Adventure extends Phaser.Scene {
         my.playerVal.max = this.max;
         my.playerVal.health = this.max;
         my.playerVal.item = this.items[0];
+        my.playerVal.item_index = 0;
         my.playerVal.rupees = this.rupees;
         my.playerVal.keys = this.keys;
         my.gameState.spawn_x =  this.spawn_x;
@@ -59,6 +60,8 @@ class Adventure extends Phaser.Scene {
         this.spawn_locations = [{screen: 'C4', item: false, type: 'octo', weakness: 'ice', health: 4, x: 850, y: 650}, {screen: 'C4', item: false, type: 'octo', weakness: 'ice', health: 4, x: 866, y: 650} ];
         this.xKey = this.input.keyboard.addKey('X');
         this.zKey = this.input.keyboard.addKey('Z');
+        // this.aKey = this.input.keyboard.addKey('A');
+        // this.sKey = this.input.keyboard.addKey('S');
         this.enemies = [];
         this.hearts = [];
         this.yellow_rupees = [];
@@ -253,7 +256,7 @@ class Adventure extends Phaser.Scene {
             
         });
 
-//ICE WAND======================================================================================================================================
+//WANDS======================================================================================================================================
 
         if(!my.gameState.items.includes("ice")) this.physics.add.overlap(my.sprite.player, this.ice_wand_obj, (obj1, obj2) => {
             //this.sound.play('sfx_gem');
@@ -265,7 +268,72 @@ class Adventure extends Phaser.Scene {
                 //obj2.destroy(); // remove coin on overlap
                 this.time.delayedCall(600, () => obj2.destroy())
                 my.gameState.items.push("ice");
-                my.playerVal.item = "ice";
+                if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                my.playerVal.item = my.gameState.items[my.playerVal.item_index];
+            }
+            
+        });
+
+        if(!my.gameState.items.includes("dark")) this.physics.add.overlap(my.sprite.player, this.dark_wand_obj, (obj1, obj2) => {
+            //this.sound.play('sfx_gem');
+            if(this.move) {
+                this.move = false;
+                this.actionable_timer = 20;
+                let anim = 'link_'+my.sprite.player.element+'_pickup';
+                my.sprite.link.setTexture(anim);
+                //obj2.destroy(); // remove coin on overlap
+                this.time.delayedCall(600, () => obj2.destroy())
+                my.gameState.items.push("dark");
+                if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                my.playerVal.item = my.gameState.items[my.playerVal.item_index];
+            }
+            
+        });
+
+        if(!my.gameState.items.includes("light")) this.physics.add.overlap(my.sprite.player, this.light_wand_obj, (obj1, obj2) => {
+            //this.sound.play('sfx_gem');
+            if(this.move) {
+                this.move = false;
+                this.actionable_timer = 20;
+                let anim = 'link_'+my.sprite.player.element+'_pickup';
+                my.sprite.link.setTexture(anim);
+                //obj2.destroy(); // remove coin on overlap
+                this.time.delayedCall(600, () => obj2.destroy())
+                my.gameState.items.push("light");
+                if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                my.playerVal.item = my.gameState.items[my.playerVal.item_index];
+            }
+            
+        });
+
+        if(!my.gameState.items.includes("lightning")) this.physics.add.overlap(my.sprite.player, this.lightning_wand_obj, (obj1, obj2) => {
+            //this.sound.play('sfx_gem');
+            if(this.move) {
+                this.move = false;
+                this.actionable_timer = 20;
+                let anim = 'link_'+my.sprite.player.element+'_pickup';
+                my.sprite.link.setTexture(anim);
+                //obj2.destroy(); // remove coin on overlap
+                this.time.delayedCall(600, () => obj2.destroy())
+                my.gameState.items.push("lightning");
+                if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                my.playerVal.item = my.gameState.items[my.playerVal.item_index];
+            }
+            
+        });
+
+        if(!my.gameState.items.includes("fire")) this.physics.add.overlap(my.sprite.player, this.fire_wand_obj, (obj1, obj2) => {
+            //this.sound.play('sfx_gem');
+            if(this.move) {
+                this.move = false;
+                this.actionable_timer = 20;
+                let anim = 'link_'+my.sprite.player.element+'_pickup';
+                my.sprite.link.setTexture(anim);
+                //obj2.destroy(); // remove coin on overlap
+                this.time.delayedCall(600, () => obj2.destroy())
+                my.gameState.items.push("fire");
+                if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                my.playerVal.item = my.gameState.items[my.playerVal.item_index];
             }
             
         });
@@ -273,6 +341,18 @@ class Adventure extends Phaser.Scene {
         this.input.keyboard.on('keydown-D', () => {
             this.physics.world.drawDebug = this.physics.world.drawDebug ? false : true
             this.physics.world.debugGraphic.clear()
+        }, this);
+    
+        this.input.keyboard.on('keydown-A', () => {
+            my.playerVal.item_index--;
+            if (my.playerVal.item_index < 0) my.playerVal.item_index = my.gameState.items.length - 1;
+            my.playerVal.item = my.gameState.items[my.playerVal.item_index];
+        }, this);
+
+        this.input.keyboard.on('keydown-S', () => {
+            my.playerVal.item_index++;
+            if (my.playerVal.item_index >= my.gameState.items.length) my.playerVal.item_index = 0;
+            my.playerVal.item = my.gameState.items[my.playerVal.item_index];
         }, this);
 
 //CAMERA===================================================================================================================================
@@ -466,6 +546,7 @@ class Adventure extends Phaser.Scene {
     }
 
     update() {
+        //console.log(my.playerVal.item)
         //console.log(this.move, this.actionable_timer)
         //console.log(my.sprite.player.x, my.sprite.player.y);
         if(!this.mapCamera.isMoving)this.checkCameraBounds();
@@ -667,6 +748,18 @@ class Adventure extends Phaser.Scene {
                     case 'ice':
                         my.sprite.player.element = 'ice';
                         break
+                    case 'fire':
+                        my.sprite.player.element = 'fire';
+                        break
+                    case 'lightning':
+                        my.sprite.player.element = 'lightning';
+                        break
+                    case 'dark':
+                        my.sprite.player.element = 'dark';
+                        break
+                    case 'light':
+                        my.sprite.player.element = 'light';
+                        break
                 }
                 this.actionable = false;
                 this.actionable_timer = 8;
@@ -677,6 +770,7 @@ class Adventure extends Phaser.Scene {
                     case 'up':
                         anim = my.sprite.player.element+'_item_up';
                         my.sprite.ice_wand_up.setPosition(0, -11);
+                        my.sprite.ice_wand_up.setTexture(my.sprite.player.element + "_wand_up");
                         my.sprite.ice_wand_up.visible = true;
                         my.sprite.ice_wand_up.body.enable = true;
                         my.sprite.ice_wand_up.resetFlip(); 
@@ -684,6 +778,7 @@ class Adventure extends Phaser.Scene {
                     case 'down':
                         anim = my.sprite.player.element+'_item_down';
                         my.sprite.ice_wand_up.setPosition(0, 11);
+                        my.sprite.ice_wand_up.setTexture(my.sprite.player.element + "_wand_up");
                         my.sprite.ice_wand_up.visible = true;
                         my.sprite.ice_wand_up.body.enable = true;
                         my.sprite.ice_wand_up.setFlip(false, true);
@@ -691,6 +786,7 @@ class Adventure extends Phaser.Scene {
                     case 'right':
                         anim = my.sprite.player.element+'_item_side';
                         my.sprite.ice_wand_side.setPosition(12, 1);
+                        my.sprite.ice_wand_side.setTexture(my.sprite.player.element + "_wand_side");
                         my.sprite.ice_wand_side.visible = true;
                         my.sprite.ice_wand_side.body.enable = true;
                         my.sprite.ice_wand_side.resetFlip();
@@ -698,6 +794,7 @@ class Adventure extends Phaser.Scene {
                     case 'left':
                         anim = my.sprite.player.element+'_item_side';
                         my.sprite.ice_wand_side.setPosition(-12, 1);
+                        my.sprite.ice_wand_side.setTexture(my.sprite.player.element + "_wand_side");
                         my.sprite.ice_wand_side.visible = true;
                         my.sprite.ice_wand_side.body.enable = true;
                         my.sprite.ice_wand_side.setFlip(true, false);
