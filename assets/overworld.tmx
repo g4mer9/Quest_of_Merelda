@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="680" height="108" tilewidth="8" tileheight="8" infinite="0" nextlayerid="6" nextobjectid="3">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="680" height="108" tilewidth="8" tileheight="8" infinite="0" nextlayerid="6" nextobjectid="24">
  <editorsettings>
   <export target="overworld.tmj" format="json"/>
  </editorsettings>
@@ -2664,6 +2664,14 @@
  </tileset>
  <tileset firstgid="1281" name="heart_container" tilewidth="13" tileheight="13" tilecount="1" columns="1">
   <image source="small_assets/heart_container.png" width="13" height="13"/>
+  <tile id="0">
+   <properties>
+    <property name="index" type="int" value="0"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="1282" name="ice_wand_up" tilewidth="8" tileheight="16" tilecount="1" columns="1">
+  <image source="small_assets/ice_wand_up.png" width="8" height="16"/>
  </tileset>
  <layer id="1" name="basic-geometry-layer" width="680" height="108">
   <data encoding="csv">
@@ -3002,6 +3010,51 @@
 </data>
  </layer>
  <objectgroup id="5" name="objects">
-  <object id="2" name="heart_container" gid="1281" x="473.75" y="656" width="13" height="13"/>
+  <object id="2" name="heart_container" gid="1281" x="367.75" y="640.667" width="13" height="13">
+   <properties>
+    <property name="index" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="13" name="heart_container" gid="1281" x="383.167" y="640.167" width="13" height="13">
+   <properties>
+    <property name="index" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="14" name="heart_container" gid="1281" x="399.5" y="640.833" width="13" height="13">
+   <properties>
+    <property name="index" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="15" name="heart_container" gid="1281" x="416.833" y="640.167" width="13" height="13">
+   <properties>
+    <property name="index" type="int" value="3"/>
+   </properties>
+  </object>
+  <object id="16" name="heart_container" gid="1281" x="433.167" y="639.833" width="13" height="13">
+   <properties>
+    <property name="index" type="int" value="4"/>
+   </properties>
+  </object>
+  <object id="17" name="heart_container" gid="1281" x="450.833" y="640.5" width="13" height="13">
+   <properties>
+    <property name="index" type="int" value="5"/>
+   </properties>
+  </object>
+  <object id="18" name="heart_container" gid="1281" x="465.833" y="640.167" width="13" height="13">
+   <properties>
+    <property name="index" type="int" value="6"/>
+   </properties>
+  </object>
+  <object id="19" name="heart_container" gid="1281" x="479.833" y="639.5" width="13" height="13">
+   <properties>
+    <property name="index" type="int" value="7"/>
+   </properties>
+  </object>
+  <object id="20" name="heart_container" gid="1281" x="493.833" y="638.833" width="13" height="13">
+   <properties>
+    <property name="index" type="int" value="8"/>
+   </properties>
+  </object>
+  <object id="22" name="ice_wand" gid="1282" x="544.125" y="640" width="8" height="16"/>
  </objectgroup>
 </map>

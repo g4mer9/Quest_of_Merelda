@@ -66,8 +66,23 @@ var my = {sprite: {}, text: {},
         health: 6,
         rupees: 0,
         keys: 0,
-        item: 'ice',
+        item: '',
         pos: ''
+    },
+    gameState: {
+        spawn_x: null,
+        spawn_y: null,
+        c_x: null,
+        c_y: null,
+        x_coord: null,
+        y_coord: null,
+        overworld: null,
+        items: null,
+        max: null,
+        rupees: null,
+        keys: null, 
+        item_flags: null,
+        heart_containers_spawn: null
     }
 };
 

@@ -3,7 +3,42 @@ class Adventure extends Phaser.Scene {
         super("AdventureScene");
     }
 
-    init() {
+    init(data) {
+        //passed in checkpoint values
+        this.spawn_x =  data.spawn_x || 480;
+        this.spawn_y =  data.spawn_y || 694;
+        this.c_x =  data.c_x || 320;
+        this.c_y =  data.c_y || 576;
+        this.x_coord = data.x_coord || 1;
+        this.y_coord = data.y_coord || 4;
+        if(data.overworld != null) this.overworld = data.overworld; else this.overworld = true;
+        this.items = data.items || [];
+        this.max = data.max || 6;
+        this.heart_containers_spawn = data.heart_containers_spawn || [0, 1, 2, 3, 4, 5, 6, 7, 8]
+        this.rupees = data.rupees || 0;
+        this.keys = data.keys || 0;
+        
+
+        //setting current game state
+        my.playerVal.max = this.max;
+        my.playerVal.health = this.max;
+        my.playerVal.item = this.items[0];
+        my.playerVal.rupees = this.rupees;
+        my.playerVal.keys = this.keys;
+        my.gameState.spawn_x =  this.spawn_x;
+        my.gameState.spawn_y =  this.spawn_y;
+        my.gameState.c_x =  this.c_x;
+        my.gameState.c_y =  this.c_y;
+        my.gameState.x_coord = this.x_coord;
+        my.gameState.y_coord = this.y_coord;
+        my.gameState.overworld = this.overworld;
+        my.gameState.items = this.items;
+        my.gameState.max = this.max;
+        my.gameState.rupees = this.rupees;
+        my.gameState.keys = this.keys;
+        my.gameState.heart_containers_spawn = this.heart_containers_spawn;
+
+        //console.log(my.playerVal.max, my.playerVal.health)
         // variables and settings
         this.move = true; // can move
         this.moving = false; // is moving
@@ -15,14 +50,13 @@ class Adventure extends Phaser.Scene {
         this.actionable_offset = 0;
         this.iframes_counter = 0;
         this.actionable = true;
-        this.overworld = true;
-        this.map_coords = [['A0', '', 'C0', ''], //MUST BE ACCESSED VIA map_coords[y][x]
+        this.map_coords = [['A0',   '',  'C0', ''], //MUST BE ACCESSED VIA map_coords[y][x]
                             ['A1', 'B1', 'C1', 'D1', '',  '',     'ldG1',  ''],
                             ['A2', 'B2', 'C2', 'D2', '',  '',     'ldG2',  ''],
                             ['A3', 'B3', 'C3', 'D3', 'E3', '',    'ldG3', 'ldH3'],
                             ['A4', 'B4', 'C4', 'D4',  '', 'ldF4', 'ldG4', 'ldH4'],
                             ['',    '',   '',  'D5',  '', 'ldF5', 'ldG5', 'ldH5']];
-        this.spawn_locations = [{screen: 'C4', type: 'octo', weakness: 'ice', health: 4, x: 850, y: 650}, {screen: 'C4', type: 'octo', weakness: 'ice', health: 4, x: 866, y: 650}];
+        this.spawn_locations = [{screen: 'C4', item: false, type: 'octo', weakness: 'ice', health: 4, x: 850, y: 650}, {screen: 'C4', item: false, type: 'octo', weakness: 'ice', health: 4, x: 866, y: 650} ];
         this.xKey = this.input.keyboard.addKey('X');
         this.zKey = this.input.keyboard.addKey('Z');
         this.enemies = [];
@@ -51,7 +85,7 @@ class Adventure extends Phaser.Scene {
             collides: true
         }); 
         //this.transitionsLayer.setCollisionByExclusion([-1])
-        my.sprite.player = this.add.container(480, 694); // container for player sprites
+        my.sprite.player = this.add.container(this.spawn_x, this.spawn_y); // container for player sprites
 
 //ITEMS====================================================================================================================================
         //set up sword
@@ -76,30 +110,58 @@ class Adventure extends Phaser.Scene {
         my.sprite.ice_wand_side.visible = false;
         my.sprite.ice_wand_side.body.enable = false;
 
+//OBJECT SETUP==============================================================================================================================
+
         this.heart_containers = this.map.createFromObjects("objects", {
             name: "heart_container",
             key: "heart_container"
         });
+        this.heart_containers.forEach((heart_container, index) => {
+            heart_container.index = index
+          })
+        this.hearts_to_delete = this.heart_containers.filter((container, index) => !this.heart_containers_spawn.includes(index));
+        
+        this.heart_containers = this.heart_containers.filter((container, index) => this.heart_containers_spawn.includes(index));
+        this.hearts_to_delete.forEach((heart) =>{ heart.destroy()})
         this.physics.world.enable(this.heart_containers, Phaser.Physics.Arcade.STATIC_BODY);
         this.heart_containers_group = this.add.group(this.heart_containers);
 
-        
+        this.ice_wand_obj = null;
+        if(!my.gameState.items.includes("ice")) {
+
+            this.ice_wand_obj = this.map.createFromObjects("objects", {
+                name: "ice_wand",
+                key: "ice_wand_up"
+            });
+            this.physics.world.enable(this.ice_wand_obj, Phaser.Physics.Arcade.STATIC_BODY);
+
+        }   
+
 
 
 //PLAYER SETUP============================================================================================================================
         my.sprite.link = this.physics.add.sprite(0, 0, "link_green_walk", "LinkMove-4.png").setDepth(100);
         my.sprite.player.add(my.sprite.link);
         this.physics.world.enable(my.sprite.player);
-        my.sprite.player.x_coord = 1;
-        my.sprite.player.y_coord = 4;
+        my.sprite.player.x_coord = this.x_coord;
+        my.sprite.player.y_coord = this.y_coord;
         my.playerVal.pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord];
-        events.emit('mapCursor');
+        if(this.overworld) events.emit('mapCursor');
         my.sprite.player.body.setCollideWorldBounds(false);//no out of bounds collision
         my.sprite.player.element = 'green';
         my.sprite.player.facing = 'up';
         this.physics.add.collider(my.sprite.player, this.groundLayer);
-        this.physics.add.overlap(my.sprite.player, this.transitionsLayer, this.handleTransition, null, this)
+        this.physics.add.overlap(my.sprite.player, this.transitionsLayer, this.handleTransition, null, this);
 
+        // Set the size and offset container physics to match link
+        my.sprite.player.body.setSize(my.sprite.link.width, my.sprite.link.height, true);
+        my.sprite.player.body.setOffset(-my.sprite.link.width / 2, -my.sprite.link.height / 2);
+
+        // Adjust position to be on tile
+        my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
+        my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
+
+//HEART CONTAINERS===========================================================================================================================
         this.physics.add.overlap(my.sprite.player, this.heart_containers_group, (obj1, obj2) => {
             //this.sound.play('sfx_gem');
             if(this.move) {
@@ -110,19 +172,30 @@ class Adventure extends Phaser.Scene {
                 //obj2.destroy(); // remove coin on overlap
                 this.time.delayedCall(600, () => obj2.destroy())
                 my.playerVal.max +=2;
+                my.gameState.max = my.playerVal.max;
+                let i = obj2.index
+                my.gameState.heart_containers_spawn.splice(i, 1);
                 my.playerVal.health = my.playerVal.max;
             }
             
         });
 
-        // Set the size and offset container physics to match link
-        my.sprite.player.body.setSize(my.sprite.link.width, my.sprite.link.height, true);
-        my.sprite.player.body.setOffset(-my.sprite.link.width / 2, -my.sprite.link.height / 2);
+//ICE WAND======================================================================================================================================
 
-        // Adjust position to be on tile
-        my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
-        my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
-
+        if(!my.gameState.items.includes("ice")) this.physics.add.overlap(my.sprite.player, this.ice_wand_obj, (obj1, obj2) => {
+            //this.sound.play('sfx_gem');
+            if(this.move) {
+                this.move = false;
+                this.actionable_timer = 20;
+                let anim = 'link_'+my.sprite.player.element+'_pickup';
+                my.sprite.link.setTexture(anim);
+                //obj2.destroy(); // remove coin on overlap
+                this.time.delayedCall(600, () => obj2.destroy())
+                my.gameState.items.push("ice");
+                my.playerVal.item = "ice";
+            }
+            
+        });
 //DEUBG====================================================================================================================================
         this.input.keyboard.on('keydown-D', () => {
             this.physics.world.drawDebug = this.physics.world.drawDebug ? false : true
@@ -134,8 +207,8 @@ class Adventure extends Phaser.Scene {
         this.mapCamera = this.cameras.main
         this.mapCamera.setViewport(0, 0, 320, 144);
         this.mapCamera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-        this.mapCamera.scrollX = 320
-        this.mapCamera.scrollY = 576
+        this.mapCamera.scrollX = this.c_x;
+        this.mapCamera.scrollY = this.c_y;
 
 
         
@@ -251,13 +324,6 @@ class Adventure extends Phaser.Scene {
         }
     }
     
-    // //sprite collision
-    // collides(a, b) {
-    //     if (Math.abs(a.x - b.x) > (a.displayWidth / 2 + b.displayWidth / 2 - 10))return false;
-    //     if (Math.abs(a.y - b.y) > (a.displayHeight + b.displayHeight - 10)) return false;
-    //     return true;
-    // }
-
     collides(sprite1, sprite2) {
         // Ensure both sprites are enabled and part of the Arcade Physics system
         if (sprite1.body && sprite2.body) {
@@ -308,12 +374,31 @@ class Adventure extends Phaser.Scene {
         }
     }
 
+    kill_screen() {
+
+        /**
+         * spawn_x: 2080,
+            spawn_y: 840,
+            c_x: 1920,
+            c_y: 1720,
+            x_coord: 6,
+            y_coord: 5,
+            overworld: false,
+            items: my.gameState.items,
+            max: 10,
+            rupees: 75,
+            keys: 7
+         */
+        this.scene.restart(my.gameState);
+    }
+
     update() {
         //console.log(this.move, this.actionable_timer)
         //console.log(my.sprite.player.x, my.sprite.player.y);
         if(!this.mapCamera.isMoving)this.checkCameraBounds();
         my.sprite.sword_side.setVelocity(0, 0);
         my.sprite.sword_up.setVelocity(0, 0);
+        if(my.playerVal.health <= 0) this.kill_screen();
         //console.log(this.actionable_timer)
 
 //ENEMY CHECKS==========================================================================================================================
@@ -481,7 +566,7 @@ class Adventure extends Phaser.Scene {
                         break;
                 }
                 my.sprite.link.anims.play(anim, true);
-            } else if(Phaser.Input.Keyboard.JustDown(this.zKey)) { //item button pressed
+            } else if(Phaser.Input.Keyboard.JustDown(this.zKey) && my.gameState.items.length > 0) { //item button pressed
                 my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
                 my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
                 switch(my.playerVal.item) {
