@@ -106,6 +106,16 @@ class Adventure extends Phaser.Scene {
         my.sprite.player.add(my.sprite.sword_side);
         my.sprite.sword_side.visible = false;
         my.sprite.sword_side.body.enable = false;
+        my.sprite.arrow_up = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "arrow_up").setDepth(99);
+        my.sprite.arrow_up.visible = false;
+        my.sprite.arrow_up.body.enable = false;
+        my.sprite.arrow_up.isMoving = false;
+        my.sprite.arrow_side = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "arrow_side").setDepth(99);
+        my.sprite.arrow_side.visible = false;
+        my.sprite.arrow_side.body.enable = false;
+        my.sprite.arrow_side.isMoving = false;
+
+
 
         //set up wand
         my.sprite.ice_wand_up = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "ice_wand_up").setDepth(99);
@@ -185,6 +195,17 @@ class Adventure extends Phaser.Scene {
                 key: "dark_wand_up"
             });
             this.physics.world.enable(this.dark_wand_obj, Phaser.Physics.Arcade.STATIC_BODY);
+
+        }   
+
+        this.bow_obj = null;
+        if(!my.gameState.items.includes("bow")) {
+
+            this.bow_obj = this.map.createFromObjects("objects", {
+                name: "bow",
+                key: "bow"
+            });
+            this.physics.world.enable(this.bow_obj, Phaser.Physics.Arcade.STATIC_BODY);
 
         }   
 
@@ -332,6 +353,22 @@ class Adventure extends Phaser.Scene {
                 //obj2.destroy(); // remove coin on overlap
                 this.time.delayedCall(600, () => obj2.destroy())
                 my.gameState.items.push("fire");
+                if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                my.playerVal.item = my.gameState.items[my.playerVal.item_index];
+            }
+            
+        });
+
+        if(!my.gameState.items.includes("bow")) this.physics.add.overlap(my.sprite.player, this.bow_obj, (obj1, obj2) => {
+            //this.sound.play('sfx_gem');
+            if(this.move) {
+                this.move = false;
+                this.actionable_timer = 20;
+                let anim = 'link_'+my.sprite.player.element+'_pickup';
+                my.sprite.link.setTexture(anim);
+                //obj2.destroy(); // remove coin on overlap
+                this.time.delayedCall(600, () => obj2.destroy())
+                my.gameState.items.push("bow");
                 if(my.playerVal.item_index != 0) my.playerVal.item_index++;
                 my.playerVal.item = my.gameState.items[my.playerVal.item_index];
             }
@@ -555,6 +592,27 @@ class Adventure extends Phaser.Scene {
         if(my.playerVal.health <= 0) this.kill_screen();
         //console.log(this.actionable_timer)
 
+        if(my.sprite.arrow_side.isMoving) {
+            switch(my.sprite.arrow_side.dir) {
+                case 'left':
+                    my.sprite.arrow_side.setVelocity(-10, 0);
+                    break
+                case 'right':
+                    my.sprite.arrow_side.setVelocity(10, 0);
+                    break
+            }
+        }
+        if(my.sprite.arrow_up.isMoving) {
+            switch(my.sprite.arrow_up.dir) {
+                case 'left':
+                    my.sprite.arrow_up.setVelocity(-10, 0);
+                    break
+                case 'right':
+                    my.sprite.arrow_up.setVelocity(10, 0);
+                    break
+            }
+        }
+
 //ENEMY CHECKS==========================================================================================================================
         if(this.enemies.length != 0) for (let i = this.enemies.length - 1; i >= 0; i--) {
             let enemy = this.enemies[i];
@@ -769,37 +827,78 @@ class Adventure extends Phaser.Scene {
                 switch (my.sprite.player.facing) {
                     case 'up':
                         anim = my.sprite.player.element+'_item_up';
-                        my.sprite.ice_wand_up.setPosition(0, -11);
-                        my.sprite.ice_wand_up.setTexture(my.sprite.player.element + "_wand_up");
-                        my.sprite.ice_wand_up.visible = true;
-                        my.sprite.ice_wand_up.body.enable = true;
-                        my.sprite.ice_wand_up.resetFlip(); 
+                        if(my.playerVal.item != "bow") {
+                            my.sprite.ice_wand_up.setPosition(0, -11);
+                            my.sprite.ice_wand_up.setTexture(my.sprite.player.element + "_wand_up");
+                            my.sprite.ice_wand_up.visible = true;
+                            my.sprite.ice_wand_up.body.enable = true;
+                            my.sprite.ice_wand_up.resetFlip(); 
+                        }
+                        else if(!my.sprite.arrow_up.isMoving){
+                            my.sprite.arrow_up.setPosition(my.sprite.player.x, my.sprite.player.y);
+                            my.sprite.arrow_up.visible = true;
+                            my.sprite.arrow_up.body.enable = true;
+                            my.sprite.arrow_up.resetFlip();
+                            my.sprite.arrow_up.isMoving = true;
+                            my.sprite.arrow_up.dir = 'up';
+                        }
                         break;
                     case 'down':
                         anim = my.sprite.player.element+'_item_down';
-                        my.sprite.ice_wand_up.setPosition(0, 11);
-                        my.sprite.ice_wand_up.setTexture(my.sprite.player.element + "_wand_up");
-                        my.sprite.ice_wand_up.visible = true;
-                        my.sprite.ice_wand_up.body.enable = true;
-                        my.sprite.ice_wand_up.setFlip(false, true);
+                        if(my.playerVal.item != "bow") {
+                            my.sprite.ice_wand_up.setPosition(0, 11);
+                            my.sprite.ice_wand_up.setTexture(my.sprite.player.element + "_wand_up");
+                            my.sprite.ice_wand_up.visible = true;
+                            my.sprite.ice_wand_up.body.enable = true;
+                            my.sprite.ice_wand_up.setFlip(false, true);
+                        }
+                        else if(!my.sprite.arrow_up.isMoving){
+                            my.sprite.arrow_up.setPosition(my.sprite.player.x, my.sprite.player.y);
+                            my.sprite.arrow_up.visible = true;
+                            my.sprite.arrow_up.body.enable = true;
+                            my.sprite.arrow_up.setFlip(false, true);
+                            my.sprite.arrow_up.isMoving = true;
+                            my.sprite.arrow_up.dir = 'down';
+                        }
                         break;
                     case 'right':
                         anim = my.sprite.player.element+'_item_side';
-                        my.sprite.ice_wand_side.setPosition(12, 1);
-                        my.sprite.ice_wand_side.setTexture(my.sprite.player.element + "_wand_side");
-                        my.sprite.ice_wand_side.visible = true;
-                        my.sprite.ice_wand_side.body.enable = true;
-                        my.sprite.ice_wand_side.resetFlip();
+                        if(my.playerVal.item != "bow") {
+                            my.sprite.ice_wand_side.setPosition(12, 1);
+                            my.sprite.ice_wand_side.setTexture(my.sprite.player.element + "_wand_side");
+                            my.sprite.ice_wand_side.visible = true;
+                            my.sprite.ice_wand_side.body.enable = true;
+                            my.sprite.ice_wand_side.resetFlip();
+                        }
+                        else if (!my.sprite.arrow_side.isMoving){
+                            my.sprite.arrow_side.setPosition(my.sprite.player.x, my.sprite.player.y);
+                            my.sprite.arrow_side.visible = true;
+                            my.sprite.arrow_side.body.enable = true;
+                            my.sprite.arrow_side.resetFlip();
+                            my.sprite.arrow_side.isMoving = false;
+                            my.sprite.arrow_up.dir = 'right';
+                        }
                         break;
                     case 'left':
                         anim = my.sprite.player.element+'_item_side';
-                        my.sprite.ice_wand_side.setPosition(-12, 1);
-                        my.sprite.ice_wand_side.setTexture(my.sprite.player.element + "_wand_side");
-                        my.sprite.ice_wand_side.visible = true;
-                        my.sprite.ice_wand_side.body.enable = true;
-                        my.sprite.ice_wand_side.setFlip(true, false);
+                        if(my.playerVal.item != "bow") {
+                            my.sprite.ice_wand_side.setPosition(-12, 1);
+                            my.sprite.ice_wand_side.setTexture(my.sprite.player.element + "_wand_side");
+                            my.sprite.ice_wand_side.visible = true;
+                            my.sprite.ice_wand_side.body.enable = true;
+                            my.sprite.ice_wand_side.setFlip(true, false);
+                        }
+                        else if(!my.sprite.arrow_side.isMoving){
+                            my.sprite.arrow_side.setPosition(my.sprite.player.x, my.sprite.player.y);
+                            my.sprite.arrow_side.visible = true;
+                            my.sprite.arrow_side.body.enable = true;
+                            my.sprite.arrow_side.setFlip(true, false);
+                            my.sprite.arrow_side.isMoving = false;
+                            my.sprite.arrow_up.dir = 'left';
+                        }
                         break;
                 }
+                
                 my.sprite.link.anims.play(anim, true);
             } else if(cursors.left.isDown) { //move left pressed
                 my.sprite.player.body.setVelocity(-this.playerVelocity, 0);

@@ -46,7 +46,7 @@ class HudScene extends Phaser.Scene {
     updateMap() {
         // clear previous map cursors
         this.top_layer.forEachTile(tile => {
-            if (tile.index === 514) {
+            if (tile.index === this.map_cursor.firstgid) {
                 this.top_layer.removeTileAt(tile.x, tile.y);
             }
         })
@@ -102,7 +102,7 @@ class HudScene extends Phaser.Scene {
 
     updateItem() {
         let item = my.playerVal.item;
-        console.log(item)
+        //console.log(item)
         switch(item) {
             case 'ice':
                 item = this.ice_wand;

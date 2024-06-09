@@ -52,6 +52,10 @@ class Load extends Phaser.Scene {
         this.load.image("lightning_wand_up", "small_assets/lightning_wand_up.png");
         this.load.image("lightning_wand_side", "small_assets/lightning_wand_side.png");
 
+        this.load.image("bow", "small_assets/bow.png");
+        this.load.image("arrow_up", "small_assets/arrow_up.png");
+        this.load.image("arrow_side", "small_assets/arrow_side.png");
+
         this.load.image("sword_up", "small_assets/sword_up.png");
         this.load.image("sword_side", "small_assets/sword_side.png");
         this.load.image("heart_container", "small_assets/heart_container.png");
