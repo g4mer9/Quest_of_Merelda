@@ -11,11 +11,15 @@ class HudScene extends Phaser.Scene {
         this.mountain_tileset = this.map.addTilesetImage("zelda_mountain_tileset", "mountain_tileset");
         this.graveyard_tileset = this.map.addTilesetImage("zelda_graveyard_tileset", "graveyard_tileset");
         this.map_cursor = this.map.addTilesetImage("map_cursor_bottom", "map_cursor");
-        this.ice_wand = this.map.addTilesetImage("ice_wand_up", "ice_wand_up");
         this.sword = this.map.addTilesetImage("sword_hud", "sword_hud");
+        this.ice_wand = this.map.addTilesetImage("ice_wand_up", "ice_wand_up");
+        this.fire_wand = this.map.addTilesetImage("fire_wand_up", "fire_wand_up");
+        this.lightning_wand = this.map.addTilesetImage("lightning_wand_up", "lightning_wand_up");
+        this.dark_wand = this.map.addTilesetImage("dark_wand_up", "dark_wand_up");
+        this.light_wand = this.map.addTilesetImage("light_wand_up", "light_wand_up");
         this.swap = this.map.addTilesetImage("HUD_arrow", "HUD_arrow");
-        this.bottom_layer = this.map.createLayer("Tile Layer 1", [this.forest_tileset, this.mountain_tileset, this.overworld_tileset, this.graveyard_tileset, this.ice_wand, this.sword, this.map_cursor, this.swap], 0, 0);
-        this.top_layer = this.map.createLayer("Tile Layer 2", [this.forest_tileset, this.mountain_tileset, this.overworld_tileset, this.graveyard_tileset, this.ice_wand, this.sword, this.map_cursor], 0, 0);
+        this.bottom_layer = this.map.createLayer("Tile Layer 1", [this.forest_tileset, this.mountain_tileset, this.overworld_tileset, this.graveyard_tileset, this.map_cursor, this.swap], 0, 0);
+        this.top_layer = this.map.createLayer("Tile Layer 2", [this.forest_tileset, this.mountain_tileset, this.overworld_tileset, this.graveyard_tileset, this.map_cursor, this.sword, this.ice_wand, this.fire_wand, this.lightning_wand, this.dark_wand, this.light_wand], 0, 0);
     }
 
     // Value updates
@@ -96,10 +100,37 @@ class HudScene extends Phaser.Scene {
         }
     }
 
+    updateItem() {
+        let item = my.playerVal.item;
+        console.log(item)
+        switch(item) {
+            case 'ice':
+                item = this.ice_wand;
+                break
+            case 'fire':
+                item = this.fire_wand;
+                break
+            case 'lightning':
+                item = this.lightning_wand;
+                break
+            case 'dark':
+                item = this.dark_wand;
+                break
+            case 'light':
+                item = this.light_wand;
+                break
+            default:
+                item = null;
+                break
+        }
+        if(item) this.top_layer.putTileAt(item.firstgid, 21, 2);
+    }
+
     update(){
         this.updateHealth();
         events.on('mapCursor', this.updateMap, this);
         this.updateRupees();
         this.updateKeys();
+        this.updateItem();
     }
 }
