@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="680" height="108" tilewidth="8" tileheight="8" infinite="0" nextlayerid="7" nextobjectid="28">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="680" height="108" tilewidth="8" tileheight="8" infinite="0" nextlayerid="7" nextobjectid="29">
  <editorsettings>
   <export target="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/overworld.tmj" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="zelda_forest_tileset" tilewidth="8" tileheight="8" tilecount="256" columns="16">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/zelda_forest_tileset.png" width="128" height="128"/>
+  <image source="zelda_forest_tileset.png" width="128" height="128"/>
   <tile id="40">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -479,7 +479,7 @@
   </tile>
  </tileset>
  <tileset firstgid="257" name="zelda_mountain_tileset" tilewidth="8" tileheight="8" tilecount="256" columns="16">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/zelda_mountain_tileset.png" width="128" height="128"/>
+  <image source="zelda_mountain_tileset.png" width="128" height="128"/>
   <tile id="0">
    <properties>
     <property name="collides" value=""/>
@@ -1762,7 +1762,7 @@
   </tile>
  </tileset>
  <tileset firstgid="513" name="zelda_overworld_tileset" tilewidth="8" tileheight="8" tilecount="256" columns="16">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/zelda_overworld_tileset.png" width="128" height="128"/>
+  <image source="zelda_overworld_tileset.png" width="128" height="128"/>
   <tile id="133">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -2145,10 +2145,10 @@
   </tile>
  </tileset>
  <tileset firstgid="769" name="zelda_graveyard_tileset" tilewidth="8" tileheight="8" tilecount="256" columns="16">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/zelda_graveyard_tileset.png" width="128" height="128"/>
+  <image source="zelda_graveyard_tileset.png" width="128" height="128"/>
  </tileset>
  <tileset firstgid="1025" name="teal_dungeon" tilewidth="8" tileheight="8" tilecount="256" columns="16">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/teal_dungeon.png" width="128" height="128"/>
+  <image source="teal_dungeon.png" width="128" height="128"/>
   <tile id="40">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -2663,7 +2663,7 @@
   </tile>
  </tileset>
  <tileset firstgid="1281" name="heart_container" tilewidth="13" tileheight="13" tilecount="1" columns="1">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/small_assets/heart_container.png" width="13" height="13"/>
+  <image source="small_assets/heart_container.png" width="13" height="13"/>
   <tile id="0">
    <properties>
     <property name="index" type="int" value="0"/>
@@ -2671,28 +2671,31 @@
   </tile>
  </tileset>
  <tileset firstgid="1282" name="ice_wand_up" tilewidth="8" tileheight="16" tilecount="1" columns="1">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/small_assets/ice_wand_up.png" width="8" height="16"/>
+  <image source="small_assets/ice_wand_up.png" width="8" height="16"/>
  </tileset>
  <tileset firstgid="1283" name="yellow_rupee" tilewidth="8" tileheight="16" tilecount="1" columns="1">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/small_assets/yellow_rupee.png" width="8" height="16"/>
+  <image source="small_assets/yellow_rupee.png" width="8" height="16"/>
  </tileset>
  <tileset firstgid="1284" name="blue_rupee" tilewidth="8" tileheight="16" tilecount="1" columns="1">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/small_assets/blue_rupee.png" width="8" height="16"/>
+  <image source="small_assets/blue_rupee.png" width="8" height="16"/>
  </tileset>
  <tileset firstgid="1285" name="dark_wand_up" tilewidth="8" tileheight="16" tilecount="1" columns="1">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/small_assets/dark_wand_up.png" width="8" height="16"/>
+  <image source="small_assets/dark_wand_up.png" width="8" height="16"/>
  </tileset>
  <tileset firstgid="1286" name="fire_wand_up" tilewidth="8" tileheight="16" tilecount="1" columns="1">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/small_assets/fire_wand_up.png" width="8" height="16"/>
+  <image source="small_assets/fire_wand_up.png" width="8" height="16"/>
  </tileset>
  <tileset firstgid="1287" name="light_wand_up" tilewidth="8" tileheight="16" tilecount="1" columns="1">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/small_assets/light_wand_up.png" width="8" height="16"/>
+  <image source="small_assets/light_wand_up.png" width="8" height="16"/>
  </tileset>
  <tileset firstgid="1288" name="lightning_wand_up" tilewidth="8" tileheight="16" tilecount="1" columns="1">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/small_assets/lightning_wand_up.png" width="8" height="16"/>
+  <image source="small_assets/lightning_wand_up.png" width="8" height="16"/>
  </tileset>
  <tileset firstgid="1289" name="FrozenWaterTiles" tilewidth="8" tileheight="8" tilecount="9" columns="3">
   <image source="FrozenWaterTiles.png" width="24" height="24"/>
+ </tileset>
+ <tileset firstgid="1298" name="bow" tilewidth="8" tileheight="16" tilecount="1" columns="1">
+  <image source="small_assets/bow.png" width="8" height="16"/>
  </tileset>
  <layer id="1" name="basic-geometry-layer" width="680" height="108">
   <data encoding="csv">
@@ -3193,5 +3196,6 @@
   <object id="25" name="fire_wand" gid="1286" x="392.333" y="664" width="8" height="16"/>
   <object id="26" name="light_wand" gid="1287" x="408" y="664.333" width="8" height="16"/>
   <object id="27" name="lightning_wand" gid="1288" x="423.667" y="664.667" width="8" height="16"/>
+  <object id="28" name="bow" gid="1298" x="449.667" y="663" width="8" height="16"/>
  </objectgroup>
 </map>

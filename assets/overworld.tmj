@@ -704,6 +704,18 @@
                  "width":8,
                  "x":423.667,
                  "y":664.667
+                }, 
+                {
+                 "gid":1298,
+                 "height":16,
+                 "id":28,
+                 "name":"bow",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":8,
+                 "x":449.666666666667,
+                 "y":663
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -712,7 +724,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":28,
+ "nextobjectid":29,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
@@ -721,7 +733,7 @@
         {
          "columns":16,
          "firstgid":1,
-         "image":"..\/..\/..\/..\/TIledAssets\/QuestOfMarelda\/LocalRepo\/assets\/zelda_forest_tileset.png",
+         "image":"zelda_forest_tileset.png",
          "imageheight":128,
          "imagewidth":128,
          "margin":0,
@@ -1607,7 +1619,7 @@
         {
          "columns":16,
          "firstgid":257,
-         "image":"..\/..\/..\/..\/TIledAssets\/QuestOfMarelda\/LocalRepo\/assets\/zelda_mountain_tileset.png",
+         "image":"zelda_mountain_tileset.png",
          "imageheight":128,
          "imagewidth":128,
          "margin":0,
@@ -3925,7 +3937,7 @@
         {
          "columns":16,
          "firstgid":513,
-         "image":"..\/..\/..\/..\/TIledAssets\/QuestOfMarelda\/LocalRepo\/assets\/zelda_overworld_tileset.png",
+         "image":"zelda_overworld_tileset.png",
          "imageheight":128,
          "imagewidth":128,
          "margin":0,
@@ -4623,7 +4635,7 @@
         {
          "columns":16,
          "firstgid":769,
-         "image":"..\/..\/..\/..\/TIledAssets\/QuestOfMarelda\/LocalRepo\/assets\/zelda_graveyard_tileset.png",
+         "image":"zelda_graveyard_tileset.png",
          "imageheight":128,
          "imagewidth":128,
          "margin":0,
@@ -4636,7 +4648,7 @@
         {
          "columns":16,
          "firstgid":1025,
-         "image":"..\/..\/..\/..\/TIledAssets\/QuestOfMarelda\/LocalRepo\/assets\/teal_dungeon.png",
+         "image":"teal_dungeon.png",
          "imageheight":128,
          "imagewidth":128,
          "margin":0,
@@ -5594,7 +5606,7 @@
         {
          "columns":1,
          "firstgid":1281,
-         "image":"..\/..\/..\/..\/TIledAssets\/QuestOfMarelda\/LocalRepo\/assets\/small_assets\/heart_container.png",
+         "image":"small_assets\/heart_container.png",
          "imageheight":13,
          "imagewidth":13,
          "margin":0,
@@ -5617,7 +5629,7 @@
         {
          "columns":1,
          "firstgid":1282,
-         "image":"..\/..\/..\/..\/TIledAssets\/QuestOfMarelda\/LocalRepo\/assets\/small_assets\/ice_wand_up.png",
+         "image":"small_assets\/ice_wand_up.png",
          "imageheight":16,
          "imagewidth":8,
          "margin":0,
@@ -5630,7 +5642,7 @@
         {
          "columns":1,
          "firstgid":1283,
-         "image":"..\/..\/..\/..\/TIledAssets\/QuestOfMarelda\/LocalRepo\/assets\/small_assets\/yellow_rupee.png",
+         "image":"small_assets\/yellow_rupee.png",
          "imageheight":16,
          "imagewidth":8,
          "margin":0,
@@ -5643,7 +5655,7 @@
         {
          "columns":1,
          "firstgid":1284,
-         "image":"..\/..\/..\/..\/TIledAssets\/QuestOfMarelda\/LocalRepo\/assets\/small_assets\/blue_rupee.png",
+         "image":"small_assets\/blue_rupee.png",
          "imageheight":16,
          "imagewidth":8,
          "margin":0,
@@ -5656,7 +5668,7 @@
         {
          "columns":1,
          "firstgid":1285,
-         "image":"..\/..\/..\/..\/TIledAssets\/QuestOfMarelda\/LocalRepo\/assets\/small_assets\/dark_wand_up.png",
+         "image":"small_assets\/dark_wand_up.png",
          "imageheight":16,
          "imagewidth":8,
          "margin":0,
@@ -5669,7 +5681,7 @@
         {
          "columns":1,
          "firstgid":1286,
-         "image":"..\/..\/..\/..\/TIledAssets\/QuestOfMarelda\/LocalRepo\/assets\/small_assets\/fire_wand_up.png",
+         "image":"small_assets\/fire_wand_up.png",
          "imageheight":16,
          "imagewidth":8,
          "margin":0,
@@ -5682,7 +5694,7 @@
         {
          "columns":1,
          "firstgid":1287,
-         "image":"..\/..\/..\/..\/TIledAssets\/QuestOfMarelda\/LocalRepo\/assets\/small_assets\/light_wand_up.png",
+         "image":"small_assets\/light_wand_up.png",
          "imageheight":16,
          "imagewidth":8,
          "margin":0,
@@ -5695,7 +5707,7 @@
         {
          "columns":1,
          "firstgid":1288,
-         "image":"..\/..\/..\/..\/TIledAssets\/QuestOfMarelda\/LocalRepo\/assets\/small_assets\/lightning_wand_up.png",
+         "image":"small_assets\/lightning_wand_up.png",
          "imageheight":16,
          "imagewidth":8,
          "margin":0,
@@ -5708,7 +5720,7 @@
         {
          "columns":3,
          "firstgid":1289,
-         "image":"..\/..\/..\/..\/TIledAssets\/QuestOfMarelda\/LocalRepo\/assets\/FrozenWaterTiles.png",
+         "image":"FrozenWaterTiles.png",
          "imageheight":24,
          "imagewidth":24,
          "margin":0,
@@ -5716,6 +5728,19 @@
          "spacing":0,
          "tilecount":9,
          "tileheight":8,
+         "tilewidth":8
+        }, 
+        {
+         "columns":1,
+         "firstgid":1298,
+         "image":"small_assets\/bow.png",
+         "imageheight":16,
+         "imagewidth":8,
+         "margin":0,
+         "name":"bow",
+         "spacing":0,
+         "tilecount":1,
+         "tileheight":16,
          "tilewidth":8
         }],
  "tilewidth":8,

@@ -12,14 +12,16 @@ class HudScene extends Phaser.Scene {
         this.graveyard_tileset = this.map.addTilesetImage("zelda_graveyard_tileset", "graveyard_tileset");
         this.map_cursor = this.map.addTilesetImage("map_cursor_bottom", "map_cursor");
         this.sword = this.map.addTilesetImage("sword_hud", "sword_hud");
+        this.bow = this.map.addTilesetImage("bow", "bow");
+        
         this.ice_wand = this.map.addTilesetImage("ice_wand_up", "ice_wand_up");
         this.fire_wand = this.map.addTilesetImage("fire_wand_up", "fire_wand_up");
         this.lightning_wand = this.map.addTilesetImage("lightning_wand_up", "lightning_wand_up");
         this.dark_wand = this.map.addTilesetImage("dark_wand_up", "dark_wand_up");
         this.light_wand = this.map.addTilesetImage("light_wand_up", "light_wand_up");
         this.swap = this.map.addTilesetImage("HUD_arrow", "HUD_arrow");
-        this.bottom_layer = this.map.createLayer("Tile Layer 1", [this.forest_tileset, this.mountain_tileset, this.overworld_tileset, this.graveyard_tileset, this.map_cursor, this.swap], 0, 0);
-        this.top_layer = this.map.createLayer("Tile Layer 2", [this.forest_tileset, this.mountain_tileset, this.overworld_tileset, this.graveyard_tileset, this.map_cursor, this.sword, this.ice_wand, this.fire_wand, this.lightning_wand, this.dark_wand, this.light_wand], 0, 0);
+        this.bottom_layer = this.map.createLayer("Tile Layer 1", [this.forest_tileset, this.mountain_tileset, this.overworld_tileset, this.graveyard_tileset, this.map_cursor, this.swap, this.bow], 0, 0);
+        this.top_layer = this.map.createLayer("Tile Layer 2", [this.forest_tileset, this.mountain_tileset, this.overworld_tileset, this.graveyard_tileset, this.map_cursor, this.sword, this.ice_wand, this.fire_wand, this.lightning_wand, this.dark_wand, this.light_wand, this.bow], 0, 0);
     }
 
     // Value updates
@@ -119,11 +121,15 @@ class HudScene extends Phaser.Scene {
             case 'light':
                 item = this.light_wand;
                 break
+            case 'bow':
+                item = this.bow;
+                break
             default:
                 item = null;
                 break
         }
         if(item) this.top_layer.putTileAt(item.firstgid, 21, 2);
+
     }
 
     update(){

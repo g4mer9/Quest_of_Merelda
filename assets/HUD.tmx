@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="40" height="6" tilewidth="8" tileheight="8" infinite="0" nextlayerid="3" nextobjectid="1">
  <editorsettings>
-  <export target="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/HUD.tmj" format="json"/>
+  <export target="HUD.tmj" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="zelda_graveyard_tileset" tilewidth="8" tileheight="8" tilecount="256" columns="16">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/zelda_graveyard_tileset.png" width="128" height="128"/>
+  <image source="zelda_graveyard_tileset.png" width="128" height="128"/>
  </tileset>
  <tileset firstgid="257" name="zelda_forest_tileset" tilewidth="8" tileheight="8" tilecount="256" columns="16">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/zelda_forest_tileset.png" width="128" height="128"/>
+  <image source="zelda_forest_tileset.png" width="128" height="128"/>
  </tileset>
  <tileset firstgid="513" name="map_cursor_bottom" tilewidth="8" tileheight="8" tilecount="1" columns="1">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/small_assets/map_cursor_bottom.png" width="8" height="8"/>
+  <image source="small_assets/map_cursor_bottom.png" width="8" height="8"/>
  </tileset>
  <tileset firstgid="514" name="zelda_mountain_tileset" tilewidth="8" tileheight="8" tilecount="256" columns="16">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/zelda_mountain_tileset.png" width="128" height="128"/>
+  <image source="zelda_mountain_tileset.png" width="128" height="128"/>
   <tile id="0">
    <properties>
     <property name="collides" value=""/>
@@ -1296,7 +1296,7 @@
   </tile>
  </tileset>
  <tileset firstgid="770" name="zelda_overworld_tileset" tilewidth="8" tileheight="8" tilecount="256" columns="16">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/zelda_overworld_tileset.png" width="128" height="128"/>
+  <image source="zelda_overworld_tileset.png" width="128" height="128"/>
   <tile id="141">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -1634,16 +1634,16 @@
   </tile>
  </tileset>
  <tileset firstgid="1026" name="ice_wand_up" tilewidth="8" tileheight="16" tilecount="1" columns="1">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/small_assets/ice_wand_up.png" width="8" height="16"/>
+  <image source="small_assets/ice_wand_up.png" width="8" height="16"/>
  </tileset>
  <tileset firstgid="1027" name="HUD_arrow" tilewidth="8" tileheight="8" tilecount="1" columns="1">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/small_assets/HUD_arrow.png" width="8" height="8"/>
+  <image source="small_assets/HUD_arrow.png" width="8" height="8"/>
  </tileset>
  <tileset firstgid="1028" name="teal_dungeon" tilewidth="8" tileheight="8" tilecount="256" columns="16">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/teal_dungeon.png" width="128" height="128"/>
+  <image source="teal_dungeon.png" width="128" height="128"/>
  </tileset>
  <tileset firstgid="1284" name="sword_hud" tilewidth="7" tileheight="16" tilecount="1" columns="1">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/small_assets/sword_hud.png" width="7" height="16"/>
+  <image source="small_assets/sword_hud.png" width="7" height="16"/>
  </tileset>
  <tileset firstgid="1285" name="dark_wand_up" tilewidth="8" tileheight="16" tilecount="1" columns="1">
   <image source="small_assets/dark_wand_up.png" width="8" height="16"/>
@@ -1656,6 +1656,9 @@
  </tileset>
  <tileset firstgid="1288" name="lightning_wand_up" tilewidth="8" tileheight="16" tilecount="1" columns="1">
   <image source="small_assets/lightning_wand_up.png" width="8" height="16"/>
+ </tileset>
+ <tileset firstgid="1289" name="bow" tilewidth="8" tileheight="16" tilecount="1" columns="1">
+  <image source="small_assets/bow.png" width="8" height="16"/>
  </tileset>
  <layer id="1" name="Tile Layer 1" width="40" height="6">
   <data encoding="csv">

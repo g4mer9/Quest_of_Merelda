@@ -8,6 +8,7 @@ class HUDLoad extends Phaser.Scene {
         this.load.image("map_cursor", "small_assets/map_cursor_bottom.png");
         this.load.image("HUD_arrow", "small_assets/HUD_arrow.png")
         this.load.image("sword_hud", "small_assets/sword_hud.png");
+        this.load.image("bow", "small_assets/bow.png");
         this.load.image("ice_wand_up", "small_assets/ice_wand_up.png");
         this.load.image("fire_wand_up", "small_assets/fire_wand_up.png");
         this.load.image("lightning_wand_up", "small_assets/lightning_wand_up.png");
