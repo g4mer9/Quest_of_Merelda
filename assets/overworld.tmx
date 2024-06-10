@@ -2692,7 +2692,7 @@
   <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/small_assets/lightning_wand_up.png" width="8" height="16"/>
  </tileset>
  <tileset firstgid="1289" name="FrozenWaterTiles" tilewidth="8" tileheight="8" tilecount="9" columns="3">
-  <image source="../../../../TIledAssets/QuestOfMarelda/LocalRepo/assets/FrozenWaterTiles.png" width="24" height="24"/>
+  <image source="FrozenWaterTiles.png" width="24" height="24"/>
  </tileset>
  <layer id="1" name="basic-geometry-layer" width="680" height="108">
   <data encoding="csv">

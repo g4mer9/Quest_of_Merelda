@@ -616,23 +616,24 @@ class Adventure extends Phaser.Scene {
             id+1, id+1, id+1, id+2  // vertical flip
         ];
         let k = 1;
-        let gid = this.overworld_tileset.firstgid;
-        this.groundLayer.forEachTile(tile => {
-            if(tile.index == gid+154) {console.log(tile.x, tile.y); this.groundLayer.putTileAt(id, tile.x, tile.y);}
-        })
-        // for (let i = 60; i <= 65; i++) {
-        //     for (let j = 40; j <= 43; j++) {
-        //         console.log("in loop: "+i+","+j)
-        //         this.groundLayer.removeTileAt(i, j);
-        //         let put = this.groundLayer.putTileAt(tiles[k-1], i, j);
-        //         console.log(put)
-        //         k++;
-        //         if (k % 4 === 0) put.rotation = Math.PI/2;
-        //         else if (k > 4 && k < 8) put.flipX = true;
-        //         else if (k > 16 && k < 20) put.flipX = true;
-        //         else if (k > 20 && k < 24) put.flipY = true;
-        //     }
-        // }
+        for (let i = 60; i <= 65; i++) {
+            for (let j = 40; j <= 43; j++) {
+                console.log("in loop: "+i+","+j)
+                let tile = this.groundLayer.getTileAtWorldXY(i, j);
+                console.log("tileGet: "+tile);
+                console.log("tilePut: "+tiles[k-1]+", x: "+tile.x+", y: "+tile.y);
+                let put = this.groundLayer.putTileAt(tiles[k-1], tile.x, tile.y);
+                k++;
+                if (k % 4 === 0) put.rotation = Math.PI/2;
+                else if (k > 4 && k < 8) put.flipX = true;
+                else if (k > 16 && k < 20) put.flipX = true;
+                else if (k > 20 && k < 24) put.flipY = true;
+            }
+        }
+        // let gid = this.overworld_tileset.firstgid;
+        // this.groundLayer.forEachTile(tile => {
+        //     if(tile.index == gid+154) {console.log(tile.x, tile.y); this.groundLayer.putTileAt(id, tile.x, tile.y);}
+        // })
     }
     }
 
