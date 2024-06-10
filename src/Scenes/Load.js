@@ -68,10 +68,11 @@ class Load extends Phaser.Scene {
         this.load.image("grey_dungeon_tileset", "grey_dungeon.png");
         this.load.image("blue_dungeon_tileset", "blue_dungeon.png");
         this.load.image("orange_dungeon_tileset", "orange_dungeon.png");
+        this.load.image("frozen_water", "FrozenWaterTiles.png");
         this.load.image("graveyard_tileset", "zelda_graveyard_tileset.png");
         this.load.image("overworld_tileset", "zelda_overworld_tileset.png");
         this.load.image("forest_tileset", "zelda_forest_tileset.png");
-        this.load.image("mountain_tileset", "zelda_mountain_tileset.png");                         // Packed tilemap
+        this.load.image("mountain_tileset", "zelda_mountain_tileset.png");
         this.load.tilemapTiledJSON("HUD", "HUD.tmj"); 
         this.load.tilemapTiledJSON("overworld", "overworld.tmj");   // Tilemap in JSON
     }

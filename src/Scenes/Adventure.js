@@ -42,6 +42,7 @@ class Adventure extends Phaser.Scene {
         //console.log(my.playerVal.max, my.playerVal.health)
         // variables and settings
         this.move = true; // can move
+        this.frozen = false;
         this.moving = false; // is moving
         this.tileSize = 8;
         this.playerVelocity = 80;
@@ -78,8 +79,9 @@ class Adventure extends Phaser.Scene {
         this.mountain_tileset = this.map.addTilesetImage("zelda_mountain_tileset","mountain_tileset");
         this.graveyard_tileset = this.map.addTilesetImage("zelda_graveyard_tileset","graveyard_tileset");
         this.teal_tileset = this.map.addTilesetImage("teal_dungeon", "teal_dungeon_tileset");
+        this.frozen_tileset = this.map.addTilesetImage("FrozenWaterTiles", "frozen_water");
 
-        this.groundLayer = this.map.createLayer("basic-geometry-layer", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset, this.teal_tileset], 0, 0);
+        this.groundLayer = this.map.createLayer("basic-geometry-layer", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset, this.teal_tileset, this.frozen_tileset], 0, 0);
         this.enemyBoundary = this.map.createLayer("boundaries", this.forest_tileset, 0, 0);
         this.transitionsLayer = this.map.createLayer("transitions", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset], 0, 0);
         this.foregroundLayer = this.map.createLayer("foreground", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset, this.teal_tileset], 0, 0).setDepth(100000);
@@ -126,6 +128,9 @@ class Adventure extends Phaser.Scene {
         my.sprite.player.add(my.sprite.ice_wand_side);
         my.sprite.ice_wand_side.visible = false;
         my.sprite.ice_wand_side.body.enable = false;
+        this.physics.add.collider(my.sprite.ice_wand_side, this.groundLayer);
+        this.physics.add.collider(my.sprite.ice_wand_up, this.groundLayer);
+
 
 //OBJECT SETUP==============================================================================================================================
         
@@ -232,6 +237,13 @@ class Adventure extends Phaser.Scene {
         // Adjust position to be on tile
         my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
         my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
+
+        // Map interactions
+        this.groundLayer.setTileIndexCallback(this.overworld_tileset.firstgid + 151, (sprite, tile) => {
+            if (sprite === my.sprite.ice_wand_side && my.sprite.ice_wand_side.visible === true && my.sprite.player.x === 360 && my.sprite.player.y === 504) {
+                this.freezeFountain();
+            }
+        }, this);
 
 //HEARTS AND RUPEES==========================================================================================================================
         this.physics.add.overlap(my.sprite.player, this.hearts, (obj1, obj2) => {
@@ -588,7 +600,44 @@ class Adventure extends Phaser.Scene {
         this.scene.restart(my.gameState);
     }
 
+//MAP CHANGE FUNCTIONS=========================================================================================================================
+    freezeFountain() {
+        if(this.frozen == false) {
+        console.log("in freeze!");
+        this.frozen = true;
+        let id = this.frozen_tileset.firstgid;
+        let tiles = [
+            // last of each row rotated right
+            id+1, id+1, id+1, id,
+            id+6, id+6, id+6, id+1, // horizontal flip
+            id+3, id+3, id+3, id+1,
+            id+6, id+6, id+6, id+1, 
+            id+3, id+3, id+3, id+1, // horizontal flip
+            id+1, id+1, id+1, id+2  // vertical flip
+        ];
+        let k = 1;
+        let gid = this.overworld_tileset.firstgid;
+        this.groundLayer.forEachTile(tile => {
+            if(tile.index == gid+154) {console.log(tile.x, tile.y); this.groundLayer.putTileAt(id, tile.x, tile.y);}
+        })
+        // for (let i = 60; i <= 65; i++) {
+        //     for (let j = 40; j <= 43; j++) {
+        //         console.log("in loop: "+i+","+j)
+        //         this.groundLayer.removeTileAt(i, j);
+        //         let put = this.groundLayer.putTileAt(tiles[k-1], i, j);
+        //         console.log(put)
+        //         k++;
+        //         if (k % 4 === 0) put.rotation = Math.PI/2;
+        //         else if (k > 4 && k < 8) put.flipX = true;
+        //         else if (k > 16 && k < 20) put.flipX = true;
+        //         else if (k > 20 && k < 24) put.flipY = true;
+        //     }
+        // }
+    }
+    }
+
     update() {
+        // console.log("x: "+my.sprite.player.x+", y: "+my.sprite.player.y);
         //console.log(my.playerVal.item)
         //console.log(this.move, this.actionable_timer)
         //console.log(my.sprite.player.x, my.sprite.player.y);
