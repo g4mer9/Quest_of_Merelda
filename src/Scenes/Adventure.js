@@ -58,7 +58,7 @@ class Adventure extends Phaser.Scene {
                             ['A3', 'B3', 'C3', 'D3', 'E3', '',    'ldG3', 'ldH3'],
                             ['A4', 'B4', 'C4', 'D4',  '', 'ldF4', 'ldG4', 'ldH4'],
                             ['',    '',   '',  'D5',  '', 'ldF5', 'ldG5', 'ldH5']];
-        this.spawn_locations = [{screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, x: 850, y: 650}, {screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, x: 866, y: 650} ];
+        this.spawn_locations = [{screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, x: 850, y: 650}, {screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, x: 866, y: 650}, {screen: 'ldF5', item: false, key: true, type: 'octo', weakness: 'ice', health: 4, x: 1760, y: 800} ];
         this.xKey = this.input.keyboard.addKey('X');
         this.zKey = this.input.keyboard.addKey('Z');
         // this.aKey = this.input.keyboard.addKey('A');
@@ -114,6 +114,8 @@ class Adventure extends Phaser.Scene {
         my.sprite.player.add(my.sprite.sword_side);
         my.sprite.sword_side.visible = false;
         my.sprite.sword_side.body.enable = false;
+
+        //arrows
         my.sprite.arrow_up = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "arrow_up").setDepth(1);
         my.sprite.arrow_up.visible = false;
         my.sprite.arrow_up.body.enable = false;
@@ -224,7 +226,7 @@ class Adventure extends Phaser.Scene {
         my.sprite.player.element = 'green';
         my.sprite.player.facing = 'up';
         this.physics.add.collider(my.sprite.player, this.groundLayer);
-        this.physics.add.collider(my.sprite.player, this.foregroundLayer);
+        //this.physics.add.collider(my.sprite.player, this.foregroundLayer);
         this.physics.add.overlap(my.sprite.player, this.transitionsLayer, this.handleTransition, null, this);
 
 
@@ -236,12 +238,94 @@ class Adventure extends Phaser.Scene {
         my.sprite.player.x = Phaser.Math.Snap.To(my.sprite.player.x, this.tileSize);
         my.sprite.player.y = Phaser.Math.Snap.To(my.sprite.player.y, this.tileSize);
 
+
+//WORLD INTERACTION===========================================================================================================================
         // Map interactions
         this.groundLayer.setTileIndexCallback(this.overworld_tileset.firstgid + 151, (sprite, tile) => {
             if (sprite === my.sprite.ice_wand_side && my.sprite.ice_wand_side.visible === true && my.sprite.player.x === 360 && my.sprite.player.y === 504) {
                 this.freezeFountain();
             }
         }, this);
+
+        //Dungeon doors
+
+        this.groundLayer.setTileIndexCallback([this.teal_tileset.firstgid + 156], (sprite, tile) => { //up door
+            //console.log(my.playerVal.keys, my.gameState.keys)
+            if(my.playerVal.keys > 0) {
+                let tiles  = [tile];
+                tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y));
+                tiles.push(this.groundLayer.getTileAt(tile.x, tile.y - 1));
+                tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y - 1));
+                my.playerVal.keys--;
+        my.gameState.keys--;
+                this.unlockDoor(tiles);
+            }
+        }, this)
+        this.groundLayer.setTileIndexCallback([this.teal_tileset.firstgid + 143], (sprite, tile) => { //down door
+            //console.log(my.playerVal.keys, my.gameState.keys)
+            if(my.playerVal.keys > 0) {
+                let tiles  = [tile];
+                tiles.push(this.groundLayer.getTileAt(tile.x - 1, tile.y));
+                tiles.push(this.groundLayer.getTileAt(tile.x, tile.y + 1));
+                tiles.push(this.groundLayer.getTileAt(tile.x - 1, tile.y + 1));
+                my.playerVal.keys--;
+        my.gameState.keys--;
+                this.unlockDoor(tiles);
+            }
+        }, this)
+        this.groundLayer.setTileIndexCallback([this.teal_tileset.firstgid + 177], (sprite, tile) => { //left door
+            //console.log(my.playerVal.keys, my.gameState.keys)
+            if(my.playerVal.keys > 0) {
+                let tiles  = [tile];
+                tiles.push(this.groundLayer.getTileAt(tile.x - 1, tile.y));
+                tiles.push(this.groundLayer.getTileAt(tile.x, tile.y - 1));
+                tiles.push(this.groundLayer.getTileAt(tile.x - 1, tile.y - 1));
+                my.playerVal.keys--;
+        my.gameState.keys--;
+                this.unlockDoor(tiles);
+            }
+        }, this)
+        this.groundLayer.setTileIndexCallback([this.teal_tileset.firstgid + 162], (sprite, tile) => { //right door
+            //console.log(my.playerVal.keys, my.gameState.keys)
+            if(my.playerVal.keys > 0) {
+                let tiles  = [tile];
+                tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y));
+                tiles.push(this.groundLayer.getTileAt(tile.x, tile.y + 1));
+                tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y + 1));
+                my.playerVal.keys--;
+        my.gameState.keys--;
+                this.unlockDoor(tiles);
+            }
+        }, this)
+
+        this.groundLayer.setTileIndexCallback([this.teal_tileset.firstgid + 180], (sprite, tile) => { //up door
+            let tiles  = [tile];
+            tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y));
+            tiles.push(this.groundLayer.getTileAt(tile.x, tile.y - 1));
+            tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y - 1));
+            if(this.enemies.length == 0) this.unlockDoor(tiles);
+        }, this)
+        this.groundLayer.setTileIndexCallback([this.teal_tileset.firstgid + 164], (sprite, tile) => { //down door
+            let tiles  = [tile];
+            tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y));
+            tiles.push(this.groundLayer.getTileAt(tile.x, tile.y + 1));
+            tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y + 1));
+            if(this.enemies.length == 0) this.unlockDoor(tiles);
+        }, this)
+        this.groundLayer.setTileIndexCallback([this.teal_tileset.firstgid + 167], (sprite, tile) => { //left door
+            let tiles  = [tile];
+            tiles.push(this.groundLayer.getTileAt(tile.x - 1, tile.y));
+            tiles.push(this.groundLayer.getTileAt(tile.x, tile.y + 1));
+            tiles.push(this.groundLayer.getTileAt(tile.x - 1, tile.y + 1));
+            if(this.enemies.length == 0) this.unlockDoor(tiles);
+        }, this)
+        this.groundLayer.setTileIndexCallback([this.teal_tileset.firstgid + 166], (sprite, tile) => { //right door
+            let tiles  = [tile];
+            tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y));
+            tiles.push(this.groundLayer.getTileAt(tile.x, tile.y + 1));
+            tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y + 1));
+            if(this.enemies.length == 0) this.unlockDoor(tiles);
+        }, this)
 
 //NON CUTSCENE ITEMS==========================================================================================================================
         this.physics.add.overlap(my.sprite.player, this.hearts, (obj1, obj2) => {
@@ -280,6 +364,8 @@ class Adventure extends Phaser.Scene {
 //HEART CONTAINERS===========================================================================================================================
         this.physics.add.overlap(my.sprite.player, this.heart_containers_group, (obj1, obj2) => {
             //this.sound.play('sfx_gem');
+            obj2.x = my.sprite.player.x + 2;
+                obj2.y = my.sprite.player.y - 18;
             if(this.move) {
                 this.move = false;
                 this.actionable_timer = 20;
@@ -301,6 +387,8 @@ class Adventure extends Phaser.Scene {
         if(!my.gameState.items.includes("ice")) this.physics.add.overlap(my.sprite.player, this.ice_wand_obj, (obj1, obj2) => {
             //this.sound.play('sfx_gem');
             if(this.move) {
+                obj2.x = my.sprite.player.x + 2;
+                obj2.y = my.sprite.player.y - 18;
                 this.move = false;
                 this.actionable_timer = 20;
                 let anim = 'link_'+my.sprite.player.element+'_pickup';
@@ -317,6 +405,8 @@ class Adventure extends Phaser.Scene {
 
         if(!my.gameState.items.includes("dark")) this.physics.add.overlap(my.sprite.player, this.dark_wand_obj, (obj1, obj2) => {
             //this.sound.play('sfx_gem');
+            obj2.x = my.sprite.player.x + 2;
+                obj2.y = my.sprite.player.y - 18;
             if(this.move) {
                 this.move = false;
                 this.actionable_timer = 20;
@@ -334,6 +424,8 @@ class Adventure extends Phaser.Scene {
 
         if(!my.gameState.items.includes("light")) this.physics.add.overlap(my.sprite.player, this.light_wand_obj, (obj1, obj2) => {
             //this.sound.play('sfx_gem');
+            obj2.x = my.sprite.player.x + 2;
+                obj2.y = my.sprite.player.y - 18;
             if(this.move) {
                 this.move = false;
                 this.actionable_timer = 20;
@@ -351,6 +443,8 @@ class Adventure extends Phaser.Scene {
 
         if(!my.gameState.items.includes("lightning")) this.physics.add.overlap(my.sprite.player, this.lightning_wand_obj, (obj1, obj2) => {
             //this.sound.play('sfx_gem');
+            obj2.x = my.sprite.player.x + 2;
+                obj2.y = my.sprite.player.y - 18;
             if(this.move) {
                 this.move = false;
                 this.actionable_timer = 20;
@@ -368,6 +462,8 @@ class Adventure extends Phaser.Scene {
 
         if(!my.gameState.items.includes("fire")) this.physics.add.overlap(my.sprite.player, this.fire_wand_obj, (obj1, obj2) => {
             //this.sound.play('sfx_gem');
+            obj2.x = my.sprite.player.x + 2;
+                obj2.y = my.sprite.player.y - 18;
             if(this.move) {
                 this.move = false;
                 this.actionable_timer = 20;
@@ -385,6 +481,8 @@ class Adventure extends Phaser.Scene {
 
         if(!my.gameState.items.includes("bow")) this.physics.add.overlap(my.sprite.player, this.bow_obj, (obj1, obj2) => {
             //this.sound.play('sfx_gem');
+            obj2.x = my.sprite.player.x + 2;
+                obj2.y = my.sprite.player.y - 18;
             if(this.move) {
                 this.move = false;
                 this.actionable_timer = 20;
@@ -609,6 +707,7 @@ class Adventure extends Phaser.Scene {
         this.scene.restart(my.gameState);
     }
 
+    
 //MAP CHANGE FUNCTIONS=========================================================================================================================
     freezeFountain() {
         if(this.frozen == false) {
@@ -637,6 +736,16 @@ class Adventure extends Phaser.Scene {
         })
     }   
     }
+
+    unlockDoor(tiles) {
+        tiles.forEach(tile => {
+            this.groundLayer.putTileAt(this.teal_tileset.firstgid + 249, tile.x, tile.y);
+        })
+        
+    }
+
+    
+
 
     update() {
         // console.log("x: "+my.sprite.player.x+", y: "+my.sprite.player.y);
