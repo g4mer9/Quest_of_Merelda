@@ -271,13 +271,14 @@ class Adventure extends Phaser.Scene {
                 this.dockBoat('down', 'D4');
             } else if (sprite === my.sprite.boat && my.sprite.boat.visible === true && (my.sprite.player.x === 1192 && my.sprite.player.y === 504 && my.sprite.player.facing === 'right')) {
                 this.dockBoat('right', 'D3');
+            } else if (sprite === my.sprite.boat && my.sprite.boat.visible === true && (my.sprite.player.x === 1384 && my.sprite.player.y === 504 && my.sprite.player.facing === 'left')) {
+                this.dockBoat('left ', 'E3');
             }
         }, this);
         this.groundLayer.setTileIndexCallback(this.mountain_tileset.firstgid + 154, (sprite, tile) => {
             if (sprite === my.sprite.boat && my.sprite.boat.visible === true && (my.sprite.player.x === 816 && my.sprite.player.y === 352 && my.sprite.player.facing === 'up')) {
                 this.dockBoat('up', 'C2');
-            }
-            if (sprite === my.sprite.boat && my.sprite.boat.visible === true && (my.sprite.player.x === 816 && my.sprite.player.y === 72 && my.sprite.player.facing === 'down')) {
+            } else if (sprite === my.sprite.boat && my.sprite.boat.visible === true && (my.sprite.player.x === 816 && my.sprite.player.y === 72 && my.sprite.player.facing === 'down')) {
                 this.dockBoat('down', 'C0');
             }
         }, this);
@@ -837,20 +838,28 @@ class Adventure extends Phaser.Scene {
                     this.actionable_timer = 103; break;
                 case 'C2':
                     this.actionable_timer = 103; break;
+                case 'D3':
+                    this.actionable_timer = 70; break;
+                case 'E3':
+                    this.actionable_timer = 70; break;
             }
         }
         this.sailing = true;
-        my.sprite.boat.setPosition(0, 0);
         my.sprite.boat.visible = true;
         my.sprite.boat.body.enable = true;
         switch(facing) {
             case 'down':
+                my.sprite.boat.setPosition(0, 0);
                 if (pos === 'C0') {if (my.sprite.player.y < 352 && this.actionable_timer % 3 === 0) {my.sprite.player.y += 8; break;} }
             case 'right':
-                // move right
-                break;
+                my.sprite.boat.setPosition(0, 0);
+                if (pos === 'D3') {if (my.sprite.player.x < 1384 && this.actionable_timer % 3 === 0) {my.sprite.player.x += 8; break;} }
             case 'up':
-                if (pos === 'C2') { if (my.sprite.player.y > 72 && this.actionable_timer % 3 === 0) {my.sprite.player.y -= 8; break;} }  
+                my.sprite.boat.setPosition(0, 0);
+                if (pos === 'C2') { if (my.sprite.player.y > 72 && this.actionable_timer % 3 === 0) {my.sprite.player.y -= 8; break;} }
+            case 'left':
+                my.sprite.boat.setPosition(2, 0);
+                if (pos === 'E3') { if (my.sprite.player.x > 1192 && this.actionable_timer % 3 === 0) {my.sprite.player.x -= 8; break;} }
         }
     }
 
@@ -871,11 +880,10 @@ class Adventure extends Phaser.Scene {
 
     
     update() {
-        // console.log("x: "+my.sprite.player.x+", y: "+my.sprite.player.y);
+        console.log("x: "+my.sprite.player.x+", y: "+my.sprite.player.y);
         //console.log(my.playerVal.item)
         console.log(this.move, this.actionable_timer)
-        //console.log(my.sprite.player.x, my.sprite.player.y);
-        //console.log(this.overworld, my.playerVal.pos, my.sprite.player.x_coord, my.sprite.player.y_coord)
+        console.log(this.overworld, my.playerVal.pos, my.sprite.player.x_coord, my.sprite.player.y_coord)
         if(!this.mapCamera.isMoving)this.checkCameraBounds();
         my.sprite.sword_side.setVelocity(0, 0);
         my.sprite.sword_up.setVelocity(0, 0);
@@ -935,7 +943,7 @@ class Adventure extends Phaser.Scene {
                 my.sprite.arrow_up.isMoving = false;
                 my.sprite.arrow_up.setVelocity(0, 0);
                 my.sprite.arrow_up.visible = false;
-                if(my.sprite.player.element == enemy.weakness) enemy.health -= 2;
+                if(my.sprite.player.element == enemy.weakness) enemy.health -= 3;
                 else enemy.health--;
                 enemy.iframes_counter = 20;
                 let angle = Phaser.Math.Angle.Between(my.sprite.player.x, my.sprite.player.y, enemy.x, enemy.y);
