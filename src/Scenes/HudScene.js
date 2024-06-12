@@ -57,13 +57,15 @@ class HudScene extends Phaser.Scene {
         // calculate and place next cursors
         let x = my.playerVal.pos.charCodeAt(0)-59;
         let y = Number(my.playerVal.pos[1]);
-        let left = this.top_layer.putTileAt(this.map_cursor.firstgid, x-1, y);
-        left.rotation = Math.PI/2;
-        let right = this.top_layer.putTileAt(this.map_cursor.firstgid, x+1, y);
-        right.rotation = 3*Math.PI/2
-        let up = this.top_layer.putTileAt(this.map_cursor.firstgid, x, y-1);
-        up.flipY = true;
-        this.top_layer.putTileAt(this.map_cursor.firstgid, x, y+1);
+        if (x >= 6 && x <= 9 && y >= 1 && y <= 4) {
+            let left = this.top_layer.putTileAt(this.map_cursor.firstgid, x-1, y);
+            left.rotation = Math.PI/2;
+            let right = this.top_layer.putTileAt(this.map_cursor.firstgid, x+1, y);
+            right.rotation = 3*Math.PI/2
+            let up = this.top_layer.putTileAt(this.map_cursor.firstgid, x, y-1);
+            up.flipY = true;
+            this.top_layer.putTileAt(this.map_cursor.firstgid, x, y+1);
+        }
     }
 
     updateRupees() {

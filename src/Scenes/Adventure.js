@@ -42,6 +42,7 @@ class Adventure extends Phaser.Scene {
         // variables and settings
         this.move = true; // can move
         this.sailing = false;
+        this.lastDock = '';
         this.frozen = false;
         this.moving = false; // is moving
         this.tileSize = 8;
@@ -54,7 +55,7 @@ class Adventure extends Phaser.Scene {
         this.actionable = true;
         this.map_coords = [['A0',   '',  'C0', '', 'sub'], //MUST BE ACCESSED VIA map_coords[y][x]
                             ['A1', 'B1', 'C1', 'D1', 'sub',  '',     'ldG1',  ''],
-                            ['A2', 'B2', 'C2', 'D2', '',  '',     'ldG2',  ''],
+                            ['A2', 'B2', 'C2', 'D2', 'sub',  '',     'ldG2',  ''],
                             ['A3', 'B3', 'C3', 'D3', 'E3', '',    'ldG3', 'ldH3'],
                             ['A4', 'B4', 'C4', 'D4',  '', 'ldF4', 'ldG4', 'ldH4'],
                             ['',    '',   '',  'D5',  '', 'ldF5', 'ldG5', 'ldH5']];
@@ -267,14 +268,17 @@ class Adventure extends Phaser.Scene {
         // dock boat
         this.groundLayer.setTileIndexCallback(this.forest_tileset.firstgid + 154, (sprite, tile) => {
             if (sprite === my.sprite.boat && my.sprite.boat.visible === true && (my.sprite.player.x === 1120 && my.sprite.player.y === 680 && my.sprite.player.facing === 'down')) {
-                this.dockBoat('down');
+                this.dockBoat('down', 'D4');
             } else if (sprite === my.sprite.boat && my.sprite.boat.visible === true && (my.sprite.player.x === 1192 && my.sprite.player.y === 504 && my.sprite.player.facing === 'right')) {
-                this.dockBoat('right');
+                this.dockBoat('right', 'D3');
             }
         }, this);
         this.groundLayer.setTileIndexCallback(this.mountain_tileset.firstgid + 154, (sprite, tile) => {
             if (sprite === my.sprite.boat && my.sprite.boat.visible === true && (my.sprite.player.x === 816 && my.sprite.player.y === 352 && my.sprite.player.facing === 'up')) {
-                this.dockBoat('up');
+                this.dockBoat('up', 'C2');
+            }
+            if (sprite === my.sprite.boat && my.sprite.boat.visible === true && (my.sprite.player.x === 816 && my.sprite.player.y === 72 && my.sprite.player.facing === 'down')) {
+                this.dockBoat('down', 'C0');
             }
         }, this);
 
@@ -291,13 +295,13 @@ class Adventure extends Phaser.Scene {
 
         //blow up rock
         this.groundLayer.setTileIndexCallback(this.mountain_tileset.firstgid + 190, (sprite, tile) => {
-            if (sprite === my.sprite.ice_wand_side && my.sprite.ice_wand_side.visible === true && my.sprite.player.element == "lightning" ) {
-                console.log(my.sprite.player.x, my.sprite.player.y)
-                // let tiles = [tile];
-                // tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y));
-                // tiles.push(this.groundLayer.getTileAt(tile.x, tile.y - 1));
-                // tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y - 1));
-                // this.createStairs(tiles, this.mountain_tileset);
+            if (sprite === my.sprite.ice_wand_side && my.sprite.ice_wand_side.visible === true && my.sprite.player.element == "lightning" && my.sprite.player.x == 920 && my.sprite.player.y == 24) {
+                
+                let tiles = [tile];
+                tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y));
+                tiles.push(this.groundLayer.getTileAt(tile.x, tile.y - 1));
+                tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y - 1));
+                this.createStairs(tiles, this.mountain_tileset);
             }
         }, this);
 
@@ -629,8 +633,10 @@ class Adventure extends Phaser.Scene {
 
     screenStart() {
         // console.log("in screenStart!");
-        this.actionable_timer = 0;
-        this.move = true;
+        if(!this.sailing) {
+            this.actionable_timer = 0;
+            this.move = true;
+        }
         this.mapCamera.isMoving = false;
         this.relative_gameFrame = 0;
         //console.log(my.playerVal.pos, my.sprite.player.x_coord, my.sprite.player.y_coord)
@@ -820,12 +826,18 @@ class Adventure extends Phaser.Scene {
     }   
     }
 
-    dockBoat(facing) {
-        console.log("docking! "+facing);
+    dockBoat(facing, pos) {
+        this.lastDock = pos;
+        console.log("docking! "+facing+' '+pos);
         if(!this.sailing) {
             this.move = false;
             this.actionable = false;
-            this.actionable_timer = 60;
+            switch(pos) {
+                case 'C0':
+                    this.actionable_timer = 103; break;
+                case 'C2':
+                    this.actionable_timer = 103; break;
+            }
         }
         this.sailing = true;
         my.sprite.boat.setPosition(0, 0);
@@ -833,14 +845,12 @@ class Adventure extends Phaser.Scene {
         my.sprite.boat.body.enable = true;
         switch(facing) {
             case 'down':
-                // move downwards
-                break;
+                if (pos === 'C0') {if (my.sprite.player.y < 352 && this.actionable_timer % 3 === 0) {my.sprite.player.y += 8; break;} }
             case 'right':
                 // move right
                 break;
             case 'up':
-                // move up
-                break;
+                if (pos === 'C2') { if (my.sprite.player.y > 72 && this.actionable_timer % 3 === 0) {my.sprite.player.y -= 8; break;} }  
         }
     }
 
@@ -1028,7 +1038,10 @@ class Adventure extends Phaser.Scene {
         if(my.sprite.player.dir == 0) this.move = true;
         if(this.iframes_counter > 0) this.iframes_counter--;
         if(this.actionable_offset > 0) this.actionable_offset--;
-        if(this.actionable_timer > 0 ) this.actionable_timer--;
+        if(this.actionable_timer > 0 ) {
+            this.actionable_timer--;
+            if(this.sailing) {this.dockBoat(my.sprite.player.facing, this.lastDock)}
+        }
         else { //not actionable yet, but not active
             if(this.actionable_offset <= 0) {this.actionable = true; this.sailing = false;}
             let anim = null;
