@@ -59,7 +59,7 @@ class Adventure extends Phaser.Scene {
                             ['A3', 'B3', 'C3', 'D3', 'E3', '',    'ldG3', 'ldH3'],
                             ['A4', 'B4', 'C4', 'D4',  '', 'ldF4', 'ldG4', 'ldH4'],
                             ['',    '',   '',  'D5',  '', 'ldF5', 'ldG5', 'ldH5']];
-        this.spawn_locations = [{screen: 'C4', item: false, key: false, type: 'ghini', weakness: 'ice', health: 4, x: 850, y: 650}, {screen: 'C4', item: false, key: false, type: 'peahat', weakness: 'ice', health: 4, x: 866, y: 650}, {screen: 'ldF5', item: false, key: true, type: 'darknut', weakness: 'ice', health: 4, x: 1760, y: 800} ];
+        this.spawn_locations = [{screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, damage: 1, x: 850, y: 650}, {screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, damage: 1, x: 866, y: 650}, {screen: 'ldF5', item: false, key: true, type: 'armos', weakness: 'ice', health: 4, damage: 2,  x: 1760, y: 800}, {screen: 'ldF5', item: false, key: true, type: 'armos', weakness: 'ice', health: 4, damage: 2,  x: 1700, y: 760}, {screen: 'ldF5', item: false, key: true, type: 'ghini', weakness: 'dark', health: 6, damage: 2,  x: 1730, y: 820}, {screen: 'ldF5', item: false, key: true, type: 'ghini', weakness: 'dark', health: 6, damage: 2, x: 1760, y: 820}];
         this.xKey = this.input.keyboard.addKey('X');
         this.zKey = this.input.keyboard.addKey('Z');
         // this.aKey = this.input.keyboard.addKey('A');
@@ -616,8 +616,10 @@ class Adventure extends Phaser.Scene {
             if(spawn.screen == my.playerVal.pos) {
                 my.sprite.enemy = this.physics.add.sprite(spawn.x, spawn.y, spawn.type+"_front");
                 my.sprite.enemy.type = spawn.type;
+                if(spawn.type == "peahat" || spawn.type == "keese") {my.sprite.enemy.body.setSize(my.sprite.enemy.width / 2, my.sprite.enemy.height / 2);  my.sprite.enemy.body.setOffset(0, 0);}
                 my.sprite.enemy.weakness = spawn.weakness;
                 my.sprite.enemy.health = spawn.health;
+                my.sprite.enemy.damage = spawn.damage;
                 my.sprite.enemy.map_pos = my.playerVal.pos;
                 my.sprite.enemy.iframes_counter = 0;
                 my.sprite.enemy.key = spawn.key;
@@ -880,14 +882,14 @@ class Adventure extends Phaser.Scene {
 
     
     update() {
-        console.log("x: "+my.sprite.player.x+", y: "+my.sprite.player.y);
+        // console.log("x: "+my.sprite.player.x+", y: "+my.sprite.player.y);
         //console.log(my.playerVal.item)
-        console.log(this.move, this.actionable_timer)
-        console.log(this.overworld, my.playerVal.pos, my.sprite.player.x_coord, my.sprite.player.y_coord)
+        // console.log(this.move, this.actionable_timer)
+        // console.log(this.overworld, my.playerVal.pos, my.sprite.player.x_coord, my.sprite.player.y_coord)
         if(!this.mapCamera.isMoving)this.checkCameraBounds();
         my.sprite.sword_side.setVelocity(0, 0);
         my.sprite.sword_up.setVelocity(0, 0);
-        if(my.playerVal.health <= 0) this.kill_screen();
+        //if(my.playerVal.health <= 0) this.kill_screen();
         //console.log(this.actionable_timer)
 
 
@@ -1024,7 +1026,7 @@ class Adventure extends Phaser.Scene {
             if(this.collides(enemy, my.sprite.link) && this.iframes_counter == 0){
                 let angle = Phaser.Math.Angle.Between(enemy.x, enemy.y, my.sprite.player.x, my.sprite.player.y);
                 my.sprite.player.dir = angle;
-                my.playerVal.health--;
+                my.playerVal.health -= enemy.damage;
                 this.actionable = false;
                 this.actionable_timer = 7;
                 this.iframes_counter = 20;
