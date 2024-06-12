@@ -3144,15 +3144,15 @@
         {
          "columns":1,
          "firstgid":1290,
-         "image":"small_assets\/boat.png",
-         "imageheight":16,
-         "imagewidth":14,
+         "image":"small_assets\/boat_HUD.png",
+         "imageheight":12,
+         "imagewidth":10,
          "margin":0,
-         "name":"boat",
+         "name":"boat_HUD",
          "spacing":0,
          "tilecount":1,
-         "tileheight":16,
-         "tilewidth":14
+         "tileheight":12,
+         "tilewidth":10
         }],
  "tilewidth":8,
  "type":"map",

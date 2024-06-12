@@ -13,7 +13,7 @@ class HudScene extends Phaser.Scene {
         this.map_cursor = this.map.addTilesetImage("map_cursor_bottom", "map_cursor");
         this.sword = this.map.addTilesetImage("sword_hud", "sword_hud");
         this.bow = this.map.addTilesetImage("bow", "bow");
-        this.boat = this.map.addTilesetImage("boat", "boat");
+        this.boat = this.map.addTilesetImage("boat_HUD", "boat_HUD");
         
         this.ice_wand = this.map.addTilesetImage("ice_wand_up", "ice_wand_up");
         this.fire_wand = this.map.addTilesetImage("fire_wand_up", "fire_wand_up");
@@ -135,8 +135,7 @@ class HudScene extends Phaser.Scene {
                 item = null;
                 break
         }
-        if(item) this.top_layer.putTileAt(item.firstgid, 21, 2);
-
+        if (item) {this.top_layer.putTileAt(item.firstgid, 21, 2);}
     }
 
     update(){

@@ -540,8 +540,10 @@ class Adventure extends Phaser.Scene {
                 my.playerVal.item_index = my.gameState.items.length - 1;
                 my.playerVal.item = my.gameState.items[my.playerVal.item_index];
             }
-            
         });
+
+//BOSS SPAWNS======================================================================================================================================
+        this.spawnMan();
 
 //OTHER ITEMS======================================================================================================================================
 
@@ -710,6 +712,34 @@ class Adventure extends Phaser.Scene {
             player.y_coord = tile.properties['y_coord'];
             this.overworld = tile.properties['overworld'];
         }
+    }
+
+
+//BOSS FUNCTIONS=========================================================================================================================
+    spawnMan() {
+        my.sprite.manhandla = this.add.container(1000, 832).setDepth(100); // container for manhandla sprites
+
+        my.sprite.manhandla_body = this.physics.add.sprite(0, 0, "manhandla", "Manhandla-4.png").setDepth(90); // body
+        my.sprite.manhandla_body.flipY = true;
+        my.sprite.manhandla.add(my.sprite.manhandla_body);
+
+        my.sprite.manhandla_top = this.physics.add.sprite(0, -16, "manhandla", "Manhandla-2.png").setDepth(90); // top head
+        my.sprite.manhandla_top.anims.play('manhandla_front', true);
+        my.sprite.manhandla.add(my.sprite.manhandla_top);
+
+        my.sprite.manhandla_left = this.physics.add.sprite(-16, 0, "manhandla", "Manhandla-1.png").setDepth(90); // left head
+        my.sprite.manhandla_left.anims.play('manhandla_side', true);
+        my.sprite.manhandla.add(my.sprite.manhandla_left);
+
+        my.sprite.manhandla_right = this.physics.add.sprite(16, 0, "manhandla", "Manhandla-1.png").setDepth(90); // right head
+        my.sprite.manhandla_right.anims.play('manhandla_side', true);
+        my.sprite.manhandla_right.flipX = true;
+        my.sprite.manhandla.add(my.sprite.manhandla_right);
+
+        my.sprite.manhandla_bottom = this.physics.add.sprite(0, 16, "manhandla", "Manhandla-2.png").setDepth(90); // bottom head
+        my.sprite.manhandla_bottom.anims.play('manhandla_front', true);
+        my.sprite.manhandla_bottom.flipY = true;
+        my.sprite.manhandla.add(my.sprite.manhandla_bottom);
     }
 
  
@@ -893,9 +923,9 @@ class Adventure extends Phaser.Scene {
 
     
     update() {
-        console.log("x: "+my.sprite.player.x+", y: "+my.sprite.player.y);
+        // console.log("x: "+my.sprite.player.x+", y: "+my.sprite.player.y);
         //console.log(my.playerVal.item)
-        console.log(this.move, this.actionable_timer)
+        // console.log(this.move, this.actionable_timer)
         // console.log(this.overworld, my.playerVal.pos, my.sprite.player.x_coord, my.sprite.player.y_coord)
         if(!this.mapCamera.isMoving)this.checkCameraBounds();
         my.sprite.sword_side.setVelocity(0, 0);

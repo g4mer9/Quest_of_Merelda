@@ -791,7 +791,7 @@ class Load extends Phaser.Scene {
             frames: this.anims.generateFrameNames('manhandla', {
                 prefix: "Manhandla-",
                 start: 0,
-                end: 2,
+                end: 1,
                 suffix: ".png",
                 zeroPad: 1
             }),
