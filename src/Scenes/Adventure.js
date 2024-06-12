@@ -15,7 +15,7 @@ class Adventure extends Phaser.Scene {
         this.items = data.items || [];
         this.max = data.max || 6;
         this.heart_containers_spawn = data.heart_containers_spawn || [0, 1, 2, 3, 4, 5, 6, 7, 8]
-        this.rupees = data.rupees || 0;
+        this.rupees = data.rupees || 95;
         this.keys = data.keys || 0;
         
         //setting current game state
@@ -59,7 +59,21 @@ class Adventure extends Phaser.Scene {
                             ['A3', 'B3', 'C3', 'D3', 'E3', '',    'ldG3', 'ldH3'],
                             ['A4', 'B4', 'C4', 'D4',  '', 'ldF4', 'ldG4', 'ldH4'],
                             ['',    '',   '',  'D5',  '', 'ldF5', 'ldG5', 'ldH5']];
-        this.spawn_locations = [{screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, damage: 1, x: 850, y: 650}, {screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, damage: 1, x: 866, y: 650}, {screen: 'ldF5', item: false, key: true, type: 'armos', weakness: 'ice', health: 4, damage: 2,  x: 1760, y: 800}, {screen: 'ldF5', item: false, key: true, type: 'armos', weakness: 'ice', health: 4, damage: 2,  x: 1700, y: 760}, {screen: 'ldF5', item: false, key: true, type: 'ghini', weakness: 'dark', health: 6, damage: 2,  x: 1730, y: 820}, {screen: 'ldF5', item: false, key: true, type: 'ghini', weakness: 'dark', health: 6, damage: 2, x: 1760, y: 820}];
+        this.spawn_locations = [{screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, damage: 1, speed: this.playerVelocity / 2, x: 850, y: 650}, 
+            {screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 866, y: 650}, 
+            {screen: 'ldF5', item: false, key: true, type: 'armos', weakness: 'ice', health: 4, damage: 2, speed: this.playerVelocity / 2,  x: 1760, y: 760}, 
+            {screen: 'ldF5', item: false, key: true, type: 'armos', weakness: 'ice', health: 4, damage: 2, speed: this.playerVelocity / 2, x: 1700, y: 760}, 
+            {screen: 'ldF5', item: false, key: true, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 1730, y: 820}, 
+            {screen: 'ldF5', item: false, key: true, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 1760, y: 820},
+            {screen: 'ldH5', item: false, key: true, type: 'octo', weakness: 'ice', health: 4, damage: 1, speed: this.playerVelocity / 2,  x: 2460, y: 760}, 
+            {screen: 'ldH5', item: false, key: true, type: 'octo', weakness: 'ice', health: 4, damage: 1, speed: this.playerVelocity / 2, x: 2400, y: 760}, 
+            {screen: 'ldH5', item: false, key: true, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2430, y: 820}, 
+            {screen: 'ldH5', item: false, key: true, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2460, y: 820},
+            {screen: 'ldG4', item: false, key: false, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2000, y: 640}, 
+            {screen: 'ldG4', item: false, key: false, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2000, y: 660},
+            {screen: 'ldG4', item: false, key: false, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2160, y: 640}, 
+            {screen: 'ldG4', item: false, key: false, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2160, y: 660},
+            {screen: 'ldH4', item: false, key: false, type: 'darknut', weakness: 'light', health: 10, damage: 2, speed: this.playerVelocity / 4, x: 2400, y: 680}];
         this.xKey = this.input.keyboard.addKey('X');
         this.zKey = this.input.keyboard.addKey('Z');
         // this.aKey = this.input.keyboard.addKey('A');
@@ -88,7 +102,7 @@ class Adventure extends Phaser.Scene {
 
         this.groundLayer = this.map.createLayer("basic-geometry-layer", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset, this.teal_tileset, this.frozen_tileset, this.cave_tileset], 0, 0);
         this.enemyBoundary = this.map.createLayer("boundaries", this.forest_tileset, 0, 0);
-        this.darkLayer = this.map.createLayer("dark-layer", [this.teal_dark_tileset], 0, 0);
+        this.darkLayer = this.map.createLayer("dark-layer", [this.teal_dark_tileset, this.old_man_tileset], 0, 0);
         this.transitionsLayer = this.map.createLayer("transitions", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset], 0, 0);
         this.foregroundLayer = this.map.createLayer("foreground", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset, this.teal_tileset, this.old_man_tileset], 0, 0).setDepth(100000);
         this.enemyBoundary.visible = false;
@@ -98,6 +112,9 @@ class Adventure extends Phaser.Scene {
             collides: true
         }); 
         this.groundLayer.setCollisionByProperty({//collision with geometry layer
+            collides: true
+        }); 
+        this.darkLayer.setCollisionByProperty({//collision with geometry layer
             collides: true
         }); 
         this.foregroundLayer.setCollisionByProperty({//collision with geometry layer
@@ -110,11 +127,13 @@ class Adventure extends Phaser.Scene {
         //sword
         my.sprite.sword_up = this.physics.add.sprite(0, 0, "sword_up").setDepth(99);
         my.sprite.sword_up.setScale(.75);
+        my.sprite.sword_up.body.setSize(my.sprite.sword_up.body.width * 1.2, my.sprite.sword_up.height);
         my.sprite.player.add(my.sprite.sword_up);
         my.sprite.sword_up.visible = false;
         my.sprite.sword_up.body.enable = false;
         my.sprite.sword_side = this.physics.add.sprite(0, 0, "sword_side").setDepth(99);
         my.sprite.sword_side.setScale(.75);
+        my.sprite.sword_side.body.setSize(my.sprite.sword_side.body.width, my.sprite.sword_side.height * 1.2);
         my.sprite.player.add(my.sprite.sword_side);
         my.sprite.sword_side.visible = false;
         my.sprite.sword_side.body.enable = false;
@@ -244,6 +263,7 @@ class Adventure extends Phaser.Scene {
         my.sprite.player.element = 'green';
         my.sprite.player.facing = 'up';
         this.physics.add.collider(my.sprite.player, this.groundLayer);
+        this.physics.add.collider(my.sprite.player, this.darkLayer);
         //this.physics.add.collider(my.sprite.player, this.foregroundLayer);
         this.physics.add.overlap(my.sprite.player, this.transitionsLayer, this.handleTransition, null, this);
 
@@ -311,7 +331,7 @@ class Adventure extends Phaser.Scene {
             }
         }, this);
 
-        //Dungeon doors
+//Dungeon doors========================================================================================================================
 
         this.groundLayer.setTileIndexCallback([this.teal_tileset.firstgid + 156], (sprite, tile) => { //up door
             //console.log(my.playerVal.keys, my.gameState.keys)
@@ -427,21 +447,44 @@ class Adventure extends Phaser.Scene {
 
 //HEART CONTAINERS===========================================================================================================================
         this.physics.add.overlap(my.sprite.player, this.heart_containers_group, (obj1, obj2) => {
-            //this.sound.play('sfx_gem');
-            obj2.x = my.sprite.player.x + 2;
-                obj2.y = my.sprite.player.y - 18;
-            if(this.move) {
-                this.move = false;
-                this.actionable_timer = 20;
-                let anim = 'link_'+my.sprite.player.element+'_pickup';
-                my.sprite.link.setTexture(anim);
-                //obj2.destroy(); // remove coin on overlap
-                this.time.delayedCall(600, () => obj2.destroy())
-                my.playerVal.max +=2;
-                my.gameState.max = my.playerVal.max;
-                let i = obj2.index
-                my.gameState.heart_containers_spawn.splice(i, 1);
-                my.playerVal.health = my.playerVal.max;
+            if(obj2.index == 6) {
+
+                if(my.playerVal.rupees >= 50 && this.move) {
+                    my.playerVal.rupees -= 50;
+                    my.gameState.rupees -= 50;
+                    obj2.x = my.sprite.player.x + 2;
+                    obj2.y = my.sprite.player.y - 18;
+                    this.move = false;
+                    this.actionable_timer = 20;
+                    let anim = 'link_'+my.sprite.player.element+'_pickup';
+                    my.sprite.link.setTexture(anim);
+                    //obj2.destroy(); // remove coin on overlap
+                    this.time.delayedCall(600, () => obj2.destroy())
+                    my.playerVal.max +=2;
+                    my.gameState.max = my.playerVal.max;
+                    let i = obj2.index
+                    my.gameState.heart_containers_spawn.splice(i, 1);
+                    my.playerVal.health = my.playerVal.max;
+                    
+                }
+            }
+            else {
+                //this.sound.play('sfx_gem');
+                obj2.x = my.sprite.player.x + 2;
+                    obj2.y = my.sprite.player.y - 18;
+                if(this.move) {
+                    this.move = false;
+                    this.actionable_timer = 20;
+                    let anim = 'link_'+my.sprite.player.element+'_pickup';
+                    my.sprite.link.setTexture(anim);
+                    //obj2.destroy(); // remove coin on overlap
+                    this.time.delayedCall(600, () => obj2.destroy())
+                    my.playerVal.max +=2;
+                    my.gameState.max = my.playerVal.max;
+                    let i = obj2.index
+                    my.gameState.heart_containers_spawn.splice(i, 1);
+                    my.playerVal.health = my.playerVal.max;
+                }
             }
             
         });
@@ -544,14 +587,18 @@ class Adventure extends Phaser.Scene {
 
 //BOSS SPAWNS======================================================================================================================================
         this.spawnMan();
+        this.spawnDig();
 
 //OTHER ITEMS======================================================================================================================================
 
         if(!my.gameState.items.includes("bow")) this.physics.add.overlap(my.sprite.player, this.bow_obj, (obj1, obj2) => {
             //this.sound.play('sfx_gem');
-            obj2.x = my.sprite.player.x + 2;
+            
+            if(my.playerVal.rupees >= 15 && this.move) {
+                my.playerVal.rupees -= 15;
+                my.gameState.rupees -= 15;
+                obj2.x = my.sprite.player.x + 2;
                 obj2.y = my.sprite.player.y - 18;
-            if(this.move) {
                 this.move = false;
                 this.actionable_timer = 20;
                 let anim = 'link_'+my.sprite.player.element+'_pickup';
@@ -562,15 +609,20 @@ class Adventure extends Phaser.Scene {
                 //if(my.playerVal.item_index != 0) my.playerVal.item_index++;
                 my.playerVal.item_index = my.gameState.items.length - 1;
                 my.playerVal.item = my.gameState.items[my.playerVal.item_index];
+                
             }
             
         });
 
         if(!my.gameState.items.includes("boat")) this.physics.add.overlap(my.sprite.player, this.boat_obj, (obj1, obj2) => {
             //this.sound.play('sfx_gem');
-            obj2.x = my.sprite.player.x + 2;
+
+
+            if(my.playerVal.rupees >= 30 && this.move) {
+                my.playerVal.rupees -= 30;
+                my.gameState.rupees -= 30;
+                obj2.x = my.sprite.player.x + 2;
                 obj2.y = my.sprite.player.y - 18;
-            if(this.move) {
                 this.move = false;
                 this.actionable_timer = 20;
                 let anim = 'link_'+my.sprite.player.element+'_pickup';
@@ -581,6 +633,7 @@ class Adventure extends Phaser.Scene {
                 //if(my.playerVal.item_index != 0) my.playerVal.item_index++;
                 my.playerVal.item_index = my.gameState.items.length - 1;
                 my.playerVal.item = my.gameState.items[my.playerVal.item_index];
+                
             }
             
         });
@@ -627,11 +680,12 @@ class Adventure extends Phaser.Scene {
                 my.sprite.enemy.weakness = spawn.weakness;
                 my.sprite.enemy.health = spawn.health;
                 my.sprite.enemy.damage = spawn.damage;
+                my.sprite.enemy.speed = spawn.speed;
                 my.sprite.enemy.map_pos = my.playerVal.pos;
                 my.sprite.enemy.iframes_counter = 0;
                 my.sprite.enemy.key = spawn.key;
                 my.sprite.enemy.s = spawn.screen;
-                this.physics.add.collider(my.sprite.enemy, this.groundLayer);
+                if(spawn.type != 'ghini') this.physics.add.collider(my.sprite.enemy, this.groundLayer);
                 this.physics.add.collider(my.sprite.enemy, this.enemyBoundary);
                 this.enemies.forEach((enemy) =>{
                     this.physics.add.collider(my.sprite.enemy, enemy);
@@ -717,7 +771,7 @@ class Adventure extends Phaser.Scene {
 
 //BOSS FUNCTIONS=========================================================================================================================
     spawnMan() {
-        my.sprite.manhandla = this.add.container(1000, 832).setDepth(100); // container for manhandla sprites
+        my.sprite.manhandla = this.add.container(1000, 832).setDepth(90); // container for manhandla sprites
 
         my.sprite.manhandla_body = this.physics.add.sprite(0, 0, "manhandla", "Manhandla-4.png").setDepth(90); // body
         my.sprite.manhandla_body.flipY = true;
@@ -742,16 +796,33 @@ class Adventure extends Phaser.Scene {
         my.sprite.manhandla.add(my.sprite.manhandla_bottom);
     }
 
+    spawnDig() {
+        my.sprite.digdogger = this.add.container(2080, 328).setDepth(90); // container for digdogger sprites
+
+        my.sprite.digdogger_right = this.physics.add.sprite(0, 0, "digdogger_right", "DigdoggerRight-0.png").setDepth(90);
+        my.sprite.digdogger_right.anims.play('digdogger_right', true);
+        my.sprite.digdogger_right.visible = true;
+        my.sprite.digdogger.add(my.sprite.digdogger_right);
+
+        my.sprite.digdogger_left = this.physics.add.sprite(0, 0, "digdogger_left", "DigdoggerLeft-0.png").setDepth(90);
+        my.sprite.digdogger_left.anims.play('digdogger_left', true);
+        my.sprite.digdogger_left.visible = false;
+        my.sprite.digdogger.add(my.sprite.digdogger_left);
+
+
+        
+    }
+
  
 //MISC FUNCTIONS=========================================================================================================================
 
     // Function to update player hitbox based on animation
     updatePlayerHitbox(animation) {
         if (animation === 'side'|| animation === 'down') {
-            my.sprite.link.body.setSize(16, 16)
-            my.sprite.link.body.setOffset(0, 0)
+            my.sprite.link.body.setSize(14, 14)
+            my.sprite.link.body.setOffset(1, 0)
         } else if (animation === 'up') {
-            my.sprite.link.body.setSize(12, 15)
+            my.sprite.link.body.setSize(12, 13)
             my.sprite.link.body.setOffset(0, 0)
         }
     }
@@ -778,7 +849,7 @@ class Adventure extends Phaser.Scene {
             enemy.anims.play(anim, true);
             if(enemy.type != "wizrobe" && enemy.type != "darknut") enemy.resetFlip();
             else enemy.setFlip(true, false);
-            enemy.setVelocity(-this.playerVelocity / 2, 0);
+            enemy.setVelocity(-enemy.speed, 0);
         }
         else if(rand >= .25 && rand < .5) {//move up
             let targetY = enemy.y - (Math.floor(Math.random() * (6 - 1) + 1) * 8);
@@ -789,7 +860,7 @@ class Adventure extends Phaser.Scene {
             else if(enemy.type == "peahat" || enemy.type == "keese") anim = enemy.type;
             else {anim = enemy.type+"_front"; enemy.setFlip(false, true);}
             enemy.anims.play(anim, true);
-            enemy.setVelocity(0, -this.playerVelocity / 2);
+            enemy.setVelocity(0, -enemy.speed);
         }
         else if(rand >= .5 && rand < .75) { //move right
             let targetX = enemy.x + (Math.floor(Math.random() * (6 - 1) + 1) * 8);
@@ -802,7 +873,7 @@ class Adventure extends Phaser.Scene {
             enemy.anims.play(anim, true);
             if(enemy.type != "wizrobe" && enemy.type != "darknut") enemy.setFlip(true, false);
             else enemy.resetFlip();
-            enemy.setVelocity(this.playerVelocity / 2, 0);
+            enemy.setVelocity(enemy.speed, 0);
         }
         else if(rand > .75) {//move down
             let targetY = enemy.y + (Math.floor(Math.random() * (6 - 1) + 1) * 8);
@@ -813,7 +884,7 @@ class Adventure extends Phaser.Scene {
             else anim = enemy.type+'_front';
             enemy.anims.play(anim, true);
             enemy.resetFlip();
-            enemy.setVelocity(0, this.playerVelocity / 2);
+            enemy.setVelocity(0, enemy.speed);
         }
     }
 
@@ -838,35 +909,35 @@ class Adventure extends Phaser.Scene {
 //MAP CHANGE FUNCTIONS=========================================================================================================================
     freezeFountain() {
         if(this.frozen == false) {
-        console.log("in freeze!");
+        //console.log("in freeze!");
         this.frozen = true;
         let id = this.frozen_tileset.firstgid;
         
         let gid = this.overworld_tileset.firstgid;
         this.groundLayer.forEachTile(tile => {
-            if(tile.index == gid+154) {console.log(tile.x, tile.y); this.groundLayer.putTileAt(id + 3, tile.x, tile.y);}
+            if(tile.index == gid+154) { this.groundLayer.putTileAt(id + 3, tile.x, tile.y);}
         })
         this.groundLayer.forEachTile(tile => {
-            if(tile.index == gid+136) {console.log(tile.x, tile.y); this.groundLayer.putTileAt(id + 6, tile.x, tile.y);}
+            if(tile.index == gid+136) { this.groundLayer.putTileAt(id + 6, tile.x, tile.y);}
         })
         this.groundLayer.forEachTile(tile => {
-            if(tile.index == gid+151) {console.log(tile.x, tile.y); this.groundLayer.putTileAt(id + 1, tile.x, tile.y);}
+            if(tile.index == gid+151) { this.groundLayer.putTileAt(id + 1, tile.x, tile.y);}
         })
         this.groundLayer.forEachTile(tile => {
-            if(tile.index == gid+151) {console.log(tile.x, tile.y); this.groundLayer.putTileAt(id + 1, tile.x, tile.y);}
+            if(tile.index == gid+151) { this.groundLayer.putTileAt(id + 1, tile.x, tile.y);}
         })
         this.groundLayer.forEachTile(tile => {
-            if(tile.index == gid+152) {console.log(tile.x, tile.y); this.groundLayer.putTileAt(id + 2, tile.x, tile.y);}
+            if(tile.index == gid+152) { this.groundLayer.putTileAt(id + 2, tile.x, tile.y);}
         })
         this.groundLayer.forEachTile(tile => {
-            if(tile.index == gid+150) {console.log(tile.x, tile.y); this.groundLayer.putTileAt(id, tile.x, tile.y);}
+            if(tile.index == gid+150) { this.groundLayer.putTileAt(id, tile.x, tile.y);}
         })
     }   
     }
 
     dockBoat(facing, pos) {
         this.lastDock = pos;
-        console.log("docking! "+facing+' '+pos);
+        //console.log("docking! "+facing+' '+pos);
         if(!this.sailing) {
             this.move = false;
             this.actionable = false;
@@ -1159,28 +1230,28 @@ class Adventure extends Phaser.Scene {
                 switch (my.sprite.player.facing) {
                     case 'up':
                         anim = my.sprite.player.element+'_item_up';
-                        my.sprite.sword_up.setPosition(1, -12);
+                        my.sprite.sword_up.setPosition(2, -14);
                         my.sprite.sword_up.visible = true;
                         my.sprite.sword_up.body.enable = true;
                         my.sprite.sword_up.resetFlip(); 
                         break;
                     case 'down':
                         anim = my.sprite.player.element+'_item_down';
-                        my.sprite.sword_up.setPosition(3, 12);
+                        my.sprite.sword_up.setPosition(3, 14);
                         my.sprite.sword_up.visible = true;
                         my.sprite.sword_up.body.enable = true;
                         my.sprite.sword_up.setFlip(false, true);
                         break;
                     case 'right':
                         anim = my.sprite.player.element+'_item_side';
-                        my.sprite.sword_side.setPosition(14, 1);
+                        my.sprite.sword_side.setPosition(16, 1);
                         my.sprite.sword_side.visible = true;
                         my.sprite.sword_side.body.enable = true;
                         my.sprite.sword_side.resetFlip(); 
                         break;
                     case 'left':
                         anim = my.sprite.player.element+'_item_side';
-                        my.sprite.sword_side.setPosition(-12, 1);
+                        my.sprite.sword_side.setPosition(-14, 1);
                         my.sprite.sword_side.visible = true;
                         my.sprite.sword_side.body.enable = true;
                         my.sprite.sword_side.setFlip(true, false);
