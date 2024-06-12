@@ -41,6 +41,7 @@ class Adventure extends Phaser.Scene {
         //console.log(my.playerVal.max, my.playerVal.health)
         // variables and settings
         this.move = true; // can move
+        this.sailing = false;
         this.frozen = false;
         this.moving = false; // is moving
         this.tileSize = 8;
@@ -144,6 +145,7 @@ class Adventure extends Phaser.Scene {
         my.sprite.player.add(my.sprite.boat);
         my.sprite.boat.visible = false;
         my.sprite.boat.body.enable = false;
+        this.physics.add.collider(my.sprite.boat, this.groundLayer);
 
 
 //OBJECT SETUP==============================================================================================================================
@@ -255,10 +257,24 @@ class Adventure extends Phaser.Scene {
 
 
 //WORLD INTERACTION===========================================================================================================================
-        // Map interactions
+        // freeze fountain
         this.groundLayer.setTileIndexCallback(this.overworld_tileset.firstgid + 151, (sprite, tile) => {
             if (sprite === my.sprite.ice_wand_side && my.sprite.ice_wand_side.visible === true && my.sprite.player.element == "ice" && my.sprite.player.x === 360 && my.sprite.player.y === 504) {
                 this.freezeFountain();
+            }
+        }, this);
+
+        // dock boat
+        this.groundLayer.setTileIndexCallback(this.forest_tileset.firstgid + 154, (sprite, tile) => {
+            if (sprite === my.sprite.boat && my.sprite.boat.visible === true && (my.sprite.player.x === 1120 && my.sprite.player.y === 680 && my.sprite.player.facing === 'down')) {
+                this.dockBoat('down');
+            } else if (sprite === my.sprite.boat && my.sprite.boat.visible === true && (my.sprite.player.x === 1192 && my.sprite.player.y === 504 && my.sprite.player.facing === 'right')) {
+                this.dockBoat('right');
+            }
+        }, this);
+        this.groundLayer.setTileIndexCallback(this.mountain_tileset.firstgid + 154, (sprite, tile) => {
+            if (sprite === my.sprite.boat && my.sprite.boat.visible === true && (my.sprite.player.x === 816 && my.sprite.player.y === 352 && my.sprite.player.facing === 'up')) {
+                this.dockBoat('up');
             }
         }, this);
 
@@ -274,7 +290,7 @@ class Adventure extends Phaser.Scene {
         }, this);
 
         //blow up rock
-        this.groundLayer.setTileIndexCallback(this.mountain_tileset.firstgid + 220, (sprite, tile) => {
+        this.groundLayer.setTileIndexCallback(this.mountain_tileset.firstgid + 190, (sprite, tile) => {
             if (sprite === my.sprite.ice_wand_side && my.sprite.ice_wand_side.visible === true && my.sprite.player.element == "lightning" ) {
                 console.log(my.sprite.player.x, my.sprite.player.y)
                 // let tiles = [tile];
@@ -804,9 +820,29 @@ class Adventure extends Phaser.Scene {
     }   
     }
 
-    // dockBoat() {
-
-    // }
+    dockBoat(facing) {
+        console.log("docking! "+facing);
+        if(!this.sailing) {
+            this.move = false;
+            this.actionable = false;
+            this.actionable_timer = 60;
+        }
+        this.sailing = true;
+        my.sprite.boat.setPosition(0, 0);
+        my.sprite.boat.visible = true;
+        my.sprite.boat.body.enable = true;
+        switch(facing) {
+            case 'down':
+                // move downwards
+                break;
+            case 'right':
+                // move right
+                break;
+            case 'up':
+                // move up
+                break;
+        }
+    }
 
     unlockDoor(tiles) {
         tiles.forEach(tile => {
@@ -827,7 +863,7 @@ class Adventure extends Phaser.Scene {
     update() {
         // console.log("x: "+my.sprite.player.x+", y: "+my.sprite.player.y);
         //console.log(my.playerVal.item)
-        //console.log(this.move, this.actionable_timer)
+        console.log(this.move, this.actionable_timer)
         //console.log(my.sprite.player.x, my.sprite.player.y);
         //console.log(this.overworld, my.playerVal.pos, my.sprite.player.x_coord, my.sprite.player.y_coord)
         if(!this.mapCamera.isMoving)this.checkCameraBounds();
@@ -994,7 +1030,7 @@ class Adventure extends Phaser.Scene {
         if(this.actionable_offset > 0) this.actionable_offset--;
         if(this.actionable_timer > 0 ) this.actionable_timer--;
         else { //not actionable yet, but not active
-            if(this.actionable_offset <= 0) this.actionable = true; 
+            if(this.actionable_offset <= 0) {this.actionable = true; this.sailing = false;}
             let anim = null;
 
             //item or pickup anim or hitstun ended, so walk anim must be restored
@@ -1011,6 +1047,7 @@ class Adventure extends Phaser.Scene {
                     my.sprite.sword_up.visible = false;
                     my.sprite.ice_wand_up.visible = false;
                     my.sprite.boat.visible = false;
+                    my.sprite.boat.body.enable = false;
                     break;
                 case 'down':
                     anim = my.sprite.player.element+'_walk_down';
@@ -1020,6 +1057,7 @@ class Adventure extends Phaser.Scene {
                     my.sprite.sword_up.visible = false;
                     my.sprite.ice_wand_up.visible = false;
                     my.sprite.boat.visible = false;
+                    my.sprite.boat.body.enable = false;
                     break;
                 case 'right':
                     anim = my.sprite.player.element+'_walk_side';
@@ -1030,6 +1068,7 @@ class Adventure extends Phaser.Scene {
                     my.sprite.sword_side.visible = false;
                     my.sprite.ice_wand_side.visible = false; 
                     my.sprite.boat.visible = false;
+                    my.sprite.boat.body.enable = false;
                     break;
                 case 'left':
                     anim = my.sprite.player.element+'_walk_side';
@@ -1040,6 +1079,7 @@ class Adventure extends Phaser.Scene {
                     my.sprite.sword_side.visible = false;
                     my.sprite.ice_wand_side.visible = false;
                     my.sprite.boat.visible = false;
+                    my.sprite.boat.body.enable = false;
                     break;
                 }
             }
@@ -1129,6 +1169,7 @@ class Adventure extends Phaser.Scene {
                         else if(my.playerVal.item == "boat") {
                             my.sprite.boat.setPosition(0, -11);
                             my.sprite.boat.visible = true;
+                            my.sprite.boat.body.enable = true;
                         }
                         break;
                     case 'down':
@@ -1151,6 +1192,7 @@ class Adventure extends Phaser.Scene {
                         else if(my.playerVal.item == "boat") {
                             my.sprite.boat.setPosition(2, 13);
                             my.sprite.boat.visible = true;
+                            my.sprite.boat.body.enable = true;
                         }
                         break;
                     case 'right':
@@ -1173,6 +1215,7 @@ class Adventure extends Phaser.Scene {
                         else if(my.playerVal.item == "boat") {
                             my.sprite.boat.setPosition(16, 1);
                             my.sprite.boat.visible = true;
+                            my.sprite.boat.body.enable = true;
                         }
                         break;
                     case 'left':
@@ -1195,6 +1238,7 @@ class Adventure extends Phaser.Scene {
                         else if(my.playerVal.item == "boat") {
                             my.sprite.boat.setPosition(-12, 1);
                             my.sprite.boat.visible = true;
+                            my.sprite.boat.body.enable = true;
                         }
                         break; 
                 }

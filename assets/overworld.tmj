@@ -743,26 +743,8 @@
                  "type":"",
                  "visible":true,
                  "width":13,
-                 "x":1489.833,
-                 "y":225.166666666667
-                }, 
-                {
-                 "gid":1281,
-                 "height":13,
-                 "id":20,
-                 "name":"heart_container",
-                 "properties":[
-                        {
-                         "name":"index",
-                         "type":"int",
-                         "value":8
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":13,
-                 "x":493.833,
-                 "y":638.833
+                 "x":1489.83,
+                 "y":225.167
                 }, 
                 {
                  "gid":1282,
@@ -827,8 +809,8 @@
                  "type":"",
                  "visible":true,
                  "width":8,
-                 "x":1378.18333333333,
-                 "y":226.515666666667
+                 "x":1378.18,
+                 "y":226.516
                 }, 
                 {
                  "gid":1298,
@@ -853,6 +835,24 @@
                  "width":14,
                  "x":469.25,
                  "y":662.75
+                }, 
+                {
+                 "gid":1281,
+                 "height":13,
+                 "id":33,
+                 "name":"heart_container",
+                 "properties":[
+                        {
+                         "name":"index",
+                         "type":"int",
+                         "value":8
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":13,
+                 "x":737.625,
+                 "y":223.125
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -861,7 +861,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":30,
+ "nextobjectid":34,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
