@@ -18,7 +18,6 @@ class Adventure extends Phaser.Scene {
         this.rupees = data.rupees || 0;
         this.keys = data.keys || 0;
         
-
         //setting current game state
         my.playerVal.max = this.max;
         my.playerVal.health = this.max;
@@ -82,7 +81,7 @@ class Adventure extends Phaser.Scene {
         this.teal_tileset = this.map.addTilesetImage("teal_dungeon", "teal_dungeon_tileset");
         this.frozen_tileset = this.map.addTilesetImage("FrozenWaterTiles", "frozen_water");
         this.cave_tileset = this.map.addTilesetImage("cave", "cave");
-        this.old_man_tileset = this.map.addTilesetImage("old_man", "old_man")
+        this.old_man_tileset = this.map.addTilesetImage("old_man", "old_man");
 
         this.groundLayer = this.map.createLayer("basic-geometry-layer", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset, this.teal_tileset, this.frozen_tileset, this.cave_tileset], 0, 0);
         this.enemyBoundary = this.map.createLayer("boundaries", this.forest_tileset, 0, 0);
@@ -100,44 +99,48 @@ class Adventure extends Phaser.Scene {
             collides: true
         }); 
         //this.transitionsLayer.setCollisionByExclusion([-1])
-        my.sprite.player = this.add.container(this.spawn_x, this.spawn_y); // container for player sprites
+        my.sprite.player = this.add.container(this.spawn_x, this.spawn_y).setDepth(100); // container for player sprites
 
 //ITEMS====================================================================================================================================
-        //set up sword
-        my.sprite.sword_up = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "sword_up").setDepth(99);
+        //sword
+        my.sprite.sword_up = this.physics.add.sprite(0, 0, "sword_up").setDepth(99);
         my.sprite.sword_up.setScale(.75);
         my.sprite.player.add(my.sprite.sword_up);
         my.sprite.sword_up.visible = false;
         my.sprite.sword_up.body.enable = false;
-        my.sprite.sword_side = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "sword_side").setDepth(99);
+        my.sprite.sword_side = this.physics.add.sprite(0, 0, "sword_side").setDepth(99);
         my.sprite.sword_side.setScale(.75);
         my.sprite.player.add(my.sprite.sword_side);
         my.sprite.sword_side.visible = false;
         my.sprite.sword_side.body.enable = false;
 
         //arrows
-        my.sprite.arrow_up = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "arrow_up").setDepth(1);
+        my.sprite.arrow_up = this.physics.add.sprite(0, 0, "arrow_up").setDepth(1);
         my.sprite.arrow_up.visible = false;
         my.sprite.arrow_up.body.enable = false;
         my.sprite.arrow_up.isMoving = false;
-        my.sprite.arrow_side = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "arrow_side").setDepth(1);
+        my.sprite.arrow_side = this.physics.add.sprite(0, 0, "arrow_side").setDepth(1);
         my.sprite.arrow_side.visible = false;
         my.sprite.arrow_side.body.enable = false;
         my.sprite.arrow_side.isMoving = false;
 
-
-
-        //set up wand
-        my.sprite.ice_wand_up = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "ice_wand_up").setDepth(99);
+        //wand
+        my.sprite.ice_wand_up = this.physics.add.sprite(0, 0, "ice_wand_up").setDepth(99);
         my.sprite.player.add(my.sprite.ice_wand_up);
         my.sprite.ice_wand_up.visible = false;
         my.sprite.ice_wand_up.body.enable = false;
-        my.sprite.ice_wand_side = this.physics.add.sprite(my.sprite.player.x, my.sprite.player.y, "ice_wand_side").setDepth(99);
+        my.sprite.ice_wand_side = this.physics.add.sprite(0, 0, "ice_wand_side").setDepth(99);
         my.sprite.player.add(my.sprite.ice_wand_side);
         my.sprite.ice_wand_side.visible = false;
         my.sprite.ice_wand_side.body.enable = false;
         this.physics.add.collider(my.sprite.ice_wand_side, this.groundLayer);
         this.physics.add.collider(my.sprite.ice_wand_up, this.groundLayer);
+
+        //boat
+        my.sprite.boat = this.physics.add.sprite(0, 0, "boat").setDepth(99);
+        my.sprite.player.add(my.sprite.boat);
+        my.sprite.boat.visible = false;
+        my.sprite.boat.body.enable = false;
 
 
 //OBJECT SETUP==============================================================================================================================
@@ -209,6 +212,15 @@ class Adventure extends Phaser.Scene {
                 key: "bow"
             });
             this.physics.world.enable(this.bow_obj, Phaser.Physics.Arcade.STATIC_BODY);
+
+        }
+        if(!my.gameState.items.includes("boat")) {
+
+            this.boat_obj = this.map.createFromObjects("objects", {
+                name: "boat",
+                key: "boat"
+            });
+            this.physics.world.enable(this.boat_obj, Phaser.Physics.Arcade.STATIC_BODY);
 
         }   
 
@@ -479,6 +491,8 @@ class Adventure extends Phaser.Scene {
             
         });
 
+//OTHER ITEMS======================================================================================================================================
+
         if(!my.gameState.items.includes("bow")) this.physics.add.overlap(my.sprite.player, this.bow_obj, (obj1, obj2) => {
             //this.sound.play('sfx_gem');
             obj2.x = my.sprite.player.x + 2;
@@ -497,6 +511,26 @@ class Adventure extends Phaser.Scene {
             }
             
         });
+
+        if(!my.gameState.items.includes("boat")) this.physics.add.overlap(my.sprite.player, this.boat_obj, (obj1, obj2) => {
+            //this.sound.play('sfx_gem');
+            obj2.x = my.sprite.player.x + 2;
+                obj2.y = my.sprite.player.y - 18;
+            if(this.move) {
+                this.move = false;
+                this.actionable_timer = 20;
+                let anim = 'link_'+my.sprite.player.element+'_pickup';
+                my.sprite.link.setTexture(anim);
+                //obj2.destroy(); // remove coin on overlap
+                this.time.delayedCall(600, () => obj2.destroy())
+                my.gameState.items.push("boat");
+                //if(my.playerVal.item_index != 0) my.playerVal.item_index++;
+                my.playerVal.item_index = my.gameState.items.length - 1;
+                my.playerVal.item = my.gameState.items[my.playerVal.item_index];
+            }
+            
+        });
+
 //DEUBG====================================================================================================================================
         this.input.keyboard.on('keydown-D', () => {
             this.physics.world.drawDebug = this.physics.world.drawDebug ? false : true
@@ -522,9 +556,6 @@ class Adventure extends Phaser.Scene {
         this.mapCamera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.mapCamera.scrollX = this.c_x;
         this.mapCamera.scrollY = this.c_y;
-
-
-        
     }
 
 //SCREEN FUNCTIONS=========================================================================================================================
@@ -690,7 +721,6 @@ class Adventure extends Phaser.Scene {
     }
 
     kill_screen() {
-
         /**
          * spawn_x: 2080,
             spawn_y: 840,
@@ -737,6 +767,10 @@ class Adventure extends Phaser.Scene {
     }   
     }
 
+    // dockBoat() {
+
+    // }
+
     unlockDoor(tiles) {
         tiles.forEach(tile => {
             this.groundLayer.putTileAt(this.teal_tileset.firstgid + 249, tile.x, tile.y);
@@ -745,8 +779,6 @@ class Adventure extends Phaser.Scene {
     }
 
     
-
-
     update() {
         // console.log("x: "+my.sprite.player.x+", y: "+my.sprite.player.y);
         //console.log(my.playerVal.item)
@@ -930,6 +962,7 @@ class Adventure extends Phaser.Scene {
                     this.updatePlayerHitbox("up");
                     my.sprite.sword_up.visible = false;
                     my.sprite.ice_wand_up.visible = false;
+                    my.sprite.boat.visible = false;
                     break;
                 case 'down':
                     anim = my.sprite.player.element+'_walk_down';
@@ -938,6 +971,7 @@ class Adventure extends Phaser.Scene {
                     this.updatePlayerHitbox("down");
                     my.sprite.sword_up.visible = false;
                     my.sprite.ice_wand_up.visible = false;
+                    my.sprite.boat.visible = false;
                     break;
                 case 'right':
                     anim = my.sprite.player.element+'_walk_side';
@@ -947,6 +981,7 @@ class Adventure extends Phaser.Scene {
                     my.sprite.link.resetFlip();
                     my.sprite.sword_side.visible = false;
                     my.sprite.ice_wand_side.visible = false; 
+                    my.sprite.boat.visible = false;
                     break;
                 case 'left':
                     anim = my.sprite.player.element+'_walk_side';
@@ -955,13 +990,11 @@ class Adventure extends Phaser.Scene {
                     this.updatePlayerHitbox("left");
                     my.sprite.link.setFlip(true, false);
                     my.sprite.sword_side.visible = false;
-                    my.sprite.ice_wand_side.visible = false; 
+                    my.sprite.ice_wand_side.visible = false;
+                    my.sprite.boat.visible = false;
                     break;
-                    
-
                 }
             }
-
         }
 
         if (this.move && !this.moving && this.actionable) { //moveable
@@ -981,21 +1014,21 @@ class Adventure extends Phaser.Scene {
                         break;
                     case 'down':
                         anim = my.sprite.player.element+'_item_down';
-                        my.sprite.sword_up.setPosition(0, 12);
+                        my.sprite.sword_up.setPosition(3, 12);
                         my.sprite.sword_up.visible = true;
                         my.sprite.sword_up.body.enable = true;
                         my.sprite.sword_up.setFlip(false, true);
                         break;
                     case 'right':
                         anim = my.sprite.player.element+'_item_side';
-                        my.sprite.sword_side.setPosition(12, 1);
+                        my.sprite.sword_side.setPosition(14, 1);
                         my.sprite.sword_side.visible = true;
                         my.sprite.sword_side.body.enable = true;
                         my.sprite.sword_side.resetFlip(); 
                         break;
                     case 'left':
                         anim = my.sprite.player.element+'_item_side';
-                        my.sprite.sword_side.setPosition(-13, 1);
+                        my.sprite.sword_side.setPosition(-12, 1);
                         my.sprite.sword_side.visible = true;
                         my.sprite.sword_side.body.enable = true;
                         my.sprite.sword_side.setFlip(true, false);
@@ -1030,32 +1063,36 @@ class Adventure extends Phaser.Scene {
                 switch (my.sprite.player.facing) {
                     case 'up':
                         anim = my.sprite.player.element+'_item_up';
-                        if(my.playerVal.item != "bow") {
+                        if(my.playerVal.item != "bow" && my.playerVal.item != "boat") {
                             my.sprite.ice_wand_up.setPosition(0, -11);
                             my.sprite.ice_wand_up.setTexture(my.sprite.player.element + "_wand_up");
                             my.sprite.ice_wand_up.visible = true;
                             my.sprite.ice_wand_up.body.enable = true;
                             my.sprite.ice_wand_up.resetFlip(); 
                         }
-                        else if(!my.sprite.arrow_up.isMoving){
+                        else if(my.playerVal.item == "bow" && !my.sprite.arrow_up.isMoving) {
                             my.sprite.arrow_up.setPosition(my.sprite.player.x, my.sprite.player.y);
                             my.sprite.arrow_up.visible = true;
                             my.sprite.arrow_up.body.enable = true;
                             my.sprite.arrow_up.resetFlip();
                             my.sprite.arrow_up.isMoving = true;
                             my.sprite.arrow_up.dir = 'up';
+                        } 
+                        else if(my.playerVal.item == "boat") {
+                            my.sprite.boat.setPosition(0, -11);
+                            my.sprite.boat.visible = true;
                         }
                         break;
                     case 'down':
                         anim = my.sprite.player.element+'_item_down';
-                        if(my.playerVal.item != "bow") {
+                        if(my.playerVal.item != "bow" && my.playerVal.item != "boat") {
                             my.sprite.ice_wand_up.setPosition(0, 11);
                             my.sprite.ice_wand_up.setTexture(my.sprite.player.element + "_wand_up");
                             my.sprite.ice_wand_up.visible = true;
                             my.sprite.ice_wand_up.body.enable = true;
                             my.sprite.ice_wand_up.setFlip(false, true);
                         }
-                        else if(!my.sprite.arrow_up.isMoving){
+                        else if(my.playerVal.item == "bow" && !my.sprite.arrow_up.isMoving){
                             my.sprite.arrow_up.setPosition(my.sprite.player.x, my.sprite.player.y);
                             my.sprite.arrow_up.visible = true;
                             my.sprite.arrow_up.body.enable = true;
@@ -1063,17 +1100,21 @@ class Adventure extends Phaser.Scene {
                             my.sprite.arrow_up.isMoving = true;
                             my.sprite.arrow_up.dir = 'down';
                         }
+                        else if(my.playerVal.item == "boat") {
+                            my.sprite.boat.setPosition(2, 13);
+                            my.sprite.boat.visible = true;
+                        }
                         break;
                     case 'right':
                         anim = my.sprite.player.element+'_item_side';
-                        if(my.playerVal.item != "bow") {
+                        if(my.playerVal.item != "bow" && my.playerVal.item != "boat") {
                             my.sprite.ice_wand_side.setPosition(12, 1);
                             my.sprite.ice_wand_side.setTexture(my.sprite.player.element + "_wand_side");
                             my.sprite.ice_wand_side.visible = true;
                             my.sprite.ice_wand_side.body.enable = true;
                             my.sprite.ice_wand_side.resetFlip();
                         }
-                        else if (!my.sprite.arrow_side.isMoving){
+                        else if (my.playerVal.item == "bow" && !my.sprite.arrow_side.isMoving){
                             my.sprite.arrow_side.setPosition(my.sprite.player.x, my.sprite.player.y);
                             my.sprite.arrow_side.visible = true;
                             my.sprite.arrow_side.body.enable = true;
@@ -1081,17 +1122,21 @@ class Adventure extends Phaser.Scene {
                             my.sprite.arrow_side.isMoving = true;
                             my.sprite.arrow_side.dir = 'right';
                         }
+                        else if(my.playerVal.item == "boat") {
+                            my.sprite.boat.setPosition(16, 1);
+                            my.sprite.boat.visible = true;
+                        }
                         break;
                     case 'left':
                         anim = my.sprite.player.element+'_item_side';
-                        if(my.playerVal.item != "bow") {
+                        if(my.playerVal.item != "bow" && my.playerVal.item != "boat") {
                             my.sprite.ice_wand_side.setPosition(-12, 1);
                             my.sprite.ice_wand_side.setTexture(my.sprite.player.element + "_wand_side");
                             my.sprite.ice_wand_side.visible = true;
                             my.sprite.ice_wand_side.body.enable = true;
                             my.sprite.ice_wand_side.setFlip(true, false);
                         }
-                        else if(!my.sprite.arrow_side.isMoving){
+                        else if(my.playerVal.item == "bow" && !my.sprite.arrow_side.isMoving){
                             my.sprite.arrow_side.setPosition(my.sprite.player.x, my.sprite.player.y);
                             my.sprite.arrow_side.visible = true;
                             my.sprite.arrow_side.body.enable = true;
@@ -1099,7 +1144,11 @@ class Adventure extends Phaser.Scene {
                             my.sprite.arrow_side.isMoving = true;
                             my.sprite.arrow_side.dir = 'left';
                         }
-                        break;
+                        else if(my.playerVal.item == "boat") {
+                            my.sprite.boat.setPosition(-12, 1);
+                            my.sprite.boat.visible = true;
+                        }
+                        break; 
                 }
                 
                 my.sprite.link.anims.play(anim, true);

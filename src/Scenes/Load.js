@@ -31,11 +31,29 @@ class Load extends Phaser.Scene {
         this.load.atlas('link_light_item', 'Link-Light/LinkItem-Light/LinkItem-Light.png', 'Link-Light/LinkItem-Light/LinkItem-Light.json');
         this.load.image('link_light_pickup', 'Link-Light/LinkPickup-Light/LinkPickup-Light-0.png');
         //this.load.atlas('link_green_item', 'link/LinkMove/LinkItem.png', 'link/LinkMove/LinkItem.json');
+        
         this.load.atlas('armos_back', 'Armos/ArmosBack/ArmosBack.png', 'Armos/ArmosBack/ArmosBack.json');
         this.load.atlas('armos_front', 'Armos/ArmosFront/ArmosFront.png', 'Armos/ArmosFront/ArmosFront.json');
-        this.load.atlas('leever', 'Leever/Leever.png', 'Leever/Leever.json');
         this.load.atlas('octo_front', 'Octo/OctoFront/OctoFront.png', 'Octo/OctoFront/OctoFront.json');
         this.load.atlas('octo_side', 'Octo/OctoSide/OctoSide.png', 'Octo/OctoSide/OctoSide.json');
+        this.load.atlas('wizrobe_front', 'Wizrobe/WizrobeFront/WizrobeFront.png', 'Wizrobe/WizrobeFront/WizrobeFront.json')
+        this.load.atlas('wizrobe_back', 'Wizrobe/WizrobeBack/WizrobeBack.png', 'Wizrobe/WizrobeBack/WizrobeBack.json')
+        this.load.atlas('peahat', 'Peahat/Peahat.png', 'Peahat/Peahat.json')
+        this.load.atlas('lynel_back', 'Lynel/LynelBack/LynelBack.png', 'Lynel/LynelBack/LynelBack.json')
+        this.load.atlas('lynel_front', 'Lynel/LynelFront/LynelFront.png', 'Lynel/LynelFront/LynelFront.json')
+        // this.load.atlas('lynel_side', 'Lynel/LynelSide/LynelSide.png', 'Lynel/LynelSide/LynelSide.json')
+        this.load.atlas('digdogger_right', 'Boss-Digdogger/DigdoggerRight/DigdoggerRight.png', 'Boss-Digdogger/DigdoggerRight/DigdoggerRight.json')
+        this.load.atlas('digdogger_left', 'Boss-Digdogger/DigdoggerLeft/DigdoggerLeft.png', 'Boss-Digdogger/DigdoggerLeft/DigdoggerLeft.json')
+        this.load.atlas('gleeok', 'Boss-Gleeok/Gleeok.png', 'Boss-Gleeok/Gleeok.json')
+        this.load.atlas('manhandla', 'Boss-Manhandla/Manhandla.png', 'Boss-Manhandla/Manhandla.json')
+        this.load.atlas('ghini_front', 'Ghini/GhiniFront/GhiniFront.png', 'Ghini/GhiniFront/GhiniFront.json')
+        this.load.atlas('ghini_back', 'Ghini/GhiniBack/GhiniBack.png', 'Ghini/GhiniBack/GhiniBack.json')
+        this.load.atlas('darknut_front', 'Darknut/DarknutFront/DarknutFront.png', 'Darknut/DarknutFront/DarknutFront.json')
+        this.load.atlas('darknut_back', 'Darknut/DarknutBack/DarknutBack.png', 'Darknut/DarknutBack/DarknutBack.json')
+        this.load.atlas('darknut_side', 'Darknut/DarknutSide/DarknutSide.png', 'Darknut/DarknutSide/DarknutSide.json')
+        this.load.atlas('keese', 'Keese/Keese.png', 'Keese/Keese.json')
+        
+
         
         this.load.image("ice_wand_up", "small_assets/ice_wand_up.png");
         this.load.image("ice_wand_side", "small_assets/ice_wand_side.png");
@@ -55,6 +73,7 @@ class Load extends Phaser.Scene {
         this.load.image("bow", "small_assets/bow.png");
         this.load.image("arrow_up", "small_assets/arrow_up.png");
         this.load.image("arrow_side", "small_assets/arrow_side.png");
+        this.load.image("boat", "small_assets/boat.png");
 
         this.load.image("sword_up", "small_assets/sword_up.png");
         this.load.image("sword_side", "small_assets/sword_side.png");
@@ -317,242 +336,230 @@ class Load extends Phaser.Scene {
         repeat: -1
     });
 
-//LIGHTNING==================================================================================================================
-
-this.anims.create({
-    key: 'lightning_walk_up',
-    frames: this.anims.generateFrameNames('link_lightning_walk', {
-        prefix: "LinkMove-Lightning-",
-        start: 4,
-        end: 5,
-        suffix: ".png",
-        zeroPad: 1
-    }),
-    frameRate: 8,
-    repeat: -1
-});
-
-this.anims.create({
-    key: 'lightning_walk_side',
-    frames: this.anims.generateFrameNames('link_lightning_walk', {
-        prefix: "LinkMove-Lightning-",
-        start: 2,
-        end: 3,
-        suffix: ".png",
-        zeroPad: 1
-    }),
-    frameRate: 8,
-    repeat: -1
-});
-
-this.anims.create({
-    key: 'lightning_walk_down',
-    frames: this.anims.generateFrameNames('link_lightning_walk', {
-        prefix: "LinkMove-Lightning-",
-        start: 0,
-        end: 1,
-        suffix: ".png",
-        zeroPad: 1
-    }),
-    frameRate: 8,
-    repeat: -1
-});
-
-this.anims.create({
-    key: 'lightning_item_side',
-    frames: this.anims.generateFrameNames('link_lightning_item', {
-        prefix: "LinkItem-Lightning-",
-        start: 1,
-        end: 1,
-        suffix: ".png",
-        zeroPad: 1
-    }),
-    frameRate: 0,
-    repeat: -1
-});
-this.anims.create({
-    key: 'lightning_item_up',
-    frames: this.anims.generateFrameNames('link_lightning_item', {
-        prefix: "LinkItem-Lightning-",
-        start: 2,
-        end: 2,
-        suffix: ".png",
-        zeroPad: 1
-    }),
-    frameRate: 0,
-    repeat: -1
-});
-this.anims.create({
-    key: 'lightning_item_down',
-    frames: this.anims.generateFrameNames('link_lightning_item', {
-        prefix: "LinkItem-Lightning-",
-        start: 0,
-        end: 0,
-        suffix: ".png",
-        zeroPad: 1
-    }),
-    frameRate: 0,
-    repeat: -1
-});
+//LIGHTNING======================================================================================================================
+    this.anims.create({
+        key: 'lightning_walk_up',
+        frames: this.anims.generateFrameNames('link_lightning_walk', {
+            prefix: "LinkMove-Lightning-",
+            start: 4,
+            end: 5,
+            suffix: ".png",
+            zeroPad: 1
+        }),
+        frameRate: 8,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'lightning_walk_side',
+        frames: this.anims.generateFrameNames('link_lightning_walk', {
+            prefix: "LinkMove-Lightning-",
+            start: 2,
+            end: 3,
+            suffix: ".png",
+            zeroPad: 1
+        }),
+        frameRate: 8,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'lightning_walk_down',
+        frames: this.anims.generateFrameNames('link_lightning_walk', {
+            prefix: "LinkMove-Lightning-",
+            start: 0,
+            end: 1,
+            suffix: ".png",
+            zeroPad: 1
+        }),
+        frameRate: 8,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'lightning_item_side',
+        frames: this.anims.generateFrameNames('link_lightning_item', {
+            prefix: "LinkItem-Lightning-",
+            start: 1,
+            end: 1,
+            suffix: ".png",
+            zeroPad: 1
+        }),
+        frameRate: 0,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'lightning_item_up',
+        frames: this.anims.generateFrameNames('link_lightning_item', {
+            prefix: "LinkItem-Lightning-",
+            start: 2,
+            end: 2,
+            suffix: ".png",
+            zeroPad: 1
+        }),
+        frameRate: 0,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'lightning_item_down',
+        frames: this.anims.generateFrameNames('link_lightning_item', {
+            prefix: "LinkItem-Lightning-",
+            start: 0,
+            end: 0,
+            suffix: ".png",
+            zeroPad: 1
+        }),
+        frameRate: 0,
+        repeat: -1
+    });
 
 //DARK==================================================================================================================
-
-this.anims.create({
-    key: 'dark_walk_up',
-    frames: this.anims.generateFrameNames('link_dark_walk', {
-        prefix: "LinkMove-Dark-",
-        start: 4,
-        end: 5,
-        suffix: ".png",
-        zeroPad: 1
-    }),
-    frameRate: 8,
-    repeat: -1
-});
-
-this.anims.create({
-    key: 'dark_walk_side',
-    frames: this.anims.generateFrameNames('link_dark_walk', {
-        prefix: "LinkMove-Dark-",
-        start: 2,
-        end: 3,
-        suffix: ".png",
-        zeroPad: 1
-    }),
-    frameRate: 8,
-    repeat: -1
-});
-
-this.anims.create({
-    key: 'dark_walk_down',
-    frames: this.anims.generateFrameNames('link_dark_walk', {
-        prefix: "LinkMove-Dark-",
-        start: 0,
-        end: 1,
-        suffix: ".png",
-        zeroPad: 1
-    }),
-    frameRate: 8,
-    repeat: -1
-});
-
-this.anims.create({
-    key: 'dark_item_side',
-    frames: this.anims.generateFrameNames('link_dark_item', {
-        prefix: "LinkItem-Dark-",
-        start: 1,
-        end: 1,
-        suffix: ".png",
-        zeroPad: 1
-    }),
-    frameRate: 0,
-    repeat: -1
-});
-this.anims.create({
-    key: 'dark_item_up',
-    frames: this.anims.generateFrameNames('link_dark_item', {
-        prefix: "LinkItem-Dark-",
-        start: 2,
-        end: 2,
-        suffix: ".png",
-        zeroPad: 1
-    }),
-    frameRate: 0,
-    repeat: -1
-});
-this.anims.create({
-    key: 'dark_item_down',
-    frames: this.anims.generateFrameNames('link_dark_item', {
-        prefix: "LinkItem-Dark-",
-        start: 0,
-        end: 0,
-        suffix: ".png",
-        zeroPad: 1
-    }),
-    frameRate: 0,
-    repeat: -1
-});
-
+    this.anims.create({
+        key: 'dark_walk_up',
+        frames: this.anims.generateFrameNames('link_dark_walk', {
+            prefix: "LinkMove-Dark-",
+            start: 4,
+            end: 5,
+            suffix: ".png",
+            zeroPad: 1
+        }),
+        frameRate: 8,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'dark_walk_side',
+        frames: this.anims.generateFrameNames('link_dark_walk', {
+            prefix: "LinkMove-Dark-",
+            start: 2,
+            end: 3,
+            suffix: ".png",
+            zeroPad: 1
+        }),
+        frameRate: 8,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'dark_walk_down',
+        frames: this.anims.generateFrameNames('link_dark_walk', {
+            prefix: "LinkMove-Dark-",
+            start: 0,
+            end: 1,
+            suffix: ".png",
+            zeroPad: 1
+        }),
+        frameRate: 8,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'dark_item_side',
+        frames: this.anims.generateFrameNames('link_dark_item', {
+            prefix: "LinkItem-Dark-",
+            start: 1,
+            end: 1,
+            suffix: ".png",
+            zeroPad: 1
+        }),
+        frameRate: 0,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'dark_item_up',
+        frames: this.anims.generateFrameNames('link_dark_item', {
+            prefix: "LinkItem-Dark-",
+            start: 2,
+            end: 2,
+            suffix: ".png",
+            zeroPad: 1
+        }),
+        frameRate: 0,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'dark_item_down',
+        frames: this.anims.generateFrameNames('link_dark_item', {
+            prefix: "LinkItem-Dark-",
+            start: 0,
+            end: 0,
+            suffix: ".png",
+            zeroPad: 1
+        }),
+        frameRate: 0,
+        repeat: -1
+    });
 //FIRE==================================================================================================================
-
-this.anims.create({
-    key: 'light_walk_up',
-    frames: this.anims.generateFrameNames('link_light_walk', {
-        prefix: "LinkMove-Light-",
-        start: 4,
-        end: 5,
-        suffix: ".png",
-        zeroPad: 1
-    }),
-    frameRate: 8,
-    repeat: -1
-});
-
-this.anims.create({
-    key: 'light_walk_side',
-    frames: this.anims.generateFrameNames('link_light_walk', {
-        prefix: "LinkMove-Light-",
-        start: 2,
-        end: 3,
-        suffix: ".png",
-        zeroPad: 1
-    }),
-    frameRate: 8,
-    repeat: -1
-});
-
-this.anims.create({
-    key: 'light_walk_down',
-    frames: this.anims.generateFrameNames('link_light_walk', {
-        prefix: "LinkMove-Light-",
-        start: 0,
-        end: 1,
-        suffix: ".png",
-        zeroPad: 1
-    }),
-    frameRate: 8,
-    repeat: -1
-});
-
-this.anims.create({
-    key: 'light_item_side',
-    frames: this.anims.generateFrameNames('link_light_item', {
-        prefix: "LinkItem-Light-",
-        start: 1,
-        end: 1,
-        suffix: ".png",
-        zeroPad: 1
-    }),
-    frameRate: 0,
-    repeat: -1
-});
-this.anims.create({
-    key: 'light_item_up',
-    frames: this.anims.generateFrameNames('link_light_item', {
-        prefix: "LinkItem-Light-",
-        start: 2,
-        end: 2,
-        suffix: ".png",
-        zeroPad: 1
-    }),
-    frameRate: 0,
-    repeat: -1
-});
-this.anims.create({
-    key: 'light_item_down',
-    frames: this.anims.generateFrameNames('link_light_item', {
-        prefix: "LinkItem-Light-",
-        start: 0,
-        end: 0,
-        suffix: ".png",
-        zeroPad: 1
-    }),
-    frameRate: 0,
-    repeat: -1
-});
+    this.anims.create({
+        key: 'light_walk_up',
+        frames: this.anims.generateFrameNames('link_light_walk', {
+            prefix: "LinkMove-Light-",
+            start: 4,
+            end: 5,
+            suffix: ".png",
+            zeroPad: 1
+        }),
+        frameRate: 8,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'light_walk_side',
+        frames: this.anims.generateFrameNames('link_light_walk', {
+            prefix: "LinkMove-Light-",
+            start: 2,
+            end: 3,
+            suffix: ".png",
+            zeroPad: 1
+        }),
+        frameRate: 8,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'light_walk_down',
+        frames: this.anims.generateFrameNames('link_light_walk', {
+            prefix: "LinkMove-Light-",
+            start: 0,
+            end: 1,
+            suffix: ".png",
+            zeroPad: 1
+        }),
+        frameRate: 8,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'light_item_side',
+        frames: this.anims.generateFrameNames('link_light_item', {
+            prefix: "LinkItem-Light-",
+            start: 1,
+            end: 1,
+            suffix: ".png",
+            zeroPad: 1
+        }),
+        frameRate: 0,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'light_item_up',
+        frames: this.anims.generateFrameNames('link_light_item', {
+            prefix: "LinkItem-Light-",
+            start: 2,
+            end: 2,
+            suffix: ".png",
+            zeroPad: 1
+        }),
+        frameRate: 0,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'light_item_down',
+        frames: this.anims.generateFrameNames('link_light_item', {
+            prefix: "LinkItem-Light-",
+            start: 0,
+            end: 0,
+            suffix: ".png",
+            zeroPad: 1
+        }),
+        frameRate: 0,
+        repeat: -1
+    });
 
 //ENEMIES===============================================================================================================
 
+    //ARMOS
         this.anims.create({
             key: 'armos_back',
             frames: this.anims.generateFrameNames('armos_back', {
@@ -565,7 +572,6 @@ this.anims.create({
             frameRate: 8,
             repeat: -1
         });
-
         this.anims.create({
             key: 'armos_front',
             frames: this.anims.generateFrameNames('armos_front', {
@@ -578,7 +584,7 @@ this.anims.create({
             frameRate: 8,
             repeat: -1
         });
-
+    //OCTO
         this.anims.create({
             key: 'octo_front',
             frames: this.anims.generateFrameNames('octo_front', {
@@ -591,7 +597,6 @@ this.anims.create({
             frameRate: 8,
             repeat: -1
         });
-
         this.anims.create({
             key: 'octo_side',
             frames: this.anims.generateFrameNames('octo_side', {
@@ -604,13 +609,213 @@ this.anims.create({
             frameRate: 8,
             repeat: -1
         });
-
+    //WIZ
         this.anims.create({
-            key: 'leever_walk',
-            frames: this.anims.generateFrameNames('leever', {
-                prefix: "Leever-",
-                start: 3,
-                end: 4,
+            key: 'wizrobe_front',
+            frames: this.anims.generateFrameNames('wizrobe_front', {
+                prefix: "WizrobeFront-",
+                start: 0,
+                end: 1,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'wizrobe_back',
+            frames: this.anims.generateFrameNames('wizrobe_back', {
+                prefix: "WizrobeBack-",
+                start: 0,
+                end: 1,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        })
+    //PEAHAT
+        this.anims.create({
+            key: 'peahat',
+            frames: this.anims.generateFrameNames('peahat', {
+                prefix: "Peahat-",
+                start: 0,
+                end: 1,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+    //LYNEL
+        this.anims.create({
+            key: 'lynel_back',
+            frames: this.anims.generateFrameNames('lynel_back', {
+                prefix: "LynelBack-",
+                start: 0,
+                end: 1,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'lynel_front',
+            frames: this.anims.generateFrameNames('lynel_front', {
+                prefix: "LynelFront-",
+                start: 0,
+                end: 1,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        // this.anims.create({
+        //     key: 'lynel_side',
+        //     frames: this.anims.generateFrameNames('lynel_side', {
+        //         prefix: "LynelSide-",
+        //         start: 0,
+        //         end: 1,
+        //         suffix: ".png",
+        //         zeroPad: 1
+        //     }),
+        //     frameRate: 8,
+        //     repeat: -1
+        // });
+    //KEESE
+        this.anims.create({
+            key: 'keese',
+            frames: this.anims.generateFrameNames('keese', {
+                prefix: "Keese-",
+                start: 0,
+                end: 1,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+    //GHINI (GHOST)
+        this.anims.create({
+            key: 'ghini_front',
+            frames: this.anims.generateFrameNames('ghini_front', {
+                prefix: "GhiniFront-",
+                start: 0,
+                end: 0,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'ghini_back',
+            frames: this.anims.generateFrameNames('ghini_back', {
+                prefix: "GhiniBack",
+                start: 0,
+                end: 0,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+    //DARKNUT
+        this.anims.create({
+            key: 'darknut_front',
+            frames: this.anims.generateFrameNames('darknut_front', {
+                prefix: "DarknutFront-",
+                start: 0,
+                end: 1,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'darknut_side',
+            frames: this.anims.generateFrameNames('darknut_side', {
+                prefix: "DarknutSide-",
+                start: 0,
+                end: 1,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'darknut_back',
+            frames: this.anims.generateFrameNames('darknut_back', {
+                prefix: "DarknutBack-",
+                start: 0,
+                end: 1,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+    //DIGDOGGER
+        this.anims.create({
+            key: 'digdogger_left',
+            frames: this.anims.generateFrameNames('digdogger_left', {
+                prefix: "DigdoggerLeft-",
+                start: 0,
+                end: 2,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'digdogger_right',
+            frames: this.anims.generateFrameNames('digdogger_right', {
+                prefix: "DigdoggerRight-",
+                start: 0,
+                end: 2,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+    //MANHANDLA
+        this.anims.create({
+            key: 'manhandla_side',
+            frames: this.anims.generateFrameNames('manhandla_side', {
+                prefix: "Manhandla-",
+                start: 0,
+                end: 2,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'manhandla_front',
+            frames: this.anims.generateFrameNames('manhandla_front', {
+                prefix: "Manhandla-",
+                start: 2,
+                end: 3,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+    //GLEEOK
+        this.anims.create({
+            key: 'gleeok_body',
+            frames: this.anims.generateFrameNames('gleeok_body', {
+                prefix: "Gleeok-",
+                start: 0,
+                end: 2,
                 suffix: ".png",
                 zeroPad: 1
             }),
@@ -618,6 +823,8 @@ this.anims.create({
             repeat: -1
         });
 
+
+//SCENE START============================================================================================================
          // ...and pass to the next Scene
          this.scene.start("AdventureScene");
     }

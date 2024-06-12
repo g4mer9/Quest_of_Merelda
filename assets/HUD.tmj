@@ -3140,6 +3140,19 @@
          "tilecount":1,
          "tileheight":16,
          "tilewidth":8
+        }, 
+        {
+         "columns":1,
+         "firstgid":1290,
+         "image":"small_assets\/boat.png",
+         "imageheight":16,
+         "imagewidth":14,
+         "margin":0,
+         "name":"boat",
+         "spacing":0,
+         "tilecount":1,
+         "tileheight":16,
+         "tilewidth":14
         }],
  "tilewidth":8,
  "type":"map",

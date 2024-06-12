@@ -1660,6 +1660,9 @@
  <tileset firstgid="1289" name="bow" tilewidth="8" tileheight="16" tilecount="1" columns="1">
   <image source="small_assets/bow.png" width="8" height="16"/>
  </tileset>
+ <tileset firstgid="1290" name="boat" tilewidth="14" tileheight="16" tilecount="1" columns="1">
+  <image source="small_assets/boat.png" width="14" height="16"/>
+ </tileset>
  <layer id="1" name="Tile Layer 1" width="40" height="6">
   <data encoding="csv">
 41,41,41,41,41,117,102,102,102,102,118,41,41,41,41,41,41,41,41,2147484675,6,41,15,1027,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,
