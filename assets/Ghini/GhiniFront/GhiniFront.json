@@ -1,7 +1,7 @@
 {
 	"textures": [
 		{
-			"image": "GhiniFront.png",
+			"image": "GhiniFront-0.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 36,

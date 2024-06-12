@@ -46,8 +46,8 @@ class Load extends Phaser.Scene {
         this.load.atlas('digdogger_left', 'Boss-Digdogger/DigdoggerLeft/DigdoggerLeft.png', 'Boss-Digdogger/DigdoggerLeft/DigdoggerLeft.json')
         this.load.atlas('gleeok', 'Boss-Gleeok/Gleeok.png', 'Boss-Gleeok/Gleeok.json')
         this.load.atlas('manhandla', 'Boss-Manhandla/Manhandla.png', 'Boss-Manhandla/Manhandla.json')
-        this.load.atlas('ghini_front', 'Ghini/GhiniFront/GhiniFront.png', 'Ghini/GhiniFront/GhiniFront.json')
-        this.load.atlas('ghini_back', 'Ghini/GhiniBack/GhiniBack.png', 'Ghini/GhiniBack/GhiniBack.json')
+        this.load.atlas('ghini_front', 'Ghini/GhiniFront/GhiniFront-0.png', 'Ghini/GhiniFront/GhiniFront.json')
+        this.load.atlas('ghini_back', 'Ghini/GhiniBack/GhiniBack-0.png', 'Ghini/GhiniBack/GhiniBack.json')
         this.load.atlas('darknut_front', 'Darknut/DarknutFront/DarknutFront.png', 'Darknut/DarknutFront/DarknutFront.json')
         this.load.atlas('darknut_back', 'Darknut/DarknutBack/DarknutBack.png', 'Darknut/DarknutBack/DarknutBack.json')
         this.load.atlas('darknut_side', 'Darknut/DarknutSide/DarknutSide.png', 'Darknut/DarknutSide/DarknutSide.json')
@@ -86,6 +86,7 @@ class Load extends Phaser.Scene {
         this.load.image("old_man", "small_assets/old_man.png")
 
         // Load tilemap information
+        this.load.image("teal_dungeon_dark_tileset", "teal_dungeon_dark.png");
         this.load.image("teal_dungeon_tileset", "teal_dungeon.png");
         this.load.image("grey_dungeon_tileset", "grey_dungeon.png");
         this.load.image("blue_dungeon_tileset", "blue_dungeon.png");
@@ -713,7 +714,7 @@ class Load extends Phaser.Scene {
         this.anims.create({
             key: 'ghini_back',
             frames: this.anims.generateFrameNames('ghini_back', {
-                prefix: "GhiniBack",
+                prefix: "GhiniBack-",
                 start: 0,
                 end: 0,
                 suffix: ".png",
@@ -787,7 +788,7 @@ class Load extends Phaser.Scene {
     //MANHANDLA
         this.anims.create({
             key: 'manhandla_side',
-            frames: this.anims.generateFrameNames('manhandla_side', {
+            frames: this.anims.generateFrameNames('manhandla', {
                 prefix: "Manhandla-",
                 start: 0,
                 end: 2,
@@ -799,7 +800,7 @@ class Load extends Phaser.Scene {
         });
         this.anims.create({
             key: 'manhandla_front',
-            frames: this.anims.generateFrameNames('manhandla_front', {
+            frames: this.anims.generateFrameNames('manhandla', {
                 prefix: "Manhandla-",
                 start: 2,
                 end: 3,
@@ -812,7 +813,7 @@ class Load extends Phaser.Scene {
     //GLEEOK
         this.anims.create({
             key: 'gleeok_body',
-            frames: this.anims.generateFrameNames('gleeok_body', {
+            frames: this.anims.generateFrameNames('gleeok', {
                 prefix: "Gleeok-",
                 start: 0,
                 end: 2,

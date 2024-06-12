@@ -51,13 +51,13 @@ class Adventure extends Phaser.Scene {
         this.actionable_offset = 0;
         this.iframes_counter = 0;
         this.actionable = true;
-        this.map_coords = [['A0',   '',  'C0', ''], //MUST BE ACCESSED VIA map_coords[y][x]
-                            ['A1', 'B1', 'C1', 'D1', '',  '',     'ldG1',  ''],
+        this.map_coords = [['A0',   '',  'C0', '', 'sub'], //MUST BE ACCESSED VIA map_coords[y][x]
+                            ['A1', 'B1', 'C1', 'D1', 'sub',  '',     'ldG1',  ''],
                             ['A2', 'B2', 'C2', 'D2', '',  '',     'ldG2',  ''],
                             ['A3', 'B3', 'C3', 'D3', 'E3', '',    'ldG3', 'ldH3'],
                             ['A4', 'B4', 'C4', 'D4',  '', 'ldF4', 'ldG4', 'ldH4'],
                             ['',    '',   '',  'D5',  '', 'ldF5', 'ldG5', 'ldH5']];
-        this.spawn_locations = [{screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, x: 850, y: 650}, {screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, x: 866, y: 650}, {screen: 'ldF5', item: false, key: true, type: 'octo', weakness: 'ice', health: 4, x: 1760, y: 800} ];
+        this.spawn_locations = [{screen: 'C4', item: false, key: false, type: 'ghini', weakness: 'ice', health: 4, x: 850, y: 650}, {screen: 'C4', item: false, key: false, type: 'peahat', weakness: 'ice', health: 4, x: 866, y: 650}, {screen: 'ldF5', item: false, key: true, type: 'darknut', weakness: 'ice', health: 4, x: 1760, y: 800} ];
         this.xKey = this.input.keyboard.addKey('X');
         this.zKey = this.input.keyboard.addKey('Z');
         // this.aKey = this.input.keyboard.addKey('A');
@@ -79,15 +79,18 @@ class Adventure extends Phaser.Scene {
         this.mountain_tileset = this.map.addTilesetImage("zelda_mountain_tileset","mountain_tileset");
         this.graveyard_tileset = this.map.addTilesetImage("zelda_graveyard_tileset","graveyard_tileset");
         this.teal_tileset = this.map.addTilesetImage("teal_dungeon", "teal_dungeon_tileset");
+        this.teal_dark_tileset = this.map.addTilesetImage("teal_dungeon_dark", "teal_dungeon_dark_tileset");
         this.frozen_tileset = this.map.addTilesetImage("FrozenWaterTiles", "frozen_water");
         this.cave_tileset = this.map.addTilesetImage("cave", "cave");
         this.old_man_tileset = this.map.addTilesetImage("old_man", "old_man");
 
         this.groundLayer = this.map.createLayer("basic-geometry-layer", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset, this.teal_tileset, this.frozen_tileset, this.cave_tileset], 0, 0);
         this.enemyBoundary = this.map.createLayer("boundaries", this.forest_tileset, 0, 0);
+        this.darkLayer = this.map.createLayer("dark-layer", [this.teal_dark_tileset], 0, 0);
         this.transitionsLayer = this.map.createLayer("transitions", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset], 0, 0);
         this.foregroundLayer = this.map.createLayer("foreground", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset, this.teal_tileset, this.old_man_tileset], 0, 0).setDepth(100000);
         this.enemyBoundary.visible = false;
+        this.transitionsLayer.visible = false;
         
         this.enemyBoundary.setCollisionByProperty({//collision with geometry layer
             collides: true
@@ -254,8 +257,31 @@ class Adventure extends Phaser.Scene {
 //WORLD INTERACTION===========================================================================================================================
         // Map interactions
         this.groundLayer.setTileIndexCallback(this.overworld_tileset.firstgid + 151, (sprite, tile) => {
-            if (sprite === my.sprite.ice_wand_side && my.sprite.ice_wand_side.visible === true && my.sprite.player.x === 360 && my.sprite.player.y === 504) {
+            if (sprite === my.sprite.ice_wand_side && my.sprite.ice_wand_side.visible === true && my.sprite.player.element == "ice" && my.sprite.player.x === 360 && my.sprite.player.y === 504) {
                 this.freezeFountain();
+            }
+        }, this);
+
+        //burn tree
+        this.groundLayer.setTileIndexCallback(this.overworld_tileset.firstgid + 210, (sprite, tile) => {
+            if (sprite === my.sprite.ice_wand_up && my.sprite.ice_wand_up.visible === true && my.sprite.player.element == "fire" && my.sprite.player.x >=  672 && my.sprite.player.x <= 688 && my.sprite.player.y ==  472) {
+                let tiles = [tile];
+                tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y));
+                tiles.push(this.groundLayer.getTileAt(tile.x, tile.y - 1));
+                tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y - 1));
+                this.createStairs(tiles, this.forest_tileset);
+            }
+        }, this);
+
+        //blow up rock
+        this.groundLayer.setTileIndexCallback(this.mountain_tileset.firstgid + 220, (sprite, tile) => {
+            if (sprite === my.sprite.ice_wand_side && my.sprite.ice_wand_side.visible === true && my.sprite.player.element == "lightning" ) {
+                console.log(my.sprite.player.x, my.sprite.player.y)
+                // let tiles = [tile];
+                // tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y));
+                // tiles.push(this.groundLayer.getTileAt(tile.x, tile.y - 1));
+                // tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y - 1));
+                // this.createStairs(tiles, this.mountain_tileset);
             }
         }, this);
 
@@ -685,35 +711,46 @@ class Adventure extends Phaser.Scene {
             let targetX = enemy.x - (Math.floor(Math.random() * (6 - 1) + 1) * 8);
             enemy.targetX = targetX;
             enemy.facing = 'left';
-            let anim = enemy.type+'_side';
+            let anim = null;
+            if(enemy.type == "octo" || enemy.type == "darknut" || enemy.type == "lynel") anim = enemy.type+'_side';
+            else if(enemy.type == "peahat" || enemy.type == "keese") anim = enemy.type;
+            else anim = enemy.type + "_front";
             enemy.anims.play(anim, true);
-            enemy.resetFlip();
-            
+            if(enemy.type != "wizrobe" && enemy.type != "darknut") enemy.resetFlip();
+            else enemy.setFlip(true, false);
             enemy.setVelocity(-this.playerVelocity / 2, 0);
         }
         else if(rand >= .25 && rand < .5) {//move up
             let targetY = enemy.y - (Math.floor(Math.random() * (6 - 1) + 1) * 8);
             enemy.targetY = targetY;
             enemy.facing = 'up';
-            let anim = enemy.type+'_front';
+            let anim = null;
+            if(enemy.type == "armos" || enemy.type == "darknut" || enemy.type == "lynel" || enemy.type == "wizrobe" ||enemy.type == "ghini") anim = enemy.type+"_back"
+            else if(enemy.type == "peahat" || enemy.type == "keese") anim = enemy.type;
+            else {anim = enemy.type+"_front"; enemy.setFlip(false, true);}
             enemy.anims.play(anim, true);
-            enemy.setFlip(false, true);
             enemy.setVelocity(0, -this.playerVelocity / 2);
         }
         else if(rand >= .5 && rand < .75) { //move right
             let targetX = enemy.x + (Math.floor(Math.random() * (6 - 1) + 1) * 8);
             enemy.targetX = targetX;
             enemy.facing = 'right';
-            let anim = enemy.type+'_side';
+            let anim = null;
+            if(enemy.type == "octo" || enemy.type == "darknut" || enemy.type == "lynel") anim = enemy.type+'_side';
+            else if(enemy.type == "peahat" || enemy.type == "keese") anim = enemy.type;
+            else anim = enemy.type + "_front";
             enemy.anims.play(anim, true);
-            enemy.setFlip(true, false);
+            if(enemy.type != "wizrobe" && enemy.type != "darknut") enemy.setFlip(true, false);
+            else enemy.resetFlip();
             enemy.setVelocity(this.playerVelocity / 2, 0);
         }
         else if(rand > .75) {//move down
             let targetY = enemy.y + (Math.floor(Math.random() * (6 - 1) + 1) * 8);
             enemy.targetY = targetY;
             enemy.facing = 'down';
-            let anim = enemy.type+'_front';
+            let anim = null;
+            if(enemy.type == "peahat" || enemy.type == "keese") anim = enemy.type;
+            else anim = enemy.type+'_front';
             enemy.anims.play(anim, true);
             enemy.resetFlip();
             enemy.setVelocity(0, this.playerVelocity / 2);
@@ -778,12 +815,21 @@ class Adventure extends Phaser.Scene {
         
     }
 
+    createStairs(tiles, tileset) {
+        this.groundLayer.putTileAt(this.forest_tileset.firstgid + 120, tiles[0].x, tiles[0].y);
+        this.groundLayer.putTileAt(this.forest_tileset.firstgid + 121, tiles[1].x, tiles[1].y);
+        this.groundLayer.putTileAt(this.forest_tileset.firstgid + 104, tiles[2].x, tiles[2].y);
+        this.groundLayer.putTileAt(this.forest_tileset.firstgid + 105, tiles[3].x, tiles[3].y);
+    }
+    
+
     
     update() {
         // console.log("x: "+my.sprite.player.x+", y: "+my.sprite.player.y);
         //console.log(my.playerVal.item)
         //console.log(this.move, this.actionable_timer)
         //console.log(my.sprite.player.x, my.sprite.player.y);
+        //console.log(this.overworld, my.playerVal.pos, my.sprite.player.x_coord, my.sprite.player.y_coord)
         if(!this.mapCamera.isMoving)this.checkCameraBounds();
         my.sprite.sword_side.setVelocity(0, 0);
         my.sprite.sword_up.setVelocity(0, 0);
@@ -939,6 +985,8 @@ class Adventure extends Phaser.Scene {
 
 //PLAYER CHECKS=========================================================================================================================
         //if(my.sprite.player.dir)console.log(this.actionable_timer)
+        if(my.sprite.player.element == 'light') {this.darkLayer.visible = false;}
+        else this.darkLayer.visible = true;
         my.sprite.link.body.x = my.sprite.player.body.x;
         my.sprite.link.body.y = my.sprite.player.body.y;
         if(my.sprite.player.dir == 0) this.move = true;

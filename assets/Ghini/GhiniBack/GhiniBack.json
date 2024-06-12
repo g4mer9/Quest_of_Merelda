@@ -1,7 +1,7 @@
 {
 	"textures": [
 		{
-			"image": "GhiniBack.png",
+			"image": "GhiniBack-0.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 18,
@@ -10,7 +10,7 @@
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "GhiniBack.png",
+					"filename": "GhiniBack-0.png",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
