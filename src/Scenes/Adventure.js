@@ -900,13 +900,13 @@ class Adventure extends Phaser.Scene {
     }
 
     spawnDig() {
-        my.sprite.digdogger = this.physics.add.sprite(420, 640, "digdogger_right", "DigdoggerRight-0.png").setDepth(90);
+        my.sprite.digdogger = this.physics.add.sprite(260, 42, "digdogger_right", "DigdoggerRight-0.png").setDepth(90);
         my.sprite.digdogger.isMoving = false;
         this.physics.world.enable(my.sprite.digdogger);
         my.sprite.digdogger.anims.play('digdogger_right', true);
         // my.sprite.digdogger.visible = false;
         my.sprite.digdogger.type = 'digdogger';
-        my.sprite.digdogger.weakness = 'dark';
+        my.sprite.digdogger.weakness = 'dark'; 
         my.sprite.digdogger.health = 20;
         my.sprite.digdogger.speed = this.playerVelocity / 2;
         my.sprite.digdogger.delete = false;
