@@ -16,7 +16,7 @@ class Adventure extends Phaser.Scene {
         this.max = data.max || 6;
         this.heart_containers_spawn = data.heart_containers_spawn || [0, 1, 2, 3, 4, 5, 6, 7, 8]
         this.rupees = data.rupees || 95;
-        this.keys = data.keys || 0;
+        this.keys = data.keys || 5;
         
         //setting current game state
         my.playerVal.max = this.max;
@@ -59,8 +59,42 @@ class Adventure extends Phaser.Scene {
                             ['A3', 'B3', 'C3', 'D3', 'E3', '',    'ldG3', 'ldH3'],
                             ['A4', 'B4', 'C4', 'D4',  '', 'ldF4', 'ldG4', 'ldH4'],
                             ['',    '',   '',  'D5',  '', 'ldF5', 'ldG5', 'ldH5']];
-        this.spawn_locations = [{screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, damage: 1, speed: this.playerVelocity / 2, x: 850, y: 650}, 
+        this.spawn_locations = [{screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, damage: 1, speed: this.playerVelocity / 2, x: 720, y: 650}, 
+            {screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 800, y: 650},
             {screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 866, y: 650}, 
+            {screen: 'A4', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 96, y: 648},
+            {screen: 'A4', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 224, y: 648},
+            {screen: 'B3', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 2, x: 376, y: 504},
+            {screen: 'B3', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 2, x: 450, y: 504},
+            {screen: 'B3', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 2, x: 616, y: 504},
+            {screen: 'D4', item: false, key: false, type: 'peahat', weakness: 'fire', health: 6, speed: this.playerVelocity / 1.5, damage: 2, x: 1120, y: 616},
+            {screen: 'D4', item: false, key: false, type: 'peahat', weakness: 'fire', health: 6, speed: this.playerVelocity / 1.5, damage: 2, x: 1016, y: 616},
+            {screen: 'D3', item: false, key: false, type: 'peahat', weakness: 'fire', health: 6, speed: this.playerVelocity / 1.5, damage: 2, x: 1152, y: 504},
+            {screen: 'D3', item: false, key: false, type: 'peahat', weakness: 'fire', health: 6, speed: this.playerVelocity / 1.5, damage: 2, x: 1048, y: 480},
+            {screen: 'D3', item: false, key: false, type: 'peahat', weakness: 'fire', health: 6, speed: this.playerVelocity / 1.5, damage: 2, x: 1016, y: 520},
+            {screen: 'C2', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 744, y: 344},
+            {screen: 'C3', item: false, key: false, type: 'wizrobe', weakness: 'fire', health: 6, speed: this.playerVelocity / 2, damage: 2, x: 696, y: 520},
+            {screen: 'C3', item: false, key: false, type: 'wizrobe', weakness: 'fire', health: 6, speed: this.playerVelocity / 2, damage: 2, x: 936, y: 520},
+            {screen: 'C3', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 800, y: 520},
+            {screen: 'C3', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 800, y: 488},
+            {screen: 'D1', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 1056, y: 216},
+            {screen: 'D1', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 1192, y: 216}, 
+            {screen: 'B2', item: false, key: true, type: 'ghini', weakness: 'dark', health: 7, damage: 2, speed: this.playerVelocity / 2, x: 552, y: 376}, 
+            {screen: 'B2', item: false, key: true, type: 'ghini', weakness: 'dark', health: 7, damage: 2, speed: this.playerVelocity / 2, x: 520, y: 312},
+            {screen: 'B2', item: false, key: true, type: 'ghini', weakness: 'dark', health: 7, damage: 2, speed: this.playerVelocity / 2, x: 408, y: 392},
+            {screen: 'B2', item: false, key: false, type: 'darknut', weakness: 'light', health: 10, damage: 3, speed: this.playerVelocity / 2, x: 392, y: 408},
+            {screen: 'B2', item: false, key: false, type: 'darknut', weakness: 'light', health: 10, damage: 3, speed: this.playerVelocity / 2, x: 568, y: 325},
+            {screen: 'B1', item: false, key: true, type: 'ghini', weakness: 'dark', health: 7, damage: 2, speed: this.playerVelocity / 2, x: 376, y: 264},
+            {screen: 'B1', item: false, key: true, type: 'ghini', weakness: 'dark', health: 7, damage: 2, speed: this.playerVelocity / 2, x: 584, y: 224},
+            {screen: 'B1', item: false, key: false, type: 'darknut', weakness: 'light', health: 10, damage: 3, speed: this.playerVelocity / 2, x: 456, y: 200},
+            {screen: 'A2', item: false, key: true, type: 'ghini', weakness: 'dark', health: 7, damage: 2, speed: this.playerVelocity / 2, x: 232, y: 312},
+            {screen: 'A2', item: false, key: true, type: 'ghini', weakness: 'dark', health: 7, damage: 2, speed: this.playerVelocity / 2, x: 152, y: 360},
+            {screen: 'A2', item: false, key: false, type: 'darknut', weakness: 'light', health: 10, damage: 3, speed: this.playerVelocity / 2, x: 184, y: 408},
+            {screen: 'A2', item: false, key: false, type: 'lynel', weakness: 'lightning', health: 10, damage: 4, speed: this.playerVelocity / 2, x: 216, y: 352},
+            {screen: 'A2', item: false, key: false, type: 'lynel', weakness: 'lightning', health: 10, damage: 4, speed: this.playerVelocity / 2, x: 56, y: 328},
+            {screen: 'C1', item: false, key: false, type: 'lynel', weakness: 'lightning', health: 10, damage: 4, speed: this.playerVelocity / 2, x: 720, y: 215},
+            {screen: 'C0', item: false, key: false, type: 'lynel', weakness: 'lightning', health: 10, damage: 4, speed: this.playerVelocity / 2, x: 920, y: 24},
+
             {screen: 'ldF5', item: false, key: true, type: 'armos', weakness: 'ice', health: 4, damage: 2, speed: this.playerVelocity / 2,  x: 1760, y: 760}, 
             {screen: 'ldF5', item: false, key: true, type: 'armos', weakness: 'ice', health: 4, damage: 2, speed: this.playerVelocity / 2, x: 1700, y: 760}, 
             {screen: 'ldF5', item: false, key: true, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 1730, y: 820}, 
@@ -73,7 +107,7 @@ class Adventure extends Phaser.Scene {
             {screen: 'ldG4', item: false, key: false, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2000, y: 660},
             {screen: 'ldG4', item: false, key: false, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2160, y: 640}, 
             {screen: 'ldG4', item: false, key: false, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2160, y: 660},
-            {screen: 'ldH4', item: false, key: false, type: 'darknut', weakness: 'light', health: 10, damage: 2, speed: this.playerVelocity / 4, x: 2400, y: 680}];
+            {screen: 'ldH4', item: false, key: false, type: 'darknut', weakness: 'light', health: 10, damage: 2, speed: this.playerVelocity / 2, x: 2400, y: 680}];
         this.xKey = this.input.keyboard.addKey('X');
         this.zKey = this.input.keyboard.addKey('Z');
         // this.aKey = this.input.keyboard.addKey('A');
@@ -96,6 +130,7 @@ class Adventure extends Phaser.Scene {
         this.graveyard_tileset = this.map.addTilesetImage("zelda_graveyard_tileset","graveyard_tileset");
         this.teal_tileset = this.map.addTilesetImage("teal_dungeon", "teal_dungeon_tileset");
         this.teal_dark_tileset = this.map.addTilesetImage("teal_dungeon_dark", "teal_dungeon_dark_tileset");
+        this.teal_light_tileset = this.map.addTilesetImage("teal_dungeon_light", "teal_dungeon_light_tileset")
         this.frozen_tileset = this.map.addTilesetImage("FrozenWaterTiles", "frozen_water");
         this.cave_tileset = this.map.addTilesetImage("cave", "cave");
         this.old_man_tileset = this.map.addTilesetImage("old_man", "old_man");
@@ -303,7 +338,7 @@ class Adventure extends Phaser.Scene {
             }
         }, this);
         this.groundLayer.setTileIndexCallback(this.overworld_tileset.firstgid + 136, (sprite, tile) => {
-            if (sprite === my.sprite.boat && my.sprite.boat.visible === true && (my.sprite.player.x === 1120 && my.sprite.player.y === 760 && my.sprite.player.facing === 'up')) {
+            if (sprite === my.sprite.boat && my.sprite.boat.visible === true && (my.sprite.player.x === 1120 && my.sprite.player.y === 744 && my.sprite.player.facing === 'up')) {
                 this.dockBoat('up', 'D5');
             }
         }, this);
@@ -387,7 +422,7 @@ class Adventure extends Phaser.Scene {
             tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y));
             tiles.push(this.groundLayer.getTileAt(tile.x, tile.y - 1));
             tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y - 1));
-            if(this.enemies.length == 0) this.unlockDoor(tiles);
+            if(this.enemies.length == 0 && my.sprite.digdogger.visible == false) this.unlockDoor(tiles);
         }, this)
         this.groundLayer.setTileIndexCallback([this.teal_tileset.firstgid + 164], (sprite, tile) => { //down door
             let tiles  = [tile];
@@ -771,56 +806,126 @@ class Adventure extends Phaser.Scene {
 
 //BOSS FUNCTIONS=========================================================================================================================
     spawnMan() {
-        my.sprite.manhandla = this.add.container(1000, 832).setDepth(90); // container for manhandla sprites
+        my.sprite.manhandla = this.add.container(1024, 820).setDepth(90); // container for manhandla sprites
+        my.sprite.manhandla.isMoving = false;
+        //my.sprite.manhandla.body.setSize(my.sprite.manhandla_body.width, my.sprite.link.height, true);
+        this.physics.world.enable(my.sprite.manhandla);
+        my.sprite.manhandla.body.setSize(48, 48);  
+        my.sprite.manhandla.body.setOffset(-24, -24);
 
         my.sprite.manhandla_body = this.physics.add.sprite(0, 0, "manhandla", "Manhandla-4.png").setDepth(90); // body
         my.sprite.manhandla_body.flipY = true;
         my.sprite.manhandla.add(my.sprite.manhandla_body);
+        my.sprite.manhandla_body.container = my.sprite.manhandla;
 
         my.sprite.manhandla_top = this.physics.add.sprite(0, -16, "manhandla", "Manhandla-2.png").setDepth(90); // top head
         my.sprite.manhandla_top.anims.play('manhandla_front', true);
         my.sprite.manhandla.add(my.sprite.manhandla_top);
+        my.sprite.manhandla_top.container = my.sprite.manhandla;
 
         my.sprite.manhandla_left = this.physics.add.sprite(-16, 0, "manhandla", "Manhandla-1.png").setDepth(90); // left head
         my.sprite.manhandla_left.anims.play('manhandla_side', true);
         my.sprite.manhandla.add(my.sprite.manhandla_left);
+        my.sprite.manhandla_left.container = my.sprite.manhandla;
 
         my.sprite.manhandla_right = this.physics.add.sprite(16, 0, "manhandla", "Manhandla-1.png").setDepth(90); // right head
         my.sprite.manhandla_right.anims.play('manhandla_side', true);
         my.sprite.manhandla_right.flipX = true;
         my.sprite.manhandla.add(my.sprite.manhandla_right);
+        my.sprite.manhandla_right.container = my.sprite.manhandla;
 
         my.sprite.manhandla_bottom = this.physics.add.sprite(0, 16, "manhandla", "Manhandla-2.png").setDepth(90); // bottom head
         my.sprite.manhandla_bottom.anims.play('manhandla_front', true);
         my.sprite.manhandla_bottom.flipY = true;
         my.sprite.manhandla.add(my.sprite.manhandla_bottom);
+        my.sprite.manhandla_bottom.container = my.sprite.manhandla;
+
+        // my.sprite.manhandla.visible = false;
+        my.sprite.manhandla_top.type = 'manhandla_top'
+        my.sprite.manhandla_top.weakness = 'light';
+        my.sprite.manhandla_top.health = 7;
+        //my.sprite.manhandla_top.speed = this.playerVelocity / 2;
+        my.sprite.manhandla_top.delete = false;
+        my.sprite.manhandla_top.map_pos = 'D5';
+        my.sprite.manhandla_top.iframes_counter = 0;
+        my.sprite.manhandla_top.key = false;
+        my.sprite.manhandla_left.s = 'D5';
+
+        my.sprite.manhandla_left.type = 'manhandla_left'
+        my.sprite.manhandla_left.weakness = 'light';
+        my.sprite.manhandla_left.health = 7;
+        //my.sprite.manhandla_left.speed = this.playerVelocity / 2;
+        my.sprite.manhandla_left.delete = false;
+        my.sprite.manhandla_left.map_pos = 'D5';
+        my.sprite.manhandla_left.iframes_counter = 0;
+        my.sprite.manhandla_left.key = false;
+        my.sprite.manhandla_left.s = 'D5';
+
+        my.sprite.manhandla_right.type = 'manhandla_right'
+        my.sprite.manhandla_right.weakness = 'light';
+        my.sprite.manhandla_right.health = 7;
+        //my.sprite.manhandla_right.speed = this.playerVelocity / 2;
+        my.sprite.manhandla_right.delete = false;
+        my.sprite.manhandla_right.map_pos = 'D5';
+        my.sprite.manhandla_right.iframes_counter = 0;
+        my.sprite.manhandla_right.key = false;
+        my.sprite.manhandla_right.s = 'D5';
+
+        my.sprite.manhandla_bottom.type = 'manhandla_bottom'
+        my.sprite.manhandla_bottom.weakness = 'light';
+        my.sprite.manhandla_bottom.health = 7;
+        //my.sprite.manhandla_bottom.speed = this.playerVelocity / 2;
+        my.sprite.manhandla_bottom.delete = false;
+        my.sprite.manhandla_bottom.map_pos = 'D5';
+        my.sprite.manhandla_bottom.iframes_counter = 0;
+        my.sprite.manhandla_bottom.key = false;
+        my.sprite.manhandla_bottom.s = 'D5';
+
+        my.sprite.manhandla.type = 'manhandla'
+        //y.sprite.manhandla_top.weakness = 'light';
+        my.sprite.manhandla.speed = this.playerVelocity / 2;
+        my.sprite.manhandla.delete = false;
+        my.sprite.manhandla.map_pos = 'D5';
+        //my.sprite.manhandla_top.iframes_counter = 0;
+        //my.sprite.manhandla_top.key = false;
+        my.sprite.manhandla.s = 'D5';
+        this.physics.add.collider(my.sprite.manhandla, this.groundLayer); 
+        this.physics.add.collider(my.sprite.manhandla, this.enemyBoundary);
+        
+        this.enemies.push(my.sprite.manhandla_top);
+        this.enemies.push(my.sprite.manhandla_left);
+        this.enemies.push(my.sprite.manhandla_right);
+        this.enemies.push(my.sprite.manhandla_bottom);
+        //console.log(this.enemies)
     }
 
     spawnDig() {
-        my.sprite.digdogger = this.add.container(2080, 328).setDepth(90); // container for digdogger sprites
-
-        my.sprite.digdogger_right = this.physics.add.sprite(0, 0, "digdogger_right", "DigdoggerRight-0.png").setDepth(90);
-        my.sprite.digdogger_right.anims.play('digdogger_right', true);
-        my.sprite.digdogger_right.visible = true;
-        my.sprite.digdogger.add(my.sprite.digdogger_right);
-
-        my.sprite.digdogger_left = this.physics.add.sprite(0, 0, "digdogger_left", "DigdoggerLeft-0.png").setDepth(90);
-        my.sprite.digdogger_left.anims.play('digdogger_left', true);
-        my.sprite.digdogger_left.visible = false;
-        my.sprite.digdogger.add(my.sprite.digdogger_left);
-
-
-        
+        my.sprite.digdogger = this.physics.add.sprite(420, 640, "digdogger_right", "DigdoggerRight-0.png").setDepth(90);
+        my.sprite.digdogger.isMoving = false;
+        this.physics.world.enable(my.sprite.digdogger);
+        my.sprite.digdogger.anims.play('digdogger_right', true);
+        // my.sprite.digdogger.visible = false;
+        my.sprite.digdogger.type = 'digdogger';
+        my.sprite.digdogger.weakness = 'dark';
+        my.sprite.digdogger.health = 20;
+        my.sprite.digdogger.speed = this.playerVelocity / 2;
+        my.sprite.digdogger.delete = false;
+        my.sprite.digdogger.map_pos = 'B4';
+        my.sprite.digdogger.iframes_counter = 0;
+        my.sprite.digdogger.key = false;
+        my.sprite.digdogger.s = 'B4';
+        this.physics.add.collider(my.sprite.digdogger, this.groundLayer);
+        this.physics.add.collider(my.sprite.digdogger, this.enemyBoundary);
+        this.enemies.push(my.sprite.digdogger);
     }
 
- 
 //MISC FUNCTIONS=========================================================================================================================
 
     // Function to update player hitbox based on animation
     updatePlayerHitbox(animation) {
         if (animation === 'side'|| animation === 'down') {
             my.sprite.link.body.setSize(14, 14)
-            my.sprite.link.body.setOffset(1, 0)
+            my.sprite.link.body.setOffset(1, 1)
         } else if (animation === 'up') {
             my.sprite.link.body.setSize(12, 13)
             my.sprite.link.body.setOffset(0, 0)
@@ -843,50 +948,76 @@ class Adventure extends Phaser.Scene {
             enemy.targetX = targetX;
             enemy.facing = 'left';
             let anim = null;
-            if(enemy.type == "octo" || enemy.type == "darknut" || enemy.type == "lynel") anim = enemy.type+'_side';
-            else if(enemy.type == "peahat" || enemy.type == "keese") anim = enemy.type;
-            else anim = enemy.type + "_front";
-            enemy.anims.play(anim, true);
-            if(enemy.type != "wizrobe" && enemy.type != "darknut") enemy.resetFlip();
-            else enemy.setFlip(true, false);
-            enemy.setVelocity(-enemy.speed, 0);
+            if(enemy.type != "manhandla" && enemy.type != "digdogger") {
+                if(enemy.type == "octo" || enemy.type == "darknut" || enemy.type == "lynel") anim = enemy.type+'_side';
+                else if(enemy.type == "peahat" || enemy.type == "keese") anim = enemy.type;
+                else anim = enemy.type + "_front";
+                enemy.anims.play(anim, true);
+                if(enemy.type != "wizrobe" && enemy.type != "darknut" && enemy.type != "lynel") enemy.resetFlip();
+                else enemy.setFlip(true, false);
+                enemy.setVelocity(-enemy.speed, 0);
+            }
+            else if(enemy.type == "digdogger") {
+                enemy.setVelocity(-enemy.speed, 0);
+            }
+            else enemy.body.setVelocity(-enemy.speed, 0);
         }
         else if(rand >= .25 && rand < .5) {//move up
             let targetY = enemy.y - (Math.floor(Math.random() * (6 - 1) + 1) * 8);
             enemy.targetY = targetY;
             enemy.facing = 'up';
             let anim = null;
-            if(enemy.type == "armos" || enemy.type == "darknut" || enemy.type == "lynel" || enemy.type == "wizrobe" ||enemy.type == "ghini") anim = enemy.type+"_back"
-            else if(enemy.type == "peahat" || enemy.type == "keese") anim = enemy.type;
-            else {anim = enemy.type+"_front"; enemy.setFlip(false, true);}
-            enemy.anims.play(anim, true);
-            enemy.setVelocity(0, -enemy.speed);
+            if(enemy.type != "manhandla" && enemy.type != "digdogger") {
+                if(enemy.type == "armos" || enemy.type == "darknut" || enemy.type == "lynel" || enemy.type == "wizrobe" ||enemy.type == "ghini") anim = enemy.type+"_back"
+                else if(enemy.type == "peahat" || enemy.type == "keese") anim = enemy.type;
+                else {anim = enemy.type+"_front"; enemy.setFlip(false, true);}
+                enemy.anims.play(anim, true);
+                enemy.setVelocity(0, -enemy.speed);
+            }
+            else if(enemy.type == "digdogger") {
+                enemy.setVelocity(0, -enemy.speed);
+            }
+            else enemy.body.setVelocity(0, -enemy.speed);
         }
         else if(rand >= .5 && rand < .75) { //move right
             let targetX = enemy.x + (Math.floor(Math.random() * (6 - 1) + 1) * 8);
             enemy.targetX = targetX;
             enemy.facing = 'right';
             let anim = null;
-            if(enemy.type == "octo" || enemy.type == "darknut" || enemy.type == "lynel") anim = enemy.type+'_side';
-            else if(enemy.type == "peahat" || enemy.type == "keese") anim = enemy.type;
-            else anim = enemy.type + "_front";
-            enemy.anims.play(anim, true);
-            if(enemy.type != "wizrobe" && enemy.type != "darknut") enemy.setFlip(true, false);
-            else enemy.resetFlip();
-            enemy.setVelocity(enemy.speed, 0);
+            if(enemy.type != "manhandla" && enemy.type != "digdogger") {
+                if(enemy.type == "octo" || enemy.type == "darknut" || enemy.type == "lynel") anim = enemy.type+'_side';
+                else if(enemy.type == "peahat" || enemy.type == "keese") anim = enemy.type;
+                else anim = enemy.type + "_front";
+                enemy.anims.play(anim, true);
+                if(enemy.type != "wizrobe" && enemy.type != "darknut" && enemy.type != "lynel") enemy.setFlip(true, false);
+                else enemy.resetFlip();
+                enemy.setVelocity(enemy.speed, 0);
+            }
+            else if(enemy.type == "digdogger"){
+                enemy.setVelocity(enemy.speed, 0);
+            }
+            else enemy.body.setVelocity(enemy.speed, 0);
         }
         else if(rand > .75) {//move down
             let targetY = enemy.y + (Math.floor(Math.random() * (6 - 1) + 1) * 8);
             enemy.targetY = targetY;
             enemy.facing = 'down';
             let anim = null;
-            if(enemy.type == "peahat" || enemy.type == "keese") anim = enemy.type;
-            else anim = enemy.type+'_front';
-            enemy.anims.play(anim, true);
-            enemy.resetFlip();
-            enemy.setVelocity(0, enemy.speed);
+            if(enemy.type != "manhandla" && enemy.type != "digdogger") {
+                if(enemy.type == "peahat" || enemy.type == "keese") anim = enemy.type;
+                else anim = enemy.type+'_front';
+                enemy.anims.play(anim, true);
+                enemy.resetFlip();
+                enemy.setVelocity(0, enemy.speed);
+            }
+            else if(enemy.type == "digdogger"){
+                enemy.setVelocity(0, enemy.speed);
+            }
+            else enemy.body.setVelocity(0, enemy.speed);
         }
     }
+
+    
 
     kill_screen() {
         /**
@@ -963,7 +1094,7 @@ class Adventure extends Phaser.Scene {
             case 'down':
                 my.sprite.boat.setPosition(0, 0);
                 if (pos === 'C0') {if (my.sprite.player.y < 352 && this.actionable_timer % 3 === 0) {my.sprite.player.y += 8; break;} }
-                if (pos === 'D4') {if (my.sprite.player.y < 760 && this.actionable_timer % 3 === 0) {my.sprite.player.y += 8; break;} }
+                if (pos === 'D4') {if (my.sprite.player.y < 744 && this.actionable_timer % 3 === 0) {my.sprite.player.y += 8; break;} }
             case 'right':
                 my.sprite.boat.setPosition(0, 0);
                 if (pos === 'D3') {if (my.sprite.player.x < 1384 && this.actionable_timer % 3 === 0) {my.sprite.player.x += 8; break;} }
@@ -994,9 +1125,9 @@ class Adventure extends Phaser.Scene {
 
     
     update() {
-        // console.log("x: "+my.sprite.player.x+", y: "+my.sprite.player.y);
+        ///console.log("x: "+my.sprite.player.x+", y: "+my.sprite.player.y);
         //console.log(my.playerVal.item)
-        // console.log(this.move, this.actionable_timer)
+        //console.log(this.move, this.actionable_timer)
         // console.log(this.overworld, my.playerVal.pos, my.sprite.player.x_coord, my.sprite.player.y_coord)
         if(!this.mapCamera.isMoving)this.checkCameraBounds();
         my.sprite.sword_side.setVelocity(0, 0);
@@ -1049,7 +1180,7 @@ class Adventure extends Phaser.Scene {
         if(this.enemies.length != 0) for (let i = this.enemies.length - 1; i >= 0; i--) {
             let enemy = this.enemies[i];
             if(enemy.iframes_counter >0) enemy.iframes_counter--;
-            if(enemy.map_pos != my.playerVal.pos && !this.mapCamera.isMoving) {enemy.delete = true; } //kill when out of bounds
+            //if(enemy.map_pos != my.playerVal.pos && !this.mapCamera.isMoving) {enemy.delete = true; } //kill when out of bounds
             if((this.collides(enemy, my.sprite.sword_side) && my.sprite.sword_side.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.sword_up) && my.sprite.sword_up.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.arrow_side) && my.sprite.arrow_side.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.arrow_up) && my.sprite.arrow_up.visible && enemy.iframes_counter <= 0)) {
                 my.sprite.arrow_side.isMoving = false;
                 my.sprite.arrow_side.setVelocity(0, 0);
@@ -1101,7 +1232,8 @@ class Adventure extends Phaser.Scene {
             if(Math.random() < prob && !enemy.isMoving && enemy.iframes_counter <= 0) {
                 enemy.dir = null;
                 enemy.isMoving = true;
-                this.e_move(enemy);
+                if(!enemy.type.includes('manhandla')) this.e_move(enemy);
+                else if(enemy.container && !enemy.container.isMoving) this.e_move(enemy.container);
             }
             else if(enemy.isMoving && enemy.iframes_counter <= 0) {
                 enemy.dir = null;
@@ -1126,7 +1258,7 @@ class Adventure extends Phaser.Scene {
                     enemy.targetX = null;
                     enemy.targetY = null;
                     enemy.setVelocity(0, 0);
-                    enemy.anims.stop();
+                    if(!enemy.type.includes('manhandla') && enemy.type != "digdogger") enemy.anims.stop();
                 }
             }
             else if(enemy.dir) {
@@ -1144,7 +1276,7 @@ class Adventure extends Phaser.Scene {
                 this.iframes_counter = 20;
                 this.move = false;
             }
-
+            //console.log(enemy, enemy.delete)
             if(enemy.delete == true) {
                 this.enemies.splice(i, 1);
                 enemy.destroy(1);
@@ -1153,7 +1285,9 @@ class Adventure extends Phaser.Scene {
 
 //PLAYER CHECKS=========================================================================================================================
         //if(my.sprite.player.dir)console.log(this.actionable_timer)
-        if(my.sprite.player.element == 'light') {this.darkLayer.visible = false;}
+        //console.log(my.sprite.player.element, this.darkLayer.visible)
+        if(my.sprite.player.element == 'light' && my.playerVal.pos != 'ldG3') {this.darkLayer.visible = false;}
+        else if(my.sprite.player.element == 'dark' && my.playerVal.pos == 'ldG3') {this.darkLayer.visible = false;}
         else this.darkLayer.visible = true;
         my.sprite.link.body.x = my.sprite.player.body.x;
         my.sprite.link.body.y = my.sprite.player.body.y;
@@ -1230,14 +1364,14 @@ class Adventure extends Phaser.Scene {
                 switch (my.sprite.player.facing) {
                     case 'up':
                         anim = my.sprite.player.element+'_item_up';
-                        my.sprite.sword_up.setPosition(2, -14);
+                        my.sprite.sword_up.setPosition(0, -14);
                         my.sprite.sword_up.visible = true;
                         my.sprite.sword_up.body.enable = true;
                         my.sprite.sword_up.resetFlip(); 
                         break;
                     case 'down':
                         anim = my.sprite.player.element+'_item_down';
-                        my.sprite.sword_up.setPosition(3, 14);
+                        my.sprite.sword_up.setPosition(1, 14);
                         my.sprite.sword_up.visible = true;
                         my.sprite.sword_up.body.enable = true;
                         my.sprite.sword_up.setFlip(false, true);

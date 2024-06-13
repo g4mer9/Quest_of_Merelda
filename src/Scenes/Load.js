@@ -41,7 +41,7 @@ class Load extends Phaser.Scene {
         this.load.atlas('peahat', 'Peahat/Peahat.png', 'Peahat/Peahat.json')
         this.load.atlas('lynel_back', 'Lynel/LynelBack/LynelBack.png', 'Lynel/LynelBack/LynelBack.json')
         this.load.atlas('lynel_front', 'Lynel/LynelFront/LynelFront.png', 'Lynel/LynelFront/LynelFront.json')
-        // this.load.atlas('lynel_side', 'Lynel/LynelSide/LynelSide.png', 'Lynel/LynelSide/LynelSide.json')
+        this.load.atlas('lynel_side', 'Lynel/LynelSide/LynelSide.png', 'Lynel/LynelSide/LynelSide.json')
         this.load.atlas('digdogger_right', 'Boss-Digdogger/DigdoggerRight/DigdoggerRight.png', 'Boss-Digdogger/DigdoggerRight/DigdoggerRight.json')
         this.load.atlas('digdogger_left', 'Boss-Digdogger/DigdoggerLeft/DigdoggerLeft.png', 'Boss-Digdogger/DigdoggerLeft/DigdoggerLeft.json')
         this.load.atlas('gleeok', 'Boss-Gleeok/Gleeok.png', 'Boss-Gleeok/Gleeok.json')
@@ -86,6 +86,7 @@ class Load extends Phaser.Scene {
         this.load.image("old_man", "small_assets/old_man.png")
 
         // Load tilemap information
+        this.load.image("teal_dungeon_light_tileset", "teal_dungeon_light.png");
         this.load.image("teal_dungeon_dark_tileset", "teal_dungeon_dark.png");
         this.load.image("teal_dungeon_tileset", "teal_dungeon.png");
         this.load.image("grey_dungeon_tileset", "grey_dungeon.png");
@@ -673,18 +674,18 @@ class Load extends Phaser.Scene {
             frameRate: 8,
             repeat: -1
         });
-        // this.anims.create({
-        //     key: 'lynel_side',
-        //     frames: this.anims.generateFrameNames('lynel_side', {
-        //         prefix: "LynelSide-",
-        //         start: 0,
-        //         end: 1,
-        //         suffix: ".png",
-        //         zeroPad: 1
-        //     }),
-        //     frameRate: 8,
-        //     repeat: -1
-        // });
+        this.anims.create({
+            key: 'lynel_side',
+            frames: this.anims.generateFrameNames('lynel_side', {
+                prefix: "LynelSide-",
+                start: 0,
+                end: 1,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
     //KEESE
         this.anims.create({
             key: 'keese',
@@ -761,18 +762,6 @@ class Load extends Phaser.Scene {
             repeat: -1
         });
     //DIGDOGGER
-        this.anims.create({
-            key: 'digdogger_left',
-            frames: this.anims.generateFrameNames('digdogger_left', {
-                prefix: "DigdoggerLeft-",
-                start: 0,
-                end: 2,
-                suffix: ".png",
-                zeroPad: 1
-            }),
-            frameRate: 8,
-            repeat: -1
-        });
         this.anims.create({
             key: 'digdogger_right',
             frames: this.anims.generateFrameNames('digdogger_right', {
