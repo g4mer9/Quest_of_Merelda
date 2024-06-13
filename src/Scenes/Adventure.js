@@ -54,11 +54,11 @@ class Adventure extends Phaser.Scene {
         this.iframes_counter = 0;
         this.actionable = true;
         this.map_coords = [['A0',   '',  'C0', '', 'sub'], //MUST BE ACCESSED VIA map_coords[y][x]
-                            ['A1', 'B1', 'C1', 'D1', 'sub',  '',     'ldG1',  ''],
-                            ['A2', 'B2', 'C2', 'D2', 'sub',  '',     'ldG2',  ''],
-                            ['A3', 'B3', 'C3', 'D3', 'E3', '',    'ldG3', 'ldH3'],
-                            ['A4', 'B4', 'C4', 'D4',  '', 'ldF4', 'ldG4', 'ldH4'],
-                            ['',    '',   '',  'D5',  '', 'ldF5', 'ldG5', 'ldH5']];
+                            ['A1', 'B1', 'C1', 'D1', 'sub',  '',  'ldG1',  ''],
+                            ['A2', 'B2', 'C2', 'D2', 'sub',  '',  'ldG2',  '',    'ddI2'],
+                            ['A3', 'B3', 'C3', 'D3', 'E3', '',    'ldG3', 'ldH3', 'ddI3', 'ddJ3'],
+                            ['A4', 'B4', 'C4', 'D4',  '', 'ldF4', 'ldG4', 'ldH4', 'ddI4', 'ddJ4', 'ddK5', 'ddL5'],
+                            ['',    '',   '',  'D5',  '', 'ldF5', 'ldG5', 'ldH5', 'ddI5', 'ddJ5', 'ddK5', 'ddL5']];
         this.spawn_locations = [{screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, damage: 1, speed: this.playerVelocity / 2, x: 720, y: 650}, 
             {screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 800, y: 650},
             {screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 866, y: 650}, 
@@ -67,10 +67,10 @@ class Adventure extends Phaser.Scene {
             {screen: 'B3', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 2, x: 376, y: 504},
             {screen: 'B3', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 2, x: 450, y: 504},
             {screen: 'B3', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 2, x: 616, y: 504},
-            {screen: 'D4', item: false, key: false, type: 'peahat', weakness: 'fire', health: 6, speed: this.playerVelocity / 1.5, damage: 2, x: 1120, y: 616},
+            //{screen: 'D4', item: false, key: false, type: 'peahat', weakness: 'fire', health: 6, speed: this.playerVelocity / 1.5, damage: 2, x: 1120, y: 616},
             {screen: 'D4', item: false, key: false, type: 'peahat', weakness: 'fire', health: 6, speed: this.playerVelocity / 1.5, damage: 2, x: 1016, y: 616},
             {screen: 'D3', item: false, key: false, type: 'peahat', weakness: 'fire', health: 6, speed: this.playerVelocity / 1.5, damage: 2, x: 1152, y: 504},
-            {screen: 'D3', item: false, key: false, type: 'peahat', weakness: 'fire', health: 6, speed: this.playerVelocity / 1.5, damage: 2, x: 1048, y: 480},
+            //{screen: 'D3', item: false, key: false, type: 'peahat', weakness: 'fire', health: 6, speed: this.playerVelocity / 1.5, damage: 2, x: 1048, y: 480},
             {screen: 'D3', item: false, key: false, type: 'peahat', weakness: 'fire', health: 6, speed: this.playerVelocity / 1.5, damage: 2, x: 1016, y: 520},
             {screen: 'C2', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 744, y: 344},
             {screen: 'C3', item: false, key: false, type: 'wizrobe', weakness: 'fire', health: 6, speed: this.playerVelocity / 2, damage: 2, x: 696, y: 520},
@@ -137,7 +137,7 @@ class Adventure extends Phaser.Scene {
 
         this.groundLayer = this.map.createLayer("basic-geometry-layer", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset, this.teal_tileset, this.frozen_tileset, this.cave_tileset], 0, 0);
         this.enemyBoundary = this.map.createLayer("boundaries", this.forest_tileset, 0, 0);
-        this.darkLayer = this.map.createLayer("dark-layer", [this.teal_dark_tileset, this.old_man_tileset], 0, 0);
+        this.darkLayer = this.map.createLayer("dark-layer", [this.teal_dark_tileset, this.teal_light_tileset, this.old_man_tileset], 0, 0);
         this.transitionsLayer = this.map.createLayer("transitions", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset], 0, 0);
         this.foregroundLayer = this.map.createLayer("foreground", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset, this.teal_tileset, this.old_man_tileset], 0, 0).setDepth(100000);
         this.enemyBoundary.visible = false;
@@ -376,7 +376,7 @@ class Adventure extends Phaser.Scene {
                 tiles.push(this.groundLayer.getTileAt(tile.x, tile.y - 1));
                 tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y - 1));
                 my.playerVal.keys--;
-        my.gameState.keys--;
+                my.gameState.keys--;
                 this.unlockDoor(tiles);
             }
         }, this)
@@ -388,7 +388,7 @@ class Adventure extends Phaser.Scene {
                 tiles.push(this.groundLayer.getTileAt(tile.x, tile.y + 1));
                 tiles.push(this.groundLayer.getTileAt(tile.x - 1, tile.y + 1));
                 my.playerVal.keys--;
-        my.gameState.keys--;
+                my.gameState.keys--;
                 this.unlockDoor(tiles);
             }
         }, this)
@@ -400,7 +400,7 @@ class Adventure extends Phaser.Scene {
                 tiles.push(this.groundLayer.getTileAt(tile.x, tile.y - 1));
                 tiles.push(this.groundLayer.getTileAt(tile.x - 1, tile.y - 1));
                 my.playerVal.keys--;
-        my.gameState.keys--;
+                my.gameState.keys--;
                 this.unlockDoor(tiles);
             }
         }, this)
@@ -412,7 +412,7 @@ class Adventure extends Phaser.Scene {
                 tiles.push(this.groundLayer.getTileAt(tile.x, tile.y + 1));
                 tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y + 1));
                 my.playerVal.keys--;
-        my.gameState.keys--;
+                my.gameState.keys--;
                 this.unlockDoor(tiles);
             }
         }, this)
@@ -728,6 +728,7 @@ class Adventure extends Phaser.Scene {
                 this.enemies.push(my.sprite.enemy);
             }
         })
+        if (my.playerVal.pos == "ldG2") my.sprite.digdogger.visible = true; // digdogger spawn
     }
 
     screenStart() {
@@ -840,7 +841,7 @@ class Adventure extends Phaser.Scene {
         my.sprite.manhandla.add(my.sprite.manhandla_bottom);
         my.sprite.manhandla_bottom.container = my.sprite.manhandla;
 
-        // my.sprite.manhandla.visible = false;
+        my.sprite.manhandla.visible = false;
         my.sprite.manhandla_top.type = 'manhandla_top'
         my.sprite.manhandla_top.weakness = 'light';
         my.sprite.manhandla_top.health = 7;
@@ -904,16 +905,16 @@ class Adventure extends Phaser.Scene {
         my.sprite.digdogger.isMoving = false;
         this.physics.world.enable(my.sprite.digdogger);
         my.sprite.digdogger.anims.play('digdogger_right', true);
-        // my.sprite.digdogger.visible = false;
+        my.sprite.digdogger.visible = false;
         my.sprite.digdogger.type = 'digdogger';
         my.sprite.digdogger.weakness = 'dark'; 
         my.sprite.digdogger.health = 20;
         my.sprite.digdogger.speed = this.playerVelocity / 2;
         my.sprite.digdogger.delete = false;
-        my.sprite.digdogger.map_pos = 'B4';
+        my.sprite.digdogger.map_pos = 'ldG2';
         my.sprite.digdogger.iframes_counter = 0;
         my.sprite.digdogger.key = false;
-        my.sprite.digdogger.s = 'B4';
+        my.sprite.digdogger.s = 'ldG2';
         this.physics.add.collider(my.sprite.digdogger, this.groundLayer);
         this.physics.add.collider(my.sprite.digdogger, this.enemyBoundary);
         this.enemies.push(my.sprite.digdogger);
@@ -1128,7 +1129,7 @@ class Adventure extends Phaser.Scene {
         ///console.log("x: "+my.sprite.player.x+", y: "+my.sprite.player.y);
         //console.log(my.playerVal.item)
         //console.log(this.move, this.actionable_timer)
-        // console.log(this.overworld, my.playerVal.pos, my.sprite.player.x_coord, my.sprite.player.y_coord)
+        console.log(/*this.overworld, */my.playerVal.pos, my.sprite.player.x_coord, my.sprite.player.y_coord)
         if(!this.mapCamera.isMoving)this.checkCameraBounds();
         my.sprite.sword_side.setVelocity(0, 0);
         my.sprite.sword_up.setVelocity(0, 0);
@@ -1180,7 +1181,7 @@ class Adventure extends Phaser.Scene {
         if(this.enemies.length != 0) for (let i = this.enemies.length - 1; i >= 0; i--) {
             let enemy = this.enemies[i];
             if(enemy.iframes_counter >0) enemy.iframes_counter--;
-            //if(enemy.map_pos != my.playerVal.pos && !this.mapCamera.isMoving) {enemy.delete = true; } //kill when out of bounds
+            if((!enemy.type.includes("manhandla") && enemy.type != "digdogger") && enemy.map_pos != my.playerVal.pos && !this.mapCamera.isMoving) {enemy.delete = true; } //kill when out of bounds
             if((this.collides(enemy, my.sprite.sword_side) && my.sprite.sword_side.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.sword_up) && my.sprite.sword_up.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.arrow_side) && my.sprite.arrow_side.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.arrow_up) && my.sprite.arrow_up.visible && enemy.iframes_counter <= 0)) {
                 my.sprite.arrow_side.isMoving = false;
                 my.sprite.arrow_side.setVelocity(0, 0);
@@ -1285,8 +1286,9 @@ class Adventure extends Phaser.Scene {
 
 //PLAYER CHECKS=========================================================================================================================
         //if(my.sprite.player.dir)console.log(this.actionable_timer)
-        //console.log(my.sprite.player.element, this.darkLayer.visible)
-        if(my.sprite.player.element == 'light' && my.playerVal.pos != 'ldG3') {this.darkLayer.visible = false;}
+        console.log(my.sprite.player.element, this.darkLayer.visible)
+        
+        if(my.sprite.player.element == 'light' && my.playerVal.pos.includes('dd')) {this.darkLayer.visible = false;}
         else if(my.sprite.player.element == 'dark' && my.playerVal.pos == 'ldG3') {this.darkLayer.visible = false;}
         else this.darkLayer.visible = true;
         my.sprite.link.body.x = my.sprite.player.body.x;
