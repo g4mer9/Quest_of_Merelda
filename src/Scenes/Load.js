@@ -57,6 +57,7 @@ class Load extends Phaser.Scene {
         
         this.load.image("ice_wand_up", "small_assets/ice_wand_up.png");
         this.load.image("ice_wand_side", "small_assets/ice_wand_side.png");
+        this.load.image("title", "small_assets/title.png");
 
         this.load.image("fire_wand_up", "small_assets/fire_wand_up.png");
         this.load.image("fire_wand_side", "small_assets/fire_wand_side.png");
@@ -84,6 +85,7 @@ class Load extends Phaser.Scene {
         this.load.image("key", "small_assets/key.png");
         this.load.image("cave", "cave.png");
         this.load.image("old_man", "small_assets/old_man.png")
+        this.load.image("fireball", "small_assets/fireball.png");
 
         // Load tilemap information
         this.load.image("teal_dungeon_light_tileset", "teal_dungeon_light.png");
@@ -99,6 +101,32 @@ class Load extends Phaser.Scene {
         this.load.image("mountain_tileset", "zelda_mountain_tileset.png");
         this.load.tilemapTiledJSON("HUD", "HUD.tmj"); 
         this.load.tilemapTiledJSON("overworld", "overworld.tmj");   // Tilemap in JSON
+        
+        
+        this.load.audio('sfx_arrow', 'sound/arrow 1.wav');
+        this.load.audio('sfx_bomb', 'sound/bomb explode.wav');
+        this.load.audio('sfx_boss_dies', 'sound/boss dies.wav');
+        this.load.audio('sfx_boss_hit', 'sound/boss hit.wav');
+        this.load.audio('sfx_key_appears', 'sound/chest appears 1.wav');
+        this.load.audio('sfx_door_open', 'sound/door close.wav');
+        this.load.audio('sfx_enemy_dies', 'sound/enemy dies.wav');
+        this.load.audio('sfx_enemy_hit', 'sound/enemy hit.wav');
+        this.load.audio('sfx_error', 'sound/error.wav');
+        this.load.audio('sfx_sword', 'sound/fighter sword 1.wav');
+        this.load.audio('sfx_heart_container', 'sound/heart piece 1.wav');
+        this.load.audio('sfx_heart', 'sound/heart.wav');
+        this.load.audio('sfx_item', 'sound/item get 1.wav');
+        this.load.audio('sfx_key', 'sound/key 1.wav');
+        this.load.audio('sfx_hurt', 'sound/link hurt.wav');
+        this.load.audio('sfx_stairs', 'sound/stairs down 1.wav');
+        this.load.audio('sfx_use_key', 'sound/use key.wav');
+        this.load.audio('sfx_rupee', 'sound/rupee.wav');
+        this.load.audio('sfx_freeze', 'sound/ice rod.wav')
+        this.load.audio('sfx_fire', 'sound/fire.wav')
+        this.load.audio('sfx_rod', 'sound/fairy.wav')
+        this.load.audio('sfx_fireball', 'sound/beam.wav')
+
+    
     }
 
     create() {
@@ -806,6 +834,30 @@ class Load extends Phaser.Scene {
                 prefix: "Gleeok-",
                 start: 0,
                 end: 2,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'gleeok_lh2',
+            frames: this.anims.generateFrameNames('gleeok_lh2', {
+                prefix: "Gleeok-",
+                start: 5,
+                end: 6,
+                suffix: ".png",
+                zeroPad: 1
+            }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'gleeok_rh2',
+            frames: this.anims.generateFrameNames('gleeok_rh2', {
+                prefix: "Gleeok-",
+                start: 9,
+                end: 10,
                 suffix: ".png",
                 zeroPad: 1
             }),
