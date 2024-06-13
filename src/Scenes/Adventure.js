@@ -103,8 +103,13 @@ class Adventure extends Phaser.Scene {
             {screen: 'ldH5', item: false, key: true, type: 'octo', weakness: 'ice', health: 4, damage: 1, speed: this.playerVelocity / 2, x: 2400, y: 760}, 
             {screen: 'ldH5', item: false, key: true, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2430, y: 820}, 
             {screen: 'ldH5', item: false, key: true, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2460, y: 820},
-            {screen: 'ldG4', item: false, key: false, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2000, y: 640}, 
-            {screen: 'ldG4', item: false, key: false, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2000, y: 660},
+
+            {screen: 'ldG3', item: false, key: false, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2000, y: 496}, 
+            {screen: 'ldG3', item: false, key: false, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2000, y: 496},
+            {screen: 'ldG3', item: false, key: false, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2160, y: 496}, 
+
+            {screen: 'ldG4', item: false, key: false, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2050, y: 640}, 
+            {screen: 'ldG4', item: false, key: false, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2050, y: 660},
             {screen: 'ldG4', item: false, key: false, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2160, y: 640}, 
             {screen: 'ldG4', item: false, key: false, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2160, y: 660},
             {screen: 'ldH4', item: false, key: false, type: 'darknut', weakness: 'light', health: 10, damage: 2, speed: this.playerVelocity / 2, x: 2400, y: 680}];
@@ -201,6 +206,11 @@ class Adventure extends Phaser.Scene {
         my.sprite.boat.visible = false;
         my.sprite.boat.body.enable = false;
         this.physics.add.collider(my.sprite.boat, this.groundLayer);
+
+        this.dark_wand_obj_prop = this.map.createFromObjects("objects", {
+            name: "dark_wand_1",
+            key: "dark_wand_up"
+        });
 
 
 //OBJECT SETUP==============================================================================================================================
@@ -418,66 +428,113 @@ class Adventure extends Phaser.Scene {
         }, this)
 
         this.groundLayer.setTileIndexCallback([this.teal_tileset.firstgid + 180], (sprite, tile) => { //up door
-            let tiles  = [tile];
-            tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y));
-            tiles.push(this.groundLayer.getTileAt(tile.x, tile.y - 1));
-            tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y - 1));
-            if(this.enemies.length == 0 && my.sprite.digdogger.visible == false) this.unlockDoor(tiles);
+            if(sprite === my.sprite.player){
+                console.log("callback")
+                let tiles  = [tile];
+                tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y));
+                tiles.push(this.groundLayer.getTileAt(tile.x, tile.y - 1));
+                tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y - 1));
+                let non_bosses_active = false;
+                this.enemies.forEach((enemy) =>{
+                    console.log(enemy.type, !enemy.type.includes("manhandla"), enemy.type != "digdogger", !enemy.type.includes("gleeok"))
+                    if(!enemy.type.includes("manhandla") && enemy.type != "digdogger" && !enemy.type.includes("gleeok")) {
+                        non_bosses_active = true;
+                    } 
+                });
+                console.log(my.playerVal.pos, non_bosses_active)
+                if(my.playerVal.pos == "ldG2"){
+                    console.log(my.sprite.digdogger.visible)
+                    if(my.sprite.digdogger.visible == false) this.unlockDoor(tiles);
+                }
+                else if(my.playerVal.pos == "ddI3"){
+                    let heads = 0;
+                    this.enemies.forEach((enemy) =>{
+                        if(enemy.type.includes("manhandla") && enemy.visible == true) heads++;
+                    })
+                    if(heads == 0) this.unlockDoor(tiles);
+                }//PUT FINAL DUNGEON BOSS ROOM DOOR CODE HERE
+                else if(non_bosses_active == false) this.unlockDoor(tiles);
+            }
         }, this)
         this.groundLayer.setTileIndexCallback([this.teal_tileset.firstgid + 164], (sprite, tile) => { //down door
-            let tiles  = [tile];
-            tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y));
-            tiles.push(this.groundLayer.getTileAt(tile.x, tile.y + 1));
-            tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y + 1));
-            if(this.enemies.length == 0) this.unlockDoor(tiles);
+            if(sprite === my.sprite.player){
+                let tiles  = [tile];
+                tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y));
+                tiles.push(this.groundLayer.getTileAt(tile.x, tile.y + 1));
+                tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y + 1));let non_bosses_active = false;
+                this.enemies.forEach((enemy) =>{
+                    if(!enemy.type.includes("manhandla") && !enemy.type == "digdogger" && !enemy.type.includes("gleeok")) {
+                        non_bosses_active = true;
+                    } 
+                });
+                if(non_bosses_active == false) this.unlockDoor(tiles);
+            }
         }, this)
         this.groundLayer.setTileIndexCallback([this.teal_tileset.firstgid + 167], (sprite, tile) => { //left door
-            let tiles  = [tile];
-            tiles.push(this.groundLayer.getTileAt(tile.x - 1, tile.y));
-            tiles.push(this.groundLayer.getTileAt(tile.x, tile.y + 1));
-            tiles.push(this.groundLayer.getTileAt(tile.x - 1, tile.y + 1));
-            if(this.enemies.length == 0) this.unlockDoor(tiles);
+            if(sprite === my.sprite.player){
+                let tiles  = [tile];
+                tiles.push(this.groundLayer.getTileAt(tile.x - 1, tile.y));
+                tiles.push(this.groundLayer.getTileAt(tile.x, tile.y + 1));
+                tiles.push(this.groundLayer.getTileAt(tile.x - 1, tile.y + 1));let non_bosses_active = false;
+                this.enemies.forEach((enemy) =>{
+                    if(!enemy.type.includes("manhandla") && !enemy.type == "digdogger" && !enemy.type.includes("gleeok")) {
+                        non_bosses_active = true;
+                    } 
+                });
+                if(non_bosses_active == false) this.unlockDoor(tiles);
+            }
         }, this)
         this.groundLayer.setTileIndexCallback([this.teal_tileset.firstgid + 166], (sprite, tile) => { //right door
-            let tiles  = [tile];
-            tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y));
-            tiles.push(this.groundLayer.getTileAt(tile.x, tile.y + 1));
-            tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y + 1));
-            if(this.enemies.length == 0) this.unlockDoor(tiles);
+            if(sprite === my.sprite.player){
+                let tiles  = [tile];
+                tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y));
+                tiles.push(this.groundLayer.getTileAt(tile.x, tile.y + 1));
+                tiles.push(this.groundLayer.getTileAt(tile.x + 1, tile.y + 1));let non_bosses_active = false;
+                this.enemies.forEach((enemy) =>{
+                    if(!enemy.type.includes("manhandla") && !enemy.type == "digdogger" && !enemy.type.includes("gleeok")) {
+                        non_bosses_active = true;
+                    } 
+                });
+                if(non_bosses_active == false) this.unlockDoor(tiles);
+            }
         }, this)
 
 //NON CUTSCENE ITEMS==========================================================================================================================
         this.physics.add.overlap(my.sprite.player, this.hearts, (obj1, obj2) => {
-            if(my.playerVal.health >= my.playerVal.max - 1) my.playerVal.health = my.playerVal.max;
-            else my.playerVal.health+=2;
             this.hearts.pop();
             obj2.destroy();
+            if(my.playerVal.health >= my.playerVal.max - 1) my.playerVal.health = my.playerVal.max;
+            else my.playerVal.health+=2;
+            
         });     
 
         this.physics.add.overlap(my.sprite.player, this.yellow_rupees, (obj1, obj2) => {
+            this.yellow_rupees.pop();
+            obj2.destroy();
             if(my.playerVal.rupees >= 98) my.playerVal.rupees = 99;
             else my.playerVal.rupees += 1;
             my.gameState.rupees = my.playerVal.rupees;
-            this.yellow_rupees.pop();
-            obj2.destroy();
+            
         });     
 
         this.physics.add.overlap(my.sprite.player, this.blue_rupees, (obj1, obj2) => {
+            this.blue_rupees.pop();
+            obj2.destroy();
             if(my.playerVal.rupees >= 94) my.playerVal.rupees = 99;
             else my.playerVal.rupees += 5;
             my.gameState.rupees = my.playerVal.rupees;
 
-            this.blue_rupees.pop();
-            obj2.destroy();
+            
         }); 
         
         this.physics.add.overlap(my.sprite.player, this.keys, (obj1, obj2) => {
+            this.keys.pop();
+            obj2.destroy();
             if(my.playerVal.keys >= 8) my.playerVal.keys = 9;
             else my.playerVal.keys++;
             my.gameState.keys = my.playerVal.keys;
 
-            this.keys.pop();
-            obj2.destroy();
+            
         }); 
 
 //HEART CONTAINERS===========================================================================================================================
@@ -800,6 +857,7 @@ class Adventure extends Phaser.Scene {
             this.mapCamera.scrollY = tile.properties['cy'];
             player.x_coord = tile.properties['x_coord'];
             player.y_coord = tile.properties['y_coord'];
+            my.playerVal.pos = this.map_coords[player.y_coord][player.x_coord];
             this.overworld = tile.properties['overworld'];
         }
     }
@@ -901,7 +959,7 @@ class Adventure extends Phaser.Scene {
     }
 
     spawnDig() {
-        my.sprite.digdogger = this.physics.add.sprite(260, 42, "digdogger_right", "DigdoggerRight-0.png").setDepth(90);
+        my.sprite.digdogger = this.physics.add.sprite(2078, 350, "digdogger_right", "DigdoggerRight-0.png").setDepth(90);
         my.sprite.digdogger.isMoving = false;
         this.physics.world.enable(my.sprite.digdogger);
         my.sprite.digdogger.anims.play('digdogger_right', true);
@@ -1129,7 +1187,7 @@ class Adventure extends Phaser.Scene {
         ///console.log("x: "+my.sprite.player.x+", y: "+my.sprite.player.y);
         //console.log(my.playerVal.item)
         //console.log(this.move, this.actionable_timer)
-        console.log(/*this.overworld, */my.playerVal.pos, my.sprite.player.x_coord, my.sprite.player.y_coord)
+        //console.log(/*this.overworld, */my.playerVal.pos, my.sprite.player.x_coord, my.sprite.player.y_coord)
         if(!this.mapCamera.isMoving)this.checkCameraBounds();
         my.sprite.sword_side.setVelocity(0, 0);
         my.sprite.sword_up.setVelocity(0, 0);
@@ -1181,7 +1239,7 @@ class Adventure extends Phaser.Scene {
         if(this.enemies.length != 0) for (let i = this.enemies.length - 1; i >= 0; i--) {
             let enemy = this.enemies[i];
             if(enemy.iframes_counter >0) enemy.iframes_counter--;
-            if((!enemy.type.includes("manhandla") && enemy.type != "digdogger") && enemy.map_pos != my.playerVal.pos && !this.mapCamera.isMoving) {enemy.delete = true; } //kill when out of bounds
+            if((!enemy.type.includes("manhandla") && enemy.type != "digdogger" &&!enemy.type.includes("gleeok")) && enemy.map_pos != my.playerVal.pos && !this.mapCamera.isMoving) {enemy.delete = true; } //kill when out of bounds
             if((this.collides(enemy, my.sprite.sword_side) && my.sprite.sword_side.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.sword_up) && my.sprite.sword_up.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.arrow_side) && my.sprite.arrow_side.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.arrow_up) && my.sprite.arrow_up.visible && enemy.iframes_counter <= 0)) {
                 my.sprite.arrow_side.isMoving = false;
                 my.sprite.arrow_side.setVelocity(0, 0);
@@ -1191,9 +1249,12 @@ class Adventure extends Phaser.Scene {
                 my.sprite.arrow_up.visible = false;
                 if(my.sprite.player.element == enemy.weakness) enemy.health -= 3;
                 else enemy.health--;
-                enemy.iframes_counter = 20;
-                let angle = Phaser.Math.Angle.Between(my.sprite.player.x, my.sprite.player.y, enemy.x, enemy.y);
-                enemy.dir = angle;
+                if((!enemy.type.includes("manhandla") && enemy.type != "digdogger" &&!enemy.type.includes("gleeok"))){
+                    
+                    let angle = Phaser.Math.Angle.Between(my.sprite.player.x, my.sprite.player.y, enemy.x, enemy.y);
+                    enemy.dir = angle;
+                }
+                enemy.iframes_counter = 40;
                 if(enemy.health <= 0) {
                     let prob = Math.random();
                     enemy.delete = true;
@@ -1230,7 +1291,7 @@ class Adventure extends Phaser.Scene {
             }
             let prob = 1/5;
             //console.log(enemy.x - enemy.targetX, enemy.y - enemy.targetY)
-            if(Math.random() < prob && !enemy.isMoving && enemy.iframes_counter <= 0) {
+            if(Math.random() < prob && !enemy.isMoving && (enemy.iframes_counter <= 0 || enemy.type.includes("manhandla") || enemy.type == "digdogger" || enemy.type.includes("gleeok"))) {
                 enemy.dir = null;
                 enemy.isMoving = true;
                 if(!enemy.type.includes('manhandla')) this.e_move(enemy);
@@ -1286,7 +1347,7 @@ class Adventure extends Phaser.Scene {
 
 //PLAYER CHECKS=========================================================================================================================
         //if(my.sprite.player.dir)console.log(this.actionable_timer)
-        console.log(my.sprite.player.element, this.darkLayer.visible)
+        //console.log(my.sprite.player.element, this.darkLayer.visible)
         
         if(my.sprite.player.element == 'light' && my.playerVal.pos.includes('dd')) {this.darkLayer.visible = false;}
         else if(my.sprite.player.element == 'dark' && my.playerVal.pos == 'ldG3') {this.darkLayer.visible = false;}
