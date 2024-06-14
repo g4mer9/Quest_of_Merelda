@@ -169,14 +169,14 @@ class Adventure extends Phaser.Scene {
         cursors = this.input.keyboard.createCursorKeys();
 //CREATING MAP/TILESETS===================================================================================================================
         this.map = this.add.tilemap("overworld", 8, 8, 0, 0);
-        // this.overworld_theme = this.sound.add('tal_tal', {
-        //     loop: true,
-        //     volume: .5
-        // })
-        // this.dungeon_theme = this.sound.add('dungeon', {
-        //     loop: true,
-        //     volume:.5
-        // })
+        this.overworld_theme = this.sound.add('tal_tal', {
+            loop: true,
+            volume: .5
+        })
+        this.dungeon_theme = this.sound.add('dungeon', {
+            loop: true,
+            volume:.5
+        })
         this.overworld_tileset = this.map.addTilesetImage("zelda_overworld_tileset", "overworld_tileset");
         this.forest_tileset = this.map.addTilesetImage("zelda_forest_tileset", "forest_tileset");
         this.mountain_tileset = this.map.addTilesetImage("zelda_mountain_tileset","mountain_tileset");
@@ -1027,14 +1027,14 @@ class Adventure extends Phaser.Scene {
             player.y_coord = tile.properties['y_coord'];
             my.playerVal.pos = this.map_coords[player.y_coord][player.x_coord];
             this.overworld = tile.properties['overworld'];
-            // if(this.overworld){
-            //     this.dungeon_theme.stop();
-            //     this.overworld_theme.play();
-            // }
-            // else{
-            //     this.overworld_theme.stop();
-            //     this.dungeon_theme.play();
-            // }
+            if(this.overworld){
+                this.dungeon_theme.stop();
+                this.overworld_theme.play();
+            }
+            else{
+                this.overworld_theme.stop();
+                this.dungeon_theme.play();
+            }
             if (my.playerVal.pos == "B0") {my.sprite.gleeok.visible = true; }// manhandla spawn
         }
     }
@@ -2045,14 +2045,14 @@ class Adventure extends Phaser.Scene {
             this.titleLayer.visible = false;
             this.creditsLayer.visible = false;
             my.sprite.link.visible = true;
-            // if(this.overworld){
-            //     this.dungeon_theme.stop();
-            //     this.overworld_theme.play();
-            // }
-            // else{
-            //     this.overworld_theme.stop();
-            //     this.dungeon_theme.play();
-            // }
+            if(this.overworld){
+                this.dungeon_theme.stop();
+                this.overworld_theme.play();
+            }
+            else{
+                this.overworld_theme.stop();
+                this.dungeon_theme.play();
+            }
         }
         if(Phaser.Input.Keyboard.JustDown(this.zKey)) {
             this.titleLayer.visible = false;

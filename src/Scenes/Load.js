@@ -125,8 +125,8 @@ class Load extends Phaser.Scene {
         this.load.audio('sfx_fire', 'sound/fire.wav')
         this.load.audio('sfx_rod', 'sound/fairy.wav')
         this.load.audio('sfx_fireball', 'sound/beam.wav')
-        //this.load.audio('tal_tal', 'sound/tal_tal.mp3');
-        //this.load.audio('dungeon', 'sound/dungeon.mp3');
+        this.load.audio('tal_tal', 'sound/tal_tal.mp3');
+        this.load.audio('dungeon', 'sound/dungeon.mp3');
 
     
     }
