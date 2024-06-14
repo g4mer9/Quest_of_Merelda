@@ -23,7 +23,7 @@ class Adventure extends Phaser.Scene {
         this.items = data.items || [];
         this.max = data.max || 6;
         this.heart_containers_spawn = data.heart_containers_spawn || [0, 1, 2, 3, 4, 5, 6, 7, 8]
-        this.rupees = data.rupees || 0;
+        this.rupees = data.rupees || 15;
         this.keys = data.keys || 0;
         this.song = data.song || false;
         
@@ -1118,6 +1118,7 @@ class Adventure extends Phaser.Scene {
         my.sprite.manhandla_top.type = 'manhandla_top'
         my.sprite.manhandla_top.weakness = 'light';
         my.sprite.manhandla_top.health = 7;
+        my.sprite.manhandla_top.damage = 1;
         //my.sprite.manhandla_top.speed = this.playerVelocity / 2;
         my.sprite.manhandla_top.delete = false;
         my.sprite.manhandla_top.map_pos = 'ddI3';
@@ -1128,6 +1129,7 @@ class Adventure extends Phaser.Scene {
         my.sprite.manhandla_left.type = 'manhandla_left'
         my.sprite.manhandla_left.weakness = 'light';
         my.sprite.manhandla_left.health = 7;
+        my.sprite.manhandla_left.damage = 1;
         //my.sprite.manhandla_left.speed = this.playerVelocity / 2;
         my.sprite.manhandla_left.delete = false;
         my.sprite.manhandla_left.map_pos = 'ddI3';
@@ -1138,6 +1140,7 @@ class Adventure extends Phaser.Scene {
         my.sprite.manhandla_right.type = 'manhandla_right'
         my.sprite.manhandla_right.weakness = 'light';
         my.sprite.manhandla_right.health = 7;
+        my.sprite.manhandla_right.damage = 1;
         //my.sprite.manhandla_right.speed = this.playerVelocity / 2;
         my.sprite.manhandla_right.delete = false;
         my.sprite.manhandla_right.map_pos = 'ddI3';
@@ -1145,10 +1148,10 @@ class Adventure extends Phaser.Scene {
         my.sprite.manhandla_right.key = false;
         my.sprite.manhandla_right.s = 'ddI3';
 
-
         my.sprite.manhandla_bottom.type = 'manhandla_bottom'
         my.sprite.manhandla_bottom.weakness = 'light';
         my.sprite.manhandla_bottom.health = 7;
+        my.sprite.manhandla_bottom.damage = 1;
         //my.sprite.manhandla_bottom.speed = this.playerVelocity / 2;
         my.sprite.manhandla_bottom.delete = false;
         my.sprite.manhandla_bottom.map_pos = 'ddI3';
@@ -1183,6 +1186,7 @@ class Adventure extends Phaser.Scene {
         my.sprite.digdogger.type = 'digdogger';
         my.sprite.digdogger.weakness = 'dark'; 
         my.sprite.digdogger.health = 20;
+        my.sprite.digdogger.damage = 1;
         my.sprite.digdogger.speed = this.playerVelocity / 2;
         my.sprite.digdogger.delete = false;
         my.sprite.digdogger.map_pos = 'ldG2';
@@ -1268,6 +1272,7 @@ class Adventure extends Phaser.Scene {
         my.sprite.gleeok_lh.type = 'gleeok_lh'  // left head traits
         my.sprite.gleeok_lh.weakness = 'dark';
         my.sprite.gleeok_lh.health = 7;
+        my.sprite.gleeok_lh.damage = 2;
         my.sprite.gleeok_lh.delete = false;
         my.sprite.gleeok_lh.map_pos = 'B0';
         my.sprite.gleeok_lh.iframes_counter = 0;
@@ -1277,6 +1282,7 @@ class Adventure extends Phaser.Scene {
         my.sprite.gleeok_lh2.type = 'lh2'  // left head 2 traits
         my.sprite.gleeok_lh2.weakness = 'dark';
         my.sprite.gleeok_lh2.health = 7;
+        my.sprite.gleeok_lh2.damage = 2;
         my.sprite.gleeok_lh2.speed = this.playerVelocity / 1.5;
         my.sprite.gleeok_lh2.delete = false;
         my.sprite.gleeok_lh2.map_pos = 'B0';
@@ -1288,6 +1294,7 @@ class Adventure extends Phaser.Scene {
         my.sprite.gleeok_rh.type = 'gleeok_rh'  // right head traits
         my.sprite.gleeok_rh.weakness = 'light';
         my.sprite.gleeok_rh.health = 7;
+        my.sprite.gleeok_rh
         my.sprite.gleeok_rh.delete = false;
         my.sprite.gleeok_rh.map_pos = 'B0';
         my.sprite.gleeok_rh.iframes_counter = 0;
@@ -1297,6 +1304,7 @@ class Adventure extends Phaser.Scene {
         my.sprite.gleeok_rh2.type = 'rh2'  // right head 2 traits
         my.sprite.gleeok_rh2.weakness = 'light';
         my.sprite.gleeok_rh2.health = 7;
+        my.sprite.gleeok_rh2.damage = 2;
         my.sprite.gleeok_rh2.speed = this.playerVelocity / 1.5;
         my.sprite.gleeok_rh2.delete = false;
         my.sprite.gleeok_rh2.map_pos = 'B0';
