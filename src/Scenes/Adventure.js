@@ -63,6 +63,8 @@ class Adventure extends Phaser.Scene {
                             ['',    '',   '',  'D5',  '', 'ldF5', 'ldG5', 'ldH5', 'ddI5', 'ddJ5', 'ddK5', 'ddL5']];
         this.spawn_locations = [{screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, damage: 1, speed: this.playerVelocity / 2, x: 720, y: 650}, 
             {screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 800, y: 650},
+            {screen: 'A3', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 88, y: 504},
+            {screen: 'A3', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 88, y: 504},
             {screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 866, y: 650}, 
             {screen: 'A4', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 96, y: 648},
             {screen: 'A4', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 224, y: 648},
@@ -161,7 +163,14 @@ class Adventure extends Phaser.Scene {
         cursors = this.input.keyboard.createCursorKeys();
 //CREATING MAP/TILESETS===================================================================================================================
         this.map = this.add.tilemap("overworld", 8, 8, 0, 0);
-        
+        // this.overworld_theme = this.sound.add('tal_tal', {
+        //     loop: true,
+        //     volume: .5
+        // })
+        // this.dungeon_theme = this.sound.add('dungeon', {
+        //     loop: true,
+        //     volume:.5
+        // })
         this.overworld_tileset = this.map.addTilesetImage("zelda_overworld_tileset", "overworld_tileset");
         this.forest_tileset = this.map.addTilesetImage("zelda_forest_tileset", "forest_tileset");
         this.mountain_tileset = this.map.addTilesetImage("zelda_mountain_tileset","mountain_tileset");
@@ -500,7 +509,7 @@ class Adventure extends Phaser.Scene {
                 let non_bosses_active = false;
                 this.enemies.forEach((enemy) =>{
                     //console.log(enemy.type, !enemy.type.includes("manhandla"), enemy.type != "digdogger", !enemy.type.includes("gleeok"))
-                    if(!enemy.type.includes("manhandla") && enemy.type != "digdogger" && !enemy.type.includes("gleeok")) {
+                    if(!enemy.type.includes("manhandla") && enemy.type != "digdogger" && !enemy.type.includes("gleeok") && enemy.type != "lh2" && enemy.type != "rh2") {
                         non_bosses_active = true;
                     } 
                 });
@@ -528,7 +537,7 @@ class Adventure extends Phaser.Scene {
                 let non_bosses_active = false;
                 this.enemies.forEach((enemy) =>{
                     //console.log(enemy.type, !enemy.type.includes("manhandla"), enemy.type != "digdogger", !enemy.type.includes("gleeok"))
-                    if(!enemy.type.includes("manhandla") && enemy.type != "digdogger" && !enemy.type.includes("gleeok")) {
+                    if(!enemy.type.includes("manhandla") && enemy.type != "digdogger" && !enemy.type.includes("gleeok") && enemy.type != "lh2" && enemy.type != "rh2") {
                         non_bosses_active = true;
                     } 
                 });
@@ -556,7 +565,7 @@ class Adventure extends Phaser.Scene {
                 let non_bosses_active = false;
                 this.enemies.forEach((enemy) =>{
                     //console.log(enemy.type, !enemy.type.includes("manhandla"), enemy.type != "digdogger", !enemy.type.includes("gleeok"))
-                    if(!enemy.type.includes("manhandla") && enemy.type != "digdogger" && !enemy.type.includes("gleeok")) {
+                    if(!enemy.type.includes("manhandla") && enemy.type != "digdogger" && !enemy.type.includes("gleeok") && enemy.type != "lh2" && enemy.type != "rh2") {
                         non_bosses_active = true;
                     } 
                 });
@@ -584,7 +593,7 @@ class Adventure extends Phaser.Scene {
                 let non_bosses_active = false;
                 this.enemies.forEach((enemy) =>{
                     //console.log(enemy.type, !enemy.type.includes("manhandla"), enemy.type != "digdogger", !enemy.type.includes("gleeok"))
-                    if(!enemy.type.includes("manhandla") && enemy.type != "digdogger" && !enemy.type.includes("gleeok")) {
+                    if(!enemy.type.includes("manhandla") && enemy.type != "digdogger" && !enemy.type.includes("gleeok") && enemy.type != "lh2" && enemy.type != "rh2") {
                         non_bosses_active = true;
                     } 
                 });
@@ -813,6 +822,7 @@ class Adventure extends Phaser.Scene {
 //BOSS SPAWNS======================================================================================================================================
         this.spawnMan();
         this.spawnDig();
+        this.SpawnGle();
 
 //OTHER ITEMS======================================================================================================================================
 
@@ -923,7 +933,8 @@ class Adventure extends Phaser.Scene {
             }
         })
         if (my.playerVal.pos == "ldG2") my.sprite.digdogger.visible = true; // digdogger spawn
-        if (my.playerVal.pos == "ddI3") my.sprite.manhandla.visible = true; // digdogger spawn
+        if (my.playerVal.pos == "ddI3") {my.sprite.manhandla.visible = true; // manhandla spawn
+        }
     }
 
     screenStart() {
@@ -989,6 +1000,7 @@ class Adventure extends Phaser.Scene {
 
     handleTransition(player, tile) {
         if(tile.index != -1) {
+            
             this.sound.play('sfx_stairs');
             my.gameState.spawn_x = tile.properties['tx'];
             my.gameState.spawn_y= tile.properties['ty'];
@@ -1005,6 +1017,14 @@ class Adventure extends Phaser.Scene {
             player.y_coord = tile.properties['y_coord'];
             my.playerVal.pos = this.map_coords[player.y_coord][player.x_coord];
             this.overworld = tile.properties['overworld'];
+            // if(this.overworld){
+            //     this.dungeon_theme.stop();
+            //     this.overworld_theme.play();
+            // }
+            // else{
+            //     this.overworld_theme.stop();
+            //     this.dungeon_theme.play();
+            // }
         }
     }
 
@@ -1020,6 +1040,7 @@ class Adventure extends Phaser.Scene {
 
         my.sprite.manhandla_body = this.physics.add.sprite(0, 0, "manhandla", "Manhandla-4.png").setDepth(90); // body
         my.sprite.manhandla_body.flipY = true;
+        //my.sprite.manhandla_body.visible = false;
         my.sprite.manhandla.add(my.sprite.manhandla_body);
         my.sprite.manhandla_body.container = my.sprite.manhandla;
 
@@ -1076,6 +1097,7 @@ class Adventure extends Phaser.Scene {
         my.sprite.manhandla_right.key = false;
         my.sprite.manhandla_right.s = 'D5';
 
+
         my.sprite.manhandla_bottom.type = 'manhandla_bottom'
         my.sprite.manhandla_bottom.weakness = 'light';
         my.sprite.manhandla_bottom.health = 7;
@@ -1125,32 +1147,58 @@ class Adventure extends Phaser.Scene {
     }
 
     SpawnGle(){
-        my.sprite.gleeok = this.add.container(480, 616).setDepth(90); // container for gleeok sprites
+        my.sprite.gleeok = this.add.container(448, 632).setDepth(90); // container for gleeok sprites
         my.sprite.gleeok.isMoving = false;
         this.physics.world.enable(my.sprite.gleeok);
 
-        my.sprite.gleeok_body = this.physics.add.sprite(0, 0, "gleeok", "gleeok-0.png").setDepth(90); // body
+        my.sprite.gleeok_body = this.physics.add.sprite(0, 0, "gleeok", "Gleeok-0.png").setDepth(90); // body
         my.sprite.gleeok_body.anims.play('gleeok_body', true);
         my.sprite.gleeok.add(my.sprite.gleeok_body);
         my.sprite.gleeok_body.container = my.sprite.gleeok;
-
-        my.sprite.gleeok_ln = this.physics.add.sprite(-4, 16, "gleeok", "gleeok-3.png").setDepth(90); // left neck
+    
+        my.sprite.gleeok_ln = this.physics.add.sprite(6, 24, "gleeok", "Gleeok-3.png").setDepth(90); // left neck
         my.sprite.gleeok.add(my.sprite.gleeok_ln);
         my.sprite.gleeok_ln.container = my.sprite.gleeok;
+        my.sprite.gleeok_ln.body.enable = false;
 
-        my.sprite.gleeok_ln2 = this.physics.add.sprite(-12, 24, "gleeok", "gleeok-3.png").setDepth(90); // left neck 2
+        my.sprite.gleeok_ln2 = this.physics.add.sprite(2, 30, "gleeok", "Gleeok-3.png").setDepth(90); // left neck 2
         my.sprite.gleeok.add(my.sprite.gleeok_ln2);
         my.sprite.gleeok_ln2.container = my.sprite.gleeok;
+        my.sprite.gleeok_ln2.body.enable = false;
 
-        my.sprite.gleeok_rn = this.physics.add.sprite(4, 16, "gleeok", "gleeok-7.png").setDepth(90); // right neck
+        my.sprite.gleeok_lh = this.physics.add.sprite(-2, 40, "gleeok", "Gleeok-4.png").setDepth(90); // left head
+        my.sprite.gleeok.add(my.sprite.gleeok_lh);
+        my.sprite.gleeok_lh.container = my.sprite.gleeok;
+        my.sprite.gleeok_lh.body.setSize(10, 16);  
+        my.sprite.gleeok_lh.body.setOffset(0, 0);
+
+        my.sprite.gleeok_lh2 = this.physics.add.sprite(-2, 40, "gleeok", "Gleeok-5.png").setDepth(90); // left head 2
+        my.sprite.gleeok_lh2.anims.play('gleeok_lh2', true);
+        my.sprite.gleeok_lh.body.setSize(10, 16);  
+        my.sprite.gleeok_lh.body.setOffset(0, 0);
+
+        my.sprite.gleeok_rn = this.physics.add.sprite(10, 26, "gleeok", "Gleeok-7.png").setDepth(90); // right neck
         my.sprite.gleeok.add(my.sprite.gleeok_rn);
         my.sprite.gleeok_rn.container = my.sprite.gleeok;
+        my.sprite.gleeok_rn.body.enable = false;
 
-        my.sprite.gleeok_rn2 = this.physics.add.sprite(12, 24, "gleeok", "gleeok-7.png").setDepth(90); // right neck 2
+        my.sprite.gleeok_rn2 = this.physics.add.sprite(14, 32, "gleeok", "Gleeok-7.png").setDepth(90); // right neck 2
         my.sprite.gleeok.add(my.sprite.gleeok_rn2);
         my.sprite.gleeok_rn2.container = my.sprite.gleeok;
+        my.sprite.gleeok_rn2.body.enable = false;
 
-        my.sprite.gleeok.visible = false;  // container traits
+        my.sprite.gleeok_rh = this.physics.add.sprite(18, 40, "gleeok", "Gleeok-8.png").setDepth(90); // right head
+        my.sprite.gleeok.add(my.sprite.gleeok_rh);
+        my.sprite.gleeok_rh.container = my.sprite.gleeok;
+        my.sprite.gleeok_rh.body.setSize(10, 16);  
+        my.sprite.gleeok_rh.body.setOffset(0, 0);
+
+        my.sprite.gleeok_rh2 = this.physics.add.sprite(18, 40, "gleeok", "Gleeok-9.png").setDepth(90); // right head 2
+        my.sprite.gleeok_rh2.anims.play('gleeok_rh2', true);
+        my.sprite.gleeok_rh.body.setSize(10, 16);  
+        my.sprite.gleeok_rh.body.setOffset(0, 0);
+
+        my.sprite.gleeok.visible = true;  // container traits
         my.sprite.gleeok.type = 'gleeok'
         my.sprite.gleeok.speed = this.playerVelocity / 2;
         my.sprite.gleeok.delete = false;
@@ -1161,20 +1209,6 @@ class Adventure extends Phaser.Scene {
         this.physics.add.collider(my.sprite.gleeok, this.groundLayer); 
         this.physics.add.collider(my.sprite.gleeok, this.enemyBoundary);
 
-        my.sprite.gleeok_lh = this.physics.add.sprite(-8, 32, "gleeok", "gleeok-4.png").setDepth(90); // left head
-        my.sprite.gleeok.add(my.sprite.gleeok_lh);
-        my.sprite.gleeok_lh.container = my.sprite.gleeok;
-
-        my.sprite.gleeok_lh2 = this.physics.add.sprite(-8, 32, "gleeok", "gleeok-5.png").setDepth(90); // left head 2
-        my.sprite.gleeok_lh2.anims.play('gleeok_lh2', true);
-
-        my.sprite.gleeok_rh = this.physics.add.sprite(8, 32, "gleeok", "gleeok-8.png").setDepth(90); // right head
-        my.sprite.gleeok.add(my.sprite.gleeok_rh);
-        my.sprite.gleeok_rh.container = my.sprite.gleeok;
-
-        my.sprite.gleeok_rh2 = this.physics.add.sprite(8, 32, "gleeok", "gleeok-9.png").setDepth(90); // right head 2
-        my.sprite.gleeok_rh2.anims.play('gleeok_rh2', true);
-
         my.sprite.gleeok_lh.type = 'gleeok_lh'  // left head traits
         my.sprite.gleeok_lh.weakness = 'dark';
         my.sprite.gleeok_lh.health = 7;
@@ -1184,7 +1218,7 @@ class Adventure extends Phaser.Scene {
         my.sprite.gleeok_lh.key = false;
         my.sprite.gleeok_lh2.s = 'B4';
 
-        my.sprite.gleeok_lh2.type = 'gleeok_lh2'  // left head 2 traits
+        my.sprite.gleeok_lh2.type = 'lh2'  // left head 2 traits
         my.sprite.gleeok_lh2.weakness = 'dark';
         my.sprite.gleeok_lh2.health = 7;
         my.sprite.gleeok_lh2.speed = this.playerVelocity / 1.5;
@@ -1204,7 +1238,7 @@ class Adventure extends Phaser.Scene {
         my.sprite.gleeok_rh.key = false;
         my.sprite.gleeok_rh.s = 'B4';
 
-        my.sprite.gleeok_rh2.type = 'gleeok_rh2'  // right head 2 traits
+        my.sprite.gleeok_rh2.type = 'rh2'  // right head 2 traits
         my.sprite.gleeok_rh2.weakness = 'light';
         my.sprite.gleeok_rh2.health = 7;
         my.sprite.gleeok_rh2.speed = this.playerVelocity / 1.5;
@@ -1235,9 +1269,16 @@ class Adventure extends Phaser.Scene {
     }
 
     e_shoot(enemy) {
-        if(this.e_bullets.length < 4 && this.gameActive) {
-            my.sprite.bullet = this.add.sprite(enemy.x, enemy.y, "fireball"); 
-            let angle = Phaser.Math.Angle.Between(enemy.x, enemy.y, my.sprite.player.x, my.sprite.player.y);
+        if(this.e_bullets.length < 3 && this.gameActive) {
+            let angle = null;
+            if(enemy.container){
+                my.sprite.bullet = this.add.sprite(enemy.container.x, enemy.container.y, "fireball"); 
+                angle = Phaser.Math.Angle.Between(enemy.container.x, enemy.container.y, my.sprite.player.x, my.sprite.player.y);
+            }
+            else {
+                my.sprite.bullet = this.add.sprite(enemy.x, enemy.y, "fireball"); 
+                angle = Phaser.Math.Angle.Between(enemy.x, enemy.y, my.sprite.player.x, my.sprite.player.y);
+            }
             my.sprite.bullet.dir = angle;
             //my.sprite.bullet.setScale(.5);
             my.sprite.bullet.rotation = angle;
@@ -1263,7 +1304,7 @@ class Adventure extends Phaser.Scene {
             enemy.targetX = targetX;
             enemy.facing = 'left';
             let anim = null;
-            if(enemy.type != "manhandla" && enemy.type != "digdogger") {
+            if(enemy.type != "manhandla" && enemy.type != "digdogger" && enemy.type != "gleeok" && enemy.type != "lh2" && enemy.type != "rh2") {
                 if(enemy.type == "octo" || enemy.type == "darknut" || enemy.type == "lynel") anim = enemy.type+'_side';
                 else if(enemy.type == "peahat" || enemy.type == "keese") anim = enemy.type;
                 else anim = enemy.type + "_front";
@@ -1282,7 +1323,7 @@ class Adventure extends Phaser.Scene {
             enemy.targetY = targetY;
             enemy.facing = 'up';
             let anim = null;
-            if(enemy.type != "manhandla" && enemy.type != "digdogger") {
+            if(enemy.type != "manhandla" && enemy.type != "digdogger"  && enemy.type != "gleeok" && enemy.type != "lh2" && enemy.type != "rh2") {
                 if(enemy.type == "armos" || enemy.type == "darknut" || enemy.type == "lynel" || enemy.type == "wizrobe" ||enemy.type == "ghini") anim = enemy.type+"_back"
                 else if(enemy.type == "peahat" || enemy.type == "keese") anim = enemy.type;
                 else {anim = enemy.type+"_front"; enemy.setFlip(false, true);}
@@ -1299,7 +1340,7 @@ class Adventure extends Phaser.Scene {
             enemy.targetX = targetX;
             enemy.facing = 'right';
             let anim = null;
-            if(enemy.type != "manhandla" && enemy.type != "digdogger") {
+            if(enemy.type != "manhandla" && enemy.type != "digdogger"  && enemy.type != "gleeok" && enemy.type != "lh2" && enemy.type != "rh2") {
                 if(enemy.type == "octo" || enemy.type == "darknut" || enemy.type == "lynel") anim = enemy.type+'_side';
                 else if(enemy.type == "peahat" || enemy.type == "keese") anim = enemy.type;
                 else anim = enemy.type + "_front";
@@ -1318,7 +1359,7 @@ class Adventure extends Phaser.Scene {
             enemy.targetY = targetY;
             enemy.facing = 'down';
             let anim = null;
-            if(enemy.type != "manhandla" && enemy.type != "digdogger") {
+            if(enemy.type != "manhandla" && enemy.type != "digdogger"  && enemy.type != "gleeok" && enemy.type != "lh2" && enemy.type != "rh2") {
                 if(enemy.type == "peahat" || enemy.type == "keese") anim = enemy.type;
                 else anim = enemy.type+'_front';
                 enemy.anims.play(anim, true);
@@ -1349,6 +1390,8 @@ class Adventure extends Phaser.Scene {
             keys: 7
          */
             this.sound.play('sfx_error');
+            this.overworld_theme.stop();
+            this.dungeon_theme.stop();
 
         this.scene.restart(my.gameState);
     }
@@ -1440,6 +1483,12 @@ class Adventure extends Phaser.Scene {
 
     update() {
         if(this.gameActive){
+            //console.log(this.e_bullets);
+            if(!my.sprite.gleeok_lh2 && !my.sprite.gleeok_rh2) {
+                this.gameActive = false;
+                //PUT END SCREEN HERE
+            }
+            
         ///console.log("x: "+my.sprite.player.x+", y: "+my.sprite.player.y);
         //console.log(my.playerVal.item)
         //console.log(this.move, this.actionable_timer)
@@ -1494,6 +1543,7 @@ class Adventure extends Phaser.Scene {
 
         if(this.e_bullets.length != 0) for (let i = this.e_bullets.length - 1; i >= 0; i--) {
             let b = this.e_bullets[i];
+            console.log(b.x, b.y);
             const boundsWidth = 320;
             const boundsHeight = 144;
             b.x += 4 * Math.cos(b.dir);
@@ -1526,9 +1576,10 @@ class Adventure extends Phaser.Scene {
         if(this.enemies.length != 0) for (let i = this.enemies.length - 1; i >= 0; i--) {
             let enemy = this.enemies[i];
             if(enemy.iframes_counter >0) enemy.iframes_counter--;
-            if((!enemy.type.includes("manhandla") && enemy.type != "digdogger" &&!enemy.type.includes("gleeok")) && enemy.map_pos != my.playerVal.pos && !this.mapCamera.isMoving) {enemy.delete = true; } //kill when out of bounds
+            if((!enemy.type.includes("manhandla") && enemy.type != "digdogger" &&!enemy.type.includes("gleeok") && enemy.type != "lh2" && enemy.type != "rh2") && enemy.map_pos != my.playerVal.pos && !this.mapCamera.isMoving) {enemy.delete = true; } //kill when out of bounds
             
-            if((enemy.type.includes("manhandla") || enemy.type == "digdogger"  || enemy.type.includes("gleeok")) || enemy.type == "wizrobe" || enemy.type == "lynel" ){
+            if(((enemy.type.includes("manhandla") || enemy.type.includes("gleeok"))  && enemy.container.visible == true ) || ((enemy.type == "wizrobe" || enemy.type == "lynel" || enemy.type == "digdogger" || enemy.type == "lh2"|| enemy.type == "rh2") && enemy.visible)){
+                //console.log(enemy.type)
                 let prob1 = 1/90;
                     if(Math.random() < prob1 && enemy.map_pos == my.playerVal.pos && !this.mapCamera.isMoving) {
                         this.e_shoot(enemy)
@@ -1559,7 +1610,7 @@ class Adventure extends Phaser.Scene {
                     let non_bosses_active = 0;
                     this.enemies.forEach((enemy) =>{
                     //console.log(enemy.type, !enemy.type.includes("manhandla"), enemy.type != "digdogger", !enemy.type.includes("gleeok"))
-                        if(!enemy.type.includes("manhandla") && enemy.type != "digdogger" && !enemy.type.includes("gleeok")) {
+                        if(!enemy.type.includes("manhandla") && enemy.type != "digdogger" && !enemy.type.includes("gleeok") && enemy.type != "lh2"&& enemy.type != "rh2") {
                             non_bosses_active++;
                         } 
                     });
@@ -1574,19 +1625,19 @@ class Adventure extends Phaser.Scene {
                         })
                     }
                     else {
-                        if(prob < 0.25) {
+                        if(prob < 0.5) {
                             const heart_obj = new Heart(this, enemy.x, enemy.y); 
                             this.add.existing(heart_obj); 
                             this.hearts.push(heart_obj); 
                             this.physics.world.enable(this.hearts, Phaser.Physics.Arcade.STATIC_BODY);
                         }
-                        else if(prob > .25 && prob < .5) {
+                        else if(prob > .5 && prob < .75) {
                             const rupee_obj = new Blue_Rupee(this, enemy.x, enemy.y); 
                             this.add.existing(rupee_obj); 
                             this.blue_rupees.push(rupee_obj); 
                             this.physics.world.enable(this.blue_rupees, Phaser.Physics.Arcade.STATIC_BODY);
                         }
-                        else if(prob > .5 && prob < .75) {
+                        else if(prob > .75 && prob < 1) {
                             const rupee_obj = new Yellow_Rupee(this, enemy.x, enemy.y); 
                             this.add.existing(rupee_obj); 
                             this.yellow_rupees.push(rupee_obj); 
@@ -1598,14 +1649,14 @@ class Adventure extends Phaser.Scene {
             let prob = 1/5;
             //console.log(enemy.x - enemy.targetX, enemy.y - enemy.targetY)
             //if(enemy.type.includes('manhandla') && enemy.container) console.log(enemy.container.isMoving)
-            if(Math.random() < prob && (!enemy.isMoving|| (enemy.container && !enemy.container.isMoving)) && (enemy.iframes_counter <= 0 || enemy.type.includes("manhandla") || enemy.type == "digdogger" || enemy.type.includes("gleeok"))) {
+            if(Math.random() < prob && (!enemy.isMoving|| (enemy.container && !enemy.container.isMoving)) && (enemy.iframes_counter <= 0 || enemy.type.includes("manhandla") || enemy.type == "digdogger" || enemy.type == "lh2"|| enemy.type == "rh2"|| enemy.type.includes("gleeok"))) {
                 enemy.dir = null;
                 
                 //console.log("move called")
                 if(!enemy.type.includes('manhandla') && !enemy.type.includes("gleeok")) {this.e_move(enemy); enemy.isMoving = true;}
                 else if(enemy.container && !enemy.container.isMoving) {enemy.container.isMoving = true; this.e_move(enemy.container);}
             }
-            else if((enemy.isMoving|| (enemy.container && enemy.container.isMoving)) && (enemy.iframes_counter <= 0 || enemy.type.includes("manhandla") || enemy.type == "digdogger" || enemy.type.includes("gleeok"))) {
+            else if((enemy.isMoving|| (enemy.container && enemy.container.isMoving)) && (enemy.iframes_counter <= 0 || enemy.type.includes("manhandla") || enemy.type == "digdogger" || enemy.type.includes("gleeok") || enemy.type == "lh2"|| enemy.type == "rh2")) {
                 enemy.dir = null;
                 //stopping code
                 if((enemy.type.includes('manhandla')|| enemy.type.includes('gleeok')) && enemy.container && enemy.container.body.deltaX() == 0 && enemy.container.body.deltaY() == 0)  enemy.container.isMoving = false;
@@ -1629,7 +1680,7 @@ class Adventure extends Phaser.Scene {
                     enemy.targetX = null;
                     enemy.targetY = null;
                     enemy.setVelocity(0, 0);
-                    if(!enemy.type.includes('manhandla') && enemy.type != "digdogger" && !enemy.type.includes("gleeok")) enemy.anims.stop();
+                    if(!enemy.type.includes('manhandla') && enemy.type != "digdogger" && !enemy.type.includes("gleeok") && enemy.type != "lh2" && enemy.type != "rh2") enemy.anims.stop();
                 }
             }
             else if(enemy.dir) {
@@ -1955,6 +2006,14 @@ class Adventure extends Phaser.Scene {
             this.titleLayer.visible = false;
             this.creditsLayer.visible = false;
             my.sprite.link.visible = true;
+            // if(this.overworld){
+            //     this.dungeon_theme.stop();
+            //     this.overworld_theme.play();
+            // }
+            // else{
+            //     this.overworld_theme.stop();
+            //     this.dungeon_theme.play();
+            // }
         }
         if(Phaser.Input.Keyboard.JustDown(this.zKey)) {
             this.titleLayer.visible = false;

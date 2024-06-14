@@ -125,6 +125,8 @@ class Load extends Phaser.Scene {
         this.load.audio('sfx_fire', 'sound/fire.wav')
         this.load.audio('sfx_rod', 'sound/fairy.wav')
         this.load.audio('sfx_fireball', 'sound/beam.wav')
+        //this.load.audio('tal_tal', 'sound/tal_tal.mp3');
+        //this.load.audio('dungeon', 'sound/dungeon.mp3');
 
     
     }
@@ -842,7 +844,7 @@ class Load extends Phaser.Scene {
         });
         this.anims.create({
             key: 'gleeok_lh2',
-            frames: this.anims.generateFrameNames('gleeok_lh2', {
+            frames: this.anims.generateFrameNames('gleeok', {
                 prefix: "Gleeok-",
                 start: 5,
                 end: 6,
@@ -854,7 +856,7 @@ class Load extends Phaser.Scene {
         });
         this.anims.create({
             key: 'gleeok_rh2',
-            frames: this.anims.generateFrameNames('gleeok_rh2', {
+            frames: this.anims.generateFrameNames('gleeok', {
                 prefix: "Gleeok-",
                 start: 9,
                 end: 10,
