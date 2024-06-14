@@ -23,7 +23,7 @@ class Adventure extends Phaser.Scene {
         this.items = data.items || [];
         this.max = data.max || 6;
         this.heart_containers_spawn = data.heart_containers_spawn || [0, 1, 2, 3, 4, 5, 6, 7, 8]
-        this.rupees = data.rupees || 15;
+        this.rupees = data.rupees || 0;
         this.keys = data.keys || 0;
         this.song = data.song || false;
         
