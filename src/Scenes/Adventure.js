@@ -25,6 +25,7 @@ class Adventure extends Phaser.Scene {
         this.heart_containers_spawn = data.heart_containers_spawn || [0, 1, 2, 3, 4, 5, 6, 7, 8]
         this.rupees = data.rupees || 0;
         this.keys = data.keys || 0;
+        this.song = data.song || false;
         
         //setting current game state
         my.playerVal.max = this.max;
@@ -46,6 +47,7 @@ class Adventure extends Phaser.Scene {
         my.gameState.keys = this.keys;
         my.gameState.heart_containers_spawn = this.heart_containers_spawn;
         my.gameState.title = this.title;
+        my.gameState.song = this.song;
 
         //console.log(my.playerVal.max, my.playerVal.health)
         // variables and settings
@@ -909,6 +911,15 @@ class Adventure extends Phaser.Scene {
             my.playerVal.item = my.gameState.items[my.playerVal.item_index];
         }, this);
 
+        if(my.gameState.song && this.overworld){
+            this.dungeon_theme.stop();
+            this.overworld_theme.play();
+        }
+        else if(my.gameState.song){
+            this.overworld_theme.stop();
+            this.dungeon_theme.play();
+        }
+
 //CAMERA===================================================================================================================================
         // adjust camera to full game canvas
         this.mapCamera = this.cameras.main
@@ -1615,7 +1626,7 @@ class Adventure extends Phaser.Scene {
                 my.sprite.player.dir = angle;
                 this.actionable = false;
                 this.actionable_timer = 7;
-                this.iframes_counter = 20;
+                this.iframes_counter = 40;
                 this.move = false;
                 this.sound.play("sfx_hurt")
             }
@@ -1748,7 +1759,7 @@ class Adventure extends Phaser.Scene {
 
                 this.actionable = false;
                 this.actionable_timer = 7;
-                this.iframes_counter = 20;
+                this.iframes_counter = 40;
                 this.move = false;
             }
             //console.log(enemy, enemy.delete)
@@ -2054,6 +2065,7 @@ class Adventure extends Phaser.Scene {
     }
     else {
         if(Phaser.Input.Keyboard.JustDown(this.xKey)) {
+            my.gameState.song = true;
             this.gameActive = true;
             my.gameState.title = false;
             this.linkActive = true;

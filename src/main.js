@@ -86,7 +86,8 @@ var my = {sprite: {}, text: {},
         keys: null, 
         item_flags: null,
         heart_containers_spawn: null,
-        title: null
+        title: null,
+        song: null
     }
 };
 
