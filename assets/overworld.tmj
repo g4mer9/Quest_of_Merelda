@@ -592,7 +592,7 @@
          "name":"foreground",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":680,
          "x":0,
          "y":0
@@ -791,7 +791,7 @@
                  "type":"",
                  "visible":true,
                  "width":8,
-                 "x":1435.91,
+                 "x":1395.91,
                  "y":337.689
                 }, 
                 {
@@ -803,26 +803,8 @@
                  "type":"",
                  "visible":true,
                  "width":14,
-                 "x":1393.07,
-                 "y":336.167
-                }, 
-                {
-                 "gid":1281,
-                 "height":13,
-                 "id":33,
-                 "name":"heart_container",
-                 "properties":[
-                        {
-                         "name":"index",
-                         "type":"int",
-                         "value":8
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":13,
-                 "x":737.625,
-                 "y":223.125
+                 "x":1433.61545454545,
+                 "y":338.712454545455
                 }, 
                 {
                  "gid":1286,
@@ -865,6 +847,24 @@
                  "width":13,
                  "x":353.5,
                  "y":367.031
+                }, 
+                {
+                 "gid":1281,
+                 "height":13,
+                 "id":38,
+                 "name":"heart_container",
+                 "properties":[
+                        {
+                         "name":"index",
+                         "type":"int",
+                         "value":8
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":13,
+                 "x":41.5271739130435,
+                 "y":511.027173913043
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1230,7 +1230,7 @@
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":38,
+ "nextobjectid":43,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

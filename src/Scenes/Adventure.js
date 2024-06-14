@@ -69,26 +69,26 @@ class Adventure extends Phaser.Scene {
         this.spawn_locations = [{screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, damage: 1, speed: this.playerVelocity / 2, x: 720, y: 650}, 
             {screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 800, y: 650},
             {screen: 'A3', item: false, key: false, type: 'ghini', weakness: 'dark', health: 7, damage: 2, speed: this.playerVelocity / 2, x: 76, y: 550}, 
-            {screen: 'A3', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 88, y: 504},
-            {screen: 'A3', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 256, y: 504},
-            {screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 866, y: 650}, 
-            {screen: 'A4', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 96, y: 648},
-            {screen: 'A4', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 224, y: 648},
-            {screen: 'B3', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 2, x: 376, y: 504},
-            {screen: 'B3', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 2, x: 450, y: 504},
-            {screen: 'B3', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 2, x: 616, y: 504},
+            {screen: 'A3', item: false, key: false, type: 'octo', weakness: 'ice', health: 3, speed: this.playerVelocity / 2, damage: 1, x: 88, y: 504},
+            {screen: 'A3', item: false, key: false, type: 'octo', weakness: 'ice', health: 3, speed: this.playerVelocity / 2, damage: 1, x: 232, y: 504},
+            {screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 3, speed: this.playerVelocity / 2, damage: 1, x: 866, y: 650}, 
+            {screen: 'A4', item: false, key: false, type: 'armos', weakness: 'ice', health: 5, speed: this.playerVelocity / 2, damage: 1, x: 96, y: 648},
+            {screen: 'A4', item: false, key: false, type: 'armos', weakness: 'ice', health: 5, speed: this.playerVelocity / 2, damage: 1, x: 224, y: 648},
+            {screen: 'B3', item: false, key: false, type: 'armos', weakness: 'ice', health: 5, speed: this.playerVelocity / 2, damage: 1, x: 376, y: 504},
+            {screen: 'B3', item: false, key: false, type: 'armos', weakness: 'ice', health: 5, speed: this.playerVelocity / 2, damage: 1, x: 450, y: 504},
+            {screen: 'B3', item: false, key: false, type: 'armos', weakness: 'ice', health: 5, speed: this.playerVelocity / 2, damage: 1, x: 616, y: 504},
             //{screen: 'D4', item: false, key: false, type: 'peahat', weakness: 'fire', health: 6, speed: this.playerVelocity / 1.5, damage: 2, x: 1120, y: 616},
             {screen: 'D4', item: false, key: false, type: 'peahat', weakness: 'fire', health: 6, speed: this.playerVelocity / 1.5, damage: 2, x: 1016, y: 616},
             {screen: 'D3', item: false, key: false, type: 'peahat', weakness: 'fire', health: 6, speed: this.playerVelocity / 1.5, damage: 2, x: 1152, y: 504},
             //{screen: 'D3', item: false, key: false, type: 'peahat', weakness: 'fire', health: 6, speed: this.playerVelocity / 1.5, damage: 2, x: 1048, y: 480},
             {screen: 'D3', item: false, key: false, type: 'peahat', weakness: 'fire', health: 6, speed: this.playerVelocity / 1.5, damage: 2, x: 1016, y: 520},
-            {screen: 'C2', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 744, y: 344},
+            {screen: 'C2', item: false, key: false, type: 'armos', weakness: 'ice', health: 5, speed: this.playerVelocity / 2, damage: 1, x: 744, y: 344},
             {screen: 'C3', item: false, key: false, type: 'wizrobe', weakness: 'fire', health: 6, speed: this.playerVelocity / 2, damage: 2, x: 800, y: 520},
             {screen: 'C3', item: false, key: false, type: 'wizrobe', weakness: 'fire', health: 6, speed: this.playerVelocity / 2, damage: 2, x: 800, y: 488},
-            {screen: 'C3', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 696, y: 520},
-            {screen: 'C3', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 936, y: 520},
-            {screen: 'D1', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 1056, y: 216},
-            {screen: 'D1', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 1192, y: 216}, 
+            {screen: 'C3', item: false, key: false, type: 'octo', weakness: 'ice', health: 3, speed: this.playerVelocity / 2, damage: 1, x: 696, y: 520},
+            {screen: 'C3', item: false, key: false, type: 'octo', weakness: 'ice', health: 3, speed: this.playerVelocity / 2, damage: 1, x: 936, y: 520},
+            {screen: 'D1', item: false, key: false, type: 'octo', weakness: 'ice', health: 3, speed: this.playerVelocity / 2, damage: 1, x: 1056, y: 216},
+            {screen: 'D1', item: false, key: false, type: 'octo', weakness: 'ice', health: 3, speed: this.playerVelocity / 2, damage: 1, x: 1192, y: 216}, 
             {screen: 'B2', item: false, key: true, type: 'ghini', weakness: 'dark', health: 7, damage: 2, speed: this.playerVelocity / 2, x: 552, y: 376}, 
             {screen: 'B2', item: false, key: true, type: 'ghini', weakness: 'dark', health: 7, damage: 2, speed: this.playerVelocity / 2, x: 520, y: 312},
             {screen: 'B2', item: false, key: true, type: 'ghini', weakness: 'dark', health: 7, damage: 2, speed: this.playerVelocity / 2, x: 408, y: 392},
@@ -104,12 +104,12 @@ class Adventure extends Phaser.Scene {
             {screen: 'A2', item: false, key: false, type: 'lynel', weakness: 'lightning', health: 10, damage: 4, speed: this.playerVelocity / 2, x: 56, y: 328},
             {screen: 'C1', item: false, key: false, type: 'lynel', weakness: 'lightning', health: 10, damage: 4, speed: this.playerVelocity / 2, x: 720, y: 215},
             {screen: 'C0', item: false, key: false, type: 'lynel', weakness: 'lightning', health: 10, damage: 4, speed: this.playerVelocity / 2, x: 920, y: 24},
-            {screen: 'ldF5', item: false, key: true, type: 'armos', weakness: 'ice', health: 4, damage: 2, speed: this.playerVelocity / 2,  x: 1760, y: 760}, 
-            {screen: 'ldF5', item: false, key: true, type: 'armos', weakness: 'ice', health: 4, damage: 2, speed: this.playerVelocity / 2, x: 1700, y: 760}, 
+            {screen: 'ldF5', item: false, key: true, type: 'armos', weakness: 'ice', health: 5, damage: 1, speed: this.playerVelocity / 2,  x: 1760, y: 760}, 
+            {screen: 'ldF5', item: false, key: true, type: 'armos', weakness: 'ice', health: 5, damage: 1, speed: this.playerVelocity / 2, x: 1700, y: 760}, 
             {screen: 'ldF5', item: false, key: true, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 1730, y: 820}, 
             {screen: 'ldF5', item: false, key: true, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 1760, y: 820},
-            {screen: 'ldH5', item: false, key: true, type: 'octo', weakness: 'ice', health: 4, damage: 1, speed: this.playerVelocity / 2,  x: 2460, y: 760}, 
-            {screen: 'ldH5', item: false, key: true, type: 'octo', weakness: 'ice', health: 4, damage: 1, speed: this.playerVelocity / 2, x: 2400, y: 760}, 
+            {screen: 'ldH5', item: false, key: true, type: 'octo', weakness: 'ice', health: 3, damage: 1, speed: this.playerVelocity / 2,  x: 2460, y: 760}, 
+            {screen: 'ldH5', item: false, key: true, type: 'octo', weakness: 'ice', health: 3, damage: 1, speed: this.playerVelocity / 2, x: 2400, y: 760}, 
             {screen: 'ldH5', item: false, key: true, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2430, y: 820}, 
             {screen: 'ldH5', item: false, key: true, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2460, y: 820},
             {screen: 'ldG3', item: false, key: false, type: 'ghini', weakness: 'dark', health: 6, damage: 2, speed: this.playerVelocity / 2, x: 2000, y: 496}, 
@@ -122,15 +122,15 @@ class Adventure extends Phaser.Scene {
             
             {screen: 'ddJ5', item: false, key: false, type: 'darknut', weakness: 'light', health: 10, damage: 3, speed: this.playerVelocity / 2, x: 3128, y: 768},
             {screen: 'ddJ5', item: false, key: false, type: 'darknut', weakness: 'light', health: 10, damage: 3, speed: this.playerVelocity / 2, x: 3080, y: 832},
-            {screen: 'ddJ5', item: false, key: false, type: 'keese', weakness: 'lightning', health: 8, damage: 2, speed: this.playerVelocity / 1.5, x: 3060, y: 820},
+            {screen: 'ddJ5', item: false, key: false, type: 'keese', weakness: 'lightning', health: 6, damage: 2, speed: this.playerVelocity / 1.5, x: 3060, y: 820},
             {screen: 'ddJ4', item: false, key: false, type: 'darknut', weakness: 'light', health: 10, damage: 3, speed: this.playerVelocity / 2, x: 3128, y: 624},
             {screen: 'ddJ4', item: false, key: false, type: 'darknut', weakness: 'light', health: 10, damage: 3, speed: this.playerVelocity / 2, x: 3080, y: 688},
-            {screen: 'ddJ4', item: false, key: false, type: 'keese', weakness: 'lightning', health: 8, damage: 2, speed: this.playerVelocity / 1.5, x: 3060, y: 688},
-            {screen: 'ddJ3', item: false, key: true, type: 'keese', weakness: 'lightning', health: 8, damage: 2, speed: this.playerVelocity / 1.5, x: 3000, y: 480},
-            {screen: 'ddJ3', item: false, key: true, type: 'keese', weakness: 'lightning', health: 8, damage: 2, speed: this.playerVelocity / 1.5, x: 3032, y: 480},
-            {screen: 'ddJ3', item: false, key: true, type: 'keese', weakness: 'lightning', health: 8, damage: 2, speed: this.playerVelocity / 1.5, x: 3064, y: 480},
-            {screen: 'ddI4', item: false, key: false, type: 'keese', weakness: 'lightning', health: 8, damage: 2, speed: this.playerVelocity / 1.5, x: 2776, y: 656},
-            {screen: 'ddI4', item: false, key: false, type: 'keese', weakness: 'lightning', health: 8, damage: 2, speed: this.playerVelocity / 1.5, x: 2664, y: 656},
+            {screen: 'ddJ4', item: false, key: false, type: 'keese', weakness: 'lightning', health: 6, damage: 2, speed: this.playerVelocity / 1.5, x: 3060, y: 688},
+            {screen: 'ddJ3', item: false, key: true, type: 'keese', weakness: 'lightning', health: 6, damage: 2, speed: this.playerVelocity / 1.5, x: 3000, y: 480},
+            {screen: 'ddJ3', item: false, key: true, type: 'keese', weakness: 'lightning', health: 6, damage: 2, speed: this.playerVelocity / 1.5, x: 3032, y: 480},
+            {screen: 'ddJ3', item: false, key: true, type: 'keese', weakness: 'lightning', health: 6, damage: 2, speed: this.playerVelocity / 1.5, x: 3064, y: 480},
+            {screen: 'ddI4', item: false, key: false, type: 'keese', weakness: 'lightning', health: 6, damage: 2, speed: this.playerVelocity / 1.5, x: 2776, y: 656},
+            {screen: 'ddI4', item: false, key: false, type: 'keese', weakness: 'lightning', health: 6, damage: 2, speed: this.playerVelocity / 1.5, x: 2664, y: 656},
             
             {screen: 'ddK5', item: false, key: true, type: 'lynel', weakness: 'lightning', health: 8, damage: 2, speed: this.playerVelocity / 2, x: 3400, y: 768},
             {screen: 'ddK5', item: false, key: true, type: 'lynel', weakness: 'lightning', health: 8, damage: 2, speed: this.playerVelocity / 2, x: 3320, y: 768},
@@ -142,9 +142,9 @@ class Adventure extends Phaser.Scene {
             {screen: 'ddL5', item: false, key: false, type: 'darknut', weakness: 'light', health: 10, damage: 3, speed: this.playerVelocity / 2, x: 3640, y: 816},
             {screen: 'ddL5', item: false, key: false, type: 'darknut', weakness: 'light', health: 10, damage: 3, speed: this.playerVelocity / 2, x: 3720, y: 816},
 
-            {screen: 'ddL4', item: false, key: true, type: 'keese', weakness: 'lightning', health: 8, damage: 2, speed: this.playerVelocity / 1.5, x: 3640, y: 624},
-            {screen: 'ddL4', item: false, key: true, type: 'keese', weakness: 'lightning', health: 8, damage: 2, speed: this.playerVelocity / 1.5, x: 3672, y: 624},
-            {screen: 'ddL4', item: false, key: true, type: 'keese', weakness: 'lightning', health: 8, damage: 2, speed: this.playerVelocity / 1.5, x: 3704, y: 624},
+            {screen: 'ddL4', item: false, key: true, type: 'keese', weakness: 'lightning', health: 6, damage: 2, speed: this.playerVelocity / 1.5, x: 3640, y: 624},
+            {screen: 'ddL4', item: false, key: true, type: 'keese', weakness: 'lightning', health: 6, damage: 2, speed: this.playerVelocity / 1.5, x: 3672, y: 624},
+            {screen: 'ddL4', item: false, key: true, type: 'keese', weakness: 'lightning', health: 6, damage: 2, speed: this.playerVelocity / 1.5, x: 3704, y: 624},
 
 
 
@@ -840,8 +840,8 @@ class Adventure extends Phaser.Scene {
             
             if(my.playerVal.rupees >= 15 && this.move) {
                 this.sound.play('sfx_item');
-                my.playerVal.rupees -= 15;
-                my.gameState.rupees -= 15;
+                my.playerVal.rupees -= 30;
+                my.gameState.rupees -= 30;
                 obj2.x = my.sprite.player.x + 2;
                 obj2.y = my.sprite.player.y - 18;
                 this.move = false;
@@ -866,8 +866,8 @@ class Adventure extends Phaser.Scene {
 
             if(my.playerVal.rupees >= 30 && this.move) {
                 this.sound.play('sfx_item');
-                my.playerVal.rupees -= 30;
-                my.gameState.rupees -= 30;
+                my.playerVal.rupees -= 15;
+                my.gameState.rupees -= 15;
                 obj2.x = my.sprite.player.x + 2;
                 obj2.y = my.sprite.player.y - 18;
                 this.move = false;
@@ -880,12 +880,11 @@ class Adventure extends Phaser.Scene {
                 //if(my.playerVal.item_index != 0) my.playerVal.item_index++;
                 my.playerVal.item_index = my.gameState.items.length - 1;
                 my.playerVal.item = my.gameState.items[my.playerVal.item_index];
-                
             }
-            
         });
         this.physics.world.drawDebug = false;
         this.physics.world.debugGraphic.clear();
+        
 //DEUBG====================================================================================================================================
         // this.input.keyboard.on('keydown-D', () => {
         //     this.physics.world.drawDebug = this.physics.world.drawDebug ? false : true
@@ -943,8 +942,6 @@ class Adventure extends Phaser.Scene {
         })
         if (my.playerVal.pos == "ldG2") my.sprite.digdogger.visible = true; // digdogger spawn
         if (my.playerVal.pos == "ddI3") my.sprite.manhandla.visible = true; // manhandla spawn
-       
-        
     }
 
     screenStart() {
@@ -1035,7 +1032,7 @@ class Adventure extends Phaser.Scene {
                 this.overworld_theme.stop();
                 this.dungeon_theme.play();
             }
-            if (my.playerVal.pos == "B0") {my.sprite.gleeok.visible = true; }// manhandla spawn
+            if (my.playerVal.pos == "B0") {my.sprite.gleeok.visible = true; } // gleeok spawn
         }
     }
 
@@ -1169,7 +1166,6 @@ class Adventure extends Phaser.Scene {
         my.sprite.gleeok = this.add.container(480, 40).setDepth(90); // container for gleeok sprites
         my.sprite.gleeok.isMoving = false;
         this.physics.world.enable(my.sprite.gleeok);
-        my.sprite.gleeok.visible = false;
 
         my.sprite.gleeok_body = this.physics.add.sprite(0, 0, "gleeok", "Gleeok-0.png").setDepth(90); // body
         my.sprite.gleeok_body.anims.play('gleeok_body', true);
@@ -1226,7 +1222,7 @@ class Adventure extends Phaser.Scene {
         my.sprite.gleeok_rh2.body.setSize(10, 16);  
         my.sprite.gleeok_rh2.body.setOffset(3, 0);
 
-        //my.sprite.gleeok.visible = true;  // container traits
+        my.sprite.gleeok.visible = false;  // container traits
         my.sprite.gleeok.type = 'gleeok'
         my.sprite.gleeok.speed = this.playerVelocity / 2;
         my.sprite.gleeok.delete = false;
@@ -1526,12 +1522,12 @@ class Adventure extends Phaser.Scene {
         ///console.log("x: "+my.sprite.player.x+", y: "+my.sprite.player.y);
         //console.log(my.playerVal.item)
         //console.log(this.move, this.actionable_timer)
-        //my.playerVal.pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord]
+        my.playerVal.pos = this.map_coords[my.sprite.player.y_coord][my.sprite.player.x_coord]
         //console.log(/*this.overworld, */my.playerVal.pos, my.sprite.player.x_coord, my.sprite.player.y_coord)
         if(!this.mapCamera.isMoving)this.checkCameraBounds();
         my.sprite.sword_side.setVelocity(0, 0);
         my.sprite.sword_up.setVelocity(0, 0);
-        //if(my.playerVal.health <= 0) this.kill_screen();
+        if(my.playerVal.health <= 0) this.kill_screen();
         //console.log(this.actionable_timer)
 
 
