@@ -7,18 +7,23 @@ class Adventure extends Phaser.Scene {
         //passed in checkpoint values
         this.gameActive = data.gameActive || false;
         this.linkActive = data.linkActive || false;
+        this.killed_bosses = 0;
         this.spawn_x =  data.spawn_x || 480;
         this.spawn_y =  data.spawn_y || 694;
         this.c_x =  data.c_x || 320;
         this.c_y =  data.c_y || 576;
+        // this.spawn_x =  data.spawn_x || 160;
+        // this.spawn_y =  data.spawn_y || 120;
+        // this.c_x =  data.c_x || 0;
+        // this.c_y =  data.c_y || 0;
         this.x_coord = data.x_coord || 1;
         this.y_coord = data.y_coord || 4;
         if(data.overworld != null) this.overworld = data.overworld; else this.overworld = true;
         this.items = data.items || [];
         this.max = data.max || 6;
         this.heart_containers_spawn = data.heart_containers_spawn || [0, 1, 2, 3, 4, 5, 6, 7, 8]
-        this.rupees = data.rupees || 95;
-        this.keys = data.keys || 5;
+        this.rupees = data.rupees || 0;
+        this.keys = data.keys || 0;
         
         //setting current game state
         my.playerVal.max = this.max;
@@ -55,7 +60,7 @@ class Adventure extends Phaser.Scene {
         this.actionable_offset = 0;
         this.iframes_counter = 0;
         this.actionable = true;
-        this.map_coords = [['A0',   '',  'C0', '', 'sub'], //MUST BE ACCESSED VIA map_coords[y][x]
+        this.map_coords = [['A0',   'B0',  'C0', '', 'sub'], //MUST BE ACCESSED VIA map_coords[y][x]
                             ['A1', 'B1', 'C1', 'D1', 'sub',  '',  'ldG1',  ''],
                             ['A2', 'B2', 'C2', 'D2', 'sub',  '',  'ldG2',  '',    'ddI2'],
                             ['A3', 'B3', 'C3', 'D3', 'E3', '',    'ldG3', 'ldH3', 'ddI3', 'ddJ3'],
@@ -63,8 +68,9 @@ class Adventure extends Phaser.Scene {
                             ['',    '',   '',  'D5',  '', 'ldF5', 'ldG5', 'ldH5', 'ddI5', 'ddJ5', 'ddK5', 'ddL5']];
         this.spawn_locations = [{screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, damage: 1, speed: this.playerVelocity / 2, x: 720, y: 650}, 
             {screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 800, y: 650},
+            {screen: 'A3', item: false, key: false, type: 'ghini', weakness: 'dark', health: 7, damage: 2, speed: this.playerVelocity / 2, x: 76, y: 550}, 
             {screen: 'A3', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 88, y: 504},
-            {screen: 'A3', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 88, y: 504},
+            {screen: 'A3', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 256, y: 504},
             {screen: 'C4', item: false, key: false, type: 'octo', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 866, y: 650}, 
             {screen: 'A4', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 96, y: 648},
             {screen: 'A4', item: false, key: false, type: 'armos', weakness: 'ice', health: 4, speed: this.playerVelocity / 2, damage: 1, x: 224, y: 648},
@@ -183,13 +189,15 @@ class Adventure extends Phaser.Scene {
         this.old_man_tileset = this.map.addTilesetImage("old_man", "old_man");
         this.title_tileset = this.map.addTilesetImage("title", "title");
 
-        this.groundLayer = this.map.createLayer("basic-geometry-layer", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset, this.teal_tileset, this.frozen_tileset, this.cave_tileset], 0, 0);
+        this.groundLayer = this.map.createLayer("basic-geometry-layer", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.teal_dark_tileset, this.teal_light_tileset, this.overworld_tileset, this.teal_tileset, this.frozen_tileset, this.cave_tileset], 0, 0);
         this.enemyBoundary = this.map.createLayer("boundaries", this.forest_tileset, 0, 0);
         this.darkLayer = this.map.createLayer("dark-layer", [this.teal_dark_tileset, this.teal_light_tileset, this.old_man_tileset], 0, 0);
         this.transitionsLayer = this.map.createLayer("transitions", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset], 0, 0);
         this.foregroundLayer = this.map.createLayer("foreground", [this.forest_tileset, this.mountain_tileset, this.graveyard_tileset, this.overworld_tileset, this.teal_tileset, this.old_man_tileset], 0, 0).setDepth(100000);
         this.titleLayer = this.map.createLayer("title", [this.title_tileset, this.graveyard_tileset], 0, 0).setDepth(10);
         this.creditsLayer = this.map.createLayer("credits", [this.graveyard_tileset], 0, 0).setDepth(5)
+        this.winLayer = this.map.createLayer("win", [this.graveyard_tileset], 0, 0).setDepth(2);
+        this.winLayer.visible = false;
         this.enemyBoundary.visible = false;
         this.transitionsLayer.visible = false;
         
@@ -388,18 +396,18 @@ class Adventure extends Phaser.Scene {
                 this.dockBoat('left ', 'E3');
             }
         }, this);
+        this.groundLayer.setTileIndexCallback(this.forest_tileset.firstgid + 136, (sprite, tile) => {
+            if (sprite === my.sprite.boat && my.sprite.boat.visible === true && (my.sprite.player.x === 1120 && my.sprite.player.y === 744 && my.sprite.player.facing === 'up')) {
+                this.dockBoat('up', 'D5');
+            }
+        }, this);
         this.groundLayer.setTileIndexCallback(this.mountain_tileset.firstgid + 154, (sprite, tile) => {
             if (sprite === my.sprite.boat && my.sprite.boat.visible === true && (my.sprite.player.x === 816 && my.sprite.player.y === 352 && my.sprite.player.facing === 'up')) {
                 this.dockBoat('up', 'C2');
             } else if (sprite === my.sprite.boat && my.sprite.boat.visible === true && (my.sprite.player.x === 816 && my.sprite.player.y === 72 && my.sprite.player.facing === 'down')) {
                 this.dockBoat('down', 'C0');
             }
-        }, this);
-        this.groundLayer.setTileIndexCallback(this.overworld_tileset.firstgid + 136, (sprite, tile) => {
-            if (sprite === my.sprite.boat && my.sprite.boat.visible === true && (my.sprite.player.x === 1120 && my.sprite.player.y === 744 && my.sprite.player.facing === 'up')) {
-                this.dockBoat('up', 'D5');
-            }
-        }, this);
+        }, this);  
 
         //burn tree
         this.groundLayer.setTileIndexCallback(this.overworld_tileset.firstgid + 210, (sprite, tile) => {
@@ -876,12 +884,13 @@ class Adventure extends Phaser.Scene {
             }
             
         });
-
+        this.physics.world.drawDebug = false;
+        this.physics.world.debugGraphic.clear();
 //DEUBG====================================================================================================================================
-        this.input.keyboard.on('keydown-D', () => {
-            this.physics.world.drawDebug = this.physics.world.drawDebug ? false : true
-            this.physics.world.debugGraphic.clear()
-        }, this);
+        // this.input.keyboard.on('keydown-D', () => {
+        //     this.physics.world.drawDebug = this.physics.world.drawDebug ? false : true
+        //     this.physics.world.debugGraphic.clear()
+        // }, this);
     
         this.input.keyboard.on('keydown-A', () => {
             my.playerVal.item_index--;
@@ -933,8 +942,9 @@ class Adventure extends Phaser.Scene {
             }
         })
         if (my.playerVal.pos == "ldG2") my.sprite.digdogger.visible = true; // digdogger spawn
-        if (my.playerVal.pos == "ddI3") {my.sprite.manhandla.visible = true; // manhandla spawn
-        }
+        if (my.playerVal.pos == "ddI3") my.sprite.manhandla.visible = true; // manhandla spawn
+       
+        
     }
 
     screenStart() {
@@ -1025,6 +1035,7 @@ class Adventure extends Phaser.Scene {
             //     this.overworld_theme.stop();
             //     this.dungeon_theme.play();
             // }
+            if (my.playerVal.pos == "B0") {my.sprite.gleeok.visible = true; }// manhandla spawn
         }
     }
 
@@ -1045,22 +1056,30 @@ class Adventure extends Phaser.Scene {
         my.sprite.manhandla_body.container = my.sprite.manhandla;
 
         my.sprite.manhandla_top = this.physics.add.sprite(0, -16, "manhandla", "Manhandla-2.png").setDepth(90); // top head
+        my.sprite.manhandla_top.x_offset = 0;
+        my.sprite.manhandla_top.y_offset = -16;
         my.sprite.manhandla_top.anims.play('manhandla_front', true);
         my.sprite.manhandla.add(my.sprite.manhandla_top);
         my.sprite.manhandla_top.container = my.sprite.manhandla;
 
         my.sprite.manhandla_left = this.physics.add.sprite(-16, 0, "manhandla", "Manhandla-1.png").setDepth(90); // left head
+        my.sprite.manhandla_left.x_offset = -16;
+        my.sprite.manhandla_left.y_offset = 0;
         my.sprite.manhandla_left.anims.play('manhandla_side', true);
         my.sprite.manhandla.add(my.sprite.manhandla_left);
         my.sprite.manhandla_left.container = my.sprite.manhandla;
 
         my.sprite.manhandla_right = this.physics.add.sprite(16, 0, "manhandla", "Manhandla-1.png").setDepth(90); // right head
+        my.sprite.manhandla_right.x_offset = 16;
+        my.sprite.manhandla_right.y_offset = 0;
         my.sprite.manhandla_right.anims.play('manhandla_side', true);
         my.sprite.manhandla_right.flipX = true;
         my.sprite.manhandla.add(my.sprite.manhandla_right);
         my.sprite.manhandla_right.container = my.sprite.manhandla;
 
         my.sprite.manhandla_bottom = this.physics.add.sprite(0, 16, "manhandla", "Manhandla-2.png").setDepth(90); // bottom head
+        my.sprite.manhandla_bottom.x_offset = 0;
+        my.sprite.manhandla_bottom.y_offset = 16;
         my.sprite.manhandla_bottom.anims.play('manhandla_front', true);
         my.sprite.manhandla_bottom.flipY = true;
         my.sprite.manhandla.add(my.sprite.manhandla_bottom);
@@ -1072,30 +1091,30 @@ class Adventure extends Phaser.Scene {
         my.sprite.manhandla_top.health = 7;
         //my.sprite.manhandla_top.speed = this.playerVelocity / 2;
         my.sprite.manhandla_top.delete = false;
-        my.sprite.manhandla_top.map_pos = 'D5';
+        my.sprite.manhandla_top.map_pos = 'ddI3';
         my.sprite.manhandla_top.iframes_counter = 0;
         my.sprite.manhandla_top.key = false;
-        my.sprite.manhandla_left.s = 'D5';
+        my.sprite.manhandla_left.s = 'ddI3';
 
         my.sprite.manhandla_left.type = 'manhandla_left'
         my.sprite.manhandla_left.weakness = 'light';
         my.sprite.manhandla_left.health = 7;
         //my.sprite.manhandla_left.speed = this.playerVelocity / 2;
         my.sprite.manhandla_left.delete = false;
-        my.sprite.manhandla_left.map_pos = 'D5';
+        my.sprite.manhandla_left.map_pos = 'ddI3';
         my.sprite.manhandla_left.iframes_counter = 0;
         my.sprite.manhandla_left.key = false;
-        my.sprite.manhandla_left.s = 'D5';
+        my.sprite.manhandla_left.s = 'ddI3';
 
         my.sprite.manhandla_right.type = 'manhandla_right'
         my.sprite.manhandla_right.weakness = 'light';
         my.sprite.manhandla_right.health = 7;
         //my.sprite.manhandla_right.speed = this.playerVelocity / 2;
         my.sprite.manhandla_right.delete = false;
-        my.sprite.manhandla_right.map_pos = 'D5';
+        my.sprite.manhandla_right.map_pos = 'ddI3';
         my.sprite.manhandla_right.iframes_counter = 0;
         my.sprite.manhandla_right.key = false;
-        my.sprite.manhandla_right.s = 'D5';
+        my.sprite.manhandla_right.s = 'ddI3';
 
 
         my.sprite.manhandla_bottom.type = 'manhandla_bottom'
@@ -1103,19 +1122,19 @@ class Adventure extends Phaser.Scene {
         my.sprite.manhandla_bottom.health = 7;
         //my.sprite.manhandla_bottom.speed = this.playerVelocity / 2;
         my.sprite.manhandla_bottom.delete = false;
-        my.sprite.manhandla_bottom.map_pos = 'D5';
+        my.sprite.manhandla_bottom.map_pos = 'ddI3';
         my.sprite.manhandla_bottom.iframes_counter = 0;
         my.sprite.manhandla_bottom.key = false;
-        my.sprite.manhandla_bottom.s = 'D5';
+        my.sprite.manhandla_bottom.s = 'ddI3';
 
         my.sprite.manhandla.type = 'manhandla'
         //y.sprite.manhandla_top.weakness = 'light';
         my.sprite.manhandla.speed = this.playerVelocity /2;
         my.sprite.manhandla.delete = false;
-        my.sprite.manhandla.map_pos = 'D5';
+        my.sprite.manhandla.map_pos = 'ddI3';
         //my.sprite.manhandla_top.iframes_counter = 0;
         //my.sprite.manhandla_top.key = false;
-        my.sprite.manhandla.s = 'D5';
+        my.sprite.manhandla.s = 'ddI3';
         this.physics.add.collider(my.sprite.manhandla, this.groundLayer); 
         this.physics.add.collider(my.sprite.manhandla, this.enemyBoundary);
         
@@ -1147,9 +1166,10 @@ class Adventure extends Phaser.Scene {
     }
 
     SpawnGle(){
-        my.sprite.gleeok = this.add.container(448, 632).setDepth(90); // container for gleeok sprites
+        my.sprite.gleeok = this.add.container(480, 40).setDepth(90); // container for gleeok sprites
         my.sprite.gleeok.isMoving = false;
         this.physics.world.enable(my.sprite.gleeok);
+        my.sprite.gleeok.visible = false;
 
         my.sprite.gleeok_body = this.physics.add.sprite(0, 0, "gleeok", "Gleeok-0.png").setDepth(90); // body
         my.sprite.gleeok_body.anims.play('gleeok_body', true);
@@ -1167,15 +1187,19 @@ class Adventure extends Phaser.Scene {
         my.sprite.gleeok_ln2.body.enable = false;
 
         my.sprite.gleeok_lh = this.physics.add.sprite(-2, 40, "gleeok", "Gleeok-4.png").setDepth(90); // left head
+        my.sprite.gleeok_lh.x_offset = -2;
+        my.sprite.gleeok_lh.y_offset = 40;
         my.sprite.gleeok.add(my.sprite.gleeok_lh);
         my.sprite.gleeok_lh.container = my.sprite.gleeok;
         my.sprite.gleeok_lh.body.setSize(10, 16);  
         my.sprite.gleeok_lh.body.setOffset(0, 0);
 
-        my.sprite.gleeok_lh2 = this.physics.add.sprite(-2, 40, "gleeok", "Gleeok-5.png").setDepth(90); // left head 2
+        my.sprite.gleeok_lh2 = this.physics.add.sprite(480, 40, "gleeok", "Gleeok-5.png").setDepth(90); // left head 2
+        this.physics.add.collider(my.sprite.gleeok_lh2, this.groundLayer); 
+        this.physics.add.collider(my.sprite.gleeok_lh2, this.enemyBoundary);
         my.sprite.gleeok_lh2.anims.play('gleeok_lh2', true);
-        my.sprite.gleeok_lh.body.setSize(10, 16);  
-        my.sprite.gleeok_lh.body.setOffset(0, 0);
+        my.sprite.gleeok_lh2.body.setSize(10, 16);  
+        my.sprite.gleeok_lh2.body.setOffset(3, 0);
 
         my.sprite.gleeok_rn = this.physics.add.sprite(10, 26, "gleeok", "Gleeok-7.png").setDepth(90); // right neck
         my.sprite.gleeok.add(my.sprite.gleeok_rn);
@@ -1188,22 +1212,26 @@ class Adventure extends Phaser.Scene {
         my.sprite.gleeok_rn2.body.enable = false;
 
         my.sprite.gleeok_rh = this.physics.add.sprite(18, 40, "gleeok", "Gleeok-8.png").setDepth(90); // right head
+        my.sprite.gleeok_rh.x_offset = 18;
+        my.sprite.gleeok_rh.y_offset = 40;
         my.sprite.gleeok.add(my.sprite.gleeok_rh);
         my.sprite.gleeok_rh.container = my.sprite.gleeok;
         my.sprite.gleeok_rh.body.setSize(10, 16);  
         my.sprite.gleeok_rh.body.setOffset(0, 0);
 
-        my.sprite.gleeok_rh2 = this.physics.add.sprite(18, 40, "gleeok", "Gleeok-9.png").setDepth(90); // right head 2
+        my.sprite.gleeok_rh2 = this.physics.add.sprite(520, 40, "gleeok", "Gleeok-9.png").setDepth(90); // right head 2
+        this.physics.add.collider(my.sprite.gleeok_rh2, this.groundLayer); 
+        this.physics.add.collider(my.sprite.gleeok_rh2, this.enemyBoundary);
         my.sprite.gleeok_rh2.anims.play('gleeok_rh2', true);
-        my.sprite.gleeok_rh.body.setSize(10, 16);  
-        my.sprite.gleeok_rh.body.setOffset(0, 0);
+        my.sprite.gleeok_rh2.body.setSize(10, 16);  
+        my.sprite.gleeok_rh2.body.setOffset(3, 0);
 
-        my.sprite.gleeok.visible = true;  // container traits
+        //my.sprite.gleeok.visible = true;  // container traits
         my.sprite.gleeok.type = 'gleeok'
         my.sprite.gleeok.speed = this.playerVelocity / 2;
         my.sprite.gleeok.delete = false;
-        my.sprite.gleeok.map_pos = 'B4';
-        my.sprite.gleeok.s = 'B4';
+        my.sprite.gleeok.map_pos = 'B0';
+        my.sprite.gleeok.s = 'B0';
         my.sprite.gleeok.body.setSize(my.sprite.gleeok_body.width, my.sprite.gleeok_body.height);  
         my.sprite.gleeok.body.setOffset(-my.sprite.gleeok_body.width/2, -my.sprite.gleeok_body.height/2);
         this.physics.add.collider(my.sprite.gleeok, this.groundLayer); 
@@ -1213,40 +1241,40 @@ class Adventure extends Phaser.Scene {
         my.sprite.gleeok_lh.weakness = 'dark';
         my.sprite.gleeok_lh.health = 7;
         my.sprite.gleeok_lh.delete = false;
-        my.sprite.gleeok_lh.map_pos = 'B4';
+        my.sprite.gleeok_lh.map_pos = 'B0';
         my.sprite.gleeok_lh.iframes_counter = 0;
         my.sprite.gleeok_lh.key = false;
-        my.sprite.gleeok_lh2.s = 'B4';
+        my.sprite.gleeok_lh2.s = 'B0';
 
         my.sprite.gleeok_lh2.type = 'lh2'  // left head 2 traits
         my.sprite.gleeok_lh2.weakness = 'dark';
         my.sprite.gleeok_lh2.health = 7;
         my.sprite.gleeok_lh2.speed = this.playerVelocity / 1.5;
         my.sprite.gleeok_lh2.delete = false;
-        my.sprite.gleeok_lh2.map_pos = 'B4';
+        my.sprite.gleeok_lh2.map_pos = 'B0';
         my.sprite.gleeok_lh2.iframes_counter = 0;
         my.sprite.gleeok_lh2.key = false;
-        my.sprite.gleeok_lh2.s = 'B4';
+        my.sprite.gleeok_lh2.s = 'B0';
         my.sprite.gleeok_lh2.visible = false;
 
         my.sprite.gleeok_rh.type = 'gleeok_rh'  // right head traits
         my.sprite.gleeok_rh.weakness = 'light';
         my.sprite.gleeok_rh.health = 7;
         my.sprite.gleeok_rh.delete = false;
-        my.sprite.gleeok_rh.map_pos = 'B4';
+        my.sprite.gleeok_rh.map_pos = 'B0';
         my.sprite.gleeok_rh.iframes_counter = 0;
         my.sprite.gleeok_rh.key = false;
-        my.sprite.gleeok_rh.s = 'B4';
+        my.sprite.gleeok_rh.s = 'B0';
 
         my.sprite.gleeok_rh2.type = 'rh2'  // right head 2 traits
         my.sprite.gleeok_rh2.weakness = 'light';
         my.sprite.gleeok_rh2.health = 7;
         my.sprite.gleeok_rh2.speed = this.playerVelocity / 1.5;
         my.sprite.gleeok_rh2.delete = false;
-        my.sprite.gleeok_rh2.map_pos = 'B4';
+        my.sprite.gleeok_rh2.map_pos = 'B0';
         my.sprite.gleeok_rh2.iframes_counter = 0;
         my.sprite.gleeok_rh2.key = false;
-        my.sprite.gleeok_rh2.s = 'B4';
+        my.sprite.gleeok_rh2.s = 'B0';
         my.sprite.gleeok_rh2.visible = false;
 
         this.enemies.push(my.sprite.gleeok_lh);
@@ -1272,8 +1300,9 @@ class Adventure extends Phaser.Scene {
         if(this.e_bullets.length < 3 && this.gameActive) {
             let angle = null;
             if(enemy.container){
-                my.sprite.bullet = this.add.sprite(enemy.container.x, enemy.container.y, "fireball"); 
-                angle = Phaser.Math.Angle.Between(enemy.container.x, enemy.container.y, my.sprite.player.x, my.sprite.player.y);
+                my.sprite.bullet = this.add.sprite(enemy.container.x + enemy.x_offset, enemy.container.y + enemy.y_offset, "fireball"); 
+                angle = Phaser.Math.Angle.Between(enemy.container.x + enemy.x_offset, enemy.container.y + enemy.y_offset, my.sprite.player.x, my.sprite.player.y);
+                console.log(enemy.type, enemy.container.x, enemy.x_offset)
             }
             else {
                 my.sprite.bullet = this.add.sprite(enemy.x, enemy.y, "fireball"); 
@@ -1483,10 +1512,15 @@ class Adventure extends Phaser.Scene {
 
     update() {
         if(this.gameActive){
-            //console.log(this.e_bullets);
-            if(!my.sprite.gleeok_lh2 && !my.sprite.gleeok_rh2) {
+            console.log(this.killed_bosses);
+            if(this.killed_bosses >= 2) {
                 this.gameActive = false;
-                //PUT END SCREEN HERE
+                this.winLayer.visible = true;
+                this.foregroundLayer.visible = false;
+                this.groundLayer.visible = false;
+                my.sprite.sword_side.visible = false;
+                my.sprite.sword_up.visible = false;
+                my.sprite.link.visible = false;
             }
             
         ///console.log("x: "+my.sprite.player.x+", y: "+my.sprite.player.y);
@@ -1543,11 +1577,11 @@ class Adventure extends Phaser.Scene {
 
         if(this.e_bullets.length != 0) for (let i = this.e_bullets.length - 1; i >= 0; i--) {
             let b = this.e_bullets[i];
-            console.log(b.x, b.y);
+            //console.log(b.x, b.y);
             const boundsWidth = 320;
             const boundsHeight = 144;
-            b.x += 4 * Math.cos(b.dir);
-            b.y += 4 * Math.sin(b.dir);
+            b.x += 2 * Math.cos(b.dir);
+            b.y += 2 * Math.sin(b.dir);
             const playerScreenX = b.x - this.mapCamera.scrollX;
             const playerScreenY = b.y - this.mapCamera.scrollY;
 
@@ -1579,7 +1613,7 @@ class Adventure extends Phaser.Scene {
             if((!enemy.type.includes("manhandla") && enemy.type != "digdogger" &&!enemy.type.includes("gleeok") && enemy.type != "lh2" && enemy.type != "rh2") && enemy.map_pos != my.playerVal.pos && !this.mapCamera.isMoving) {enemy.delete = true; } //kill when out of bounds
             
             if(((enemy.type.includes("manhandla") || enemy.type.includes("gleeok"))  && enemy.container.visible == true ) || ((enemy.type == "wizrobe" || enemy.type == "lynel" || enemy.type == "digdogger" || enemy.type == "lh2"|| enemy.type == "rh2") && enemy.visible)){
-                //console.log(enemy.type)
+                //console.log(enemy.type, enemy.map_pos, my.playerVal.pos, !this.mapCamera.isMoving)
                 let prob1 = 1/90;
                     if(Math.random() < prob1 && enemy.map_pos == my.playerVal.pos && !this.mapCamera.isMoving) {
                         this.e_shoot(enemy)
@@ -1607,6 +1641,7 @@ class Adventure extends Phaser.Scene {
 
                     let prob = Math.random();
                     enemy.delete = true;
+                    if(enemy.type == 'lh2' || enemy.type == 'rh2') this.killed_bosses++;
                     let non_bosses_active = 0;
                     this.enemies.forEach((enemy) =>{
                     //console.log(enemy.type, !enemy.type.includes("manhandla"), enemy.type != "digdogger", !enemy.type.includes("gleeok"))
@@ -1689,7 +1724,7 @@ class Adventure extends Phaser.Scene {
                 enemy.body.setVelocity(tx, ty);
             }
 
-            if(this.collides(enemy, my.sprite.link) && this.iframes_counter == 0){
+            if(this.collides(enemy, my.sprite.link) && this.iframes_counter == 0 && enemy.visible == true){
                 let angle = Phaser.Math.Angle.Between(enemy.x, enemy.y, my.sprite.player.x, my.sprite.player.y);
                 my.sprite.player.dir = angle;
                 my.playerVal.health -= enemy.damage;
@@ -1702,6 +1737,7 @@ class Adventure extends Phaser.Scene {
             }
             //console.log(enemy, enemy.delete)
             if(enemy.delete == true) {
+                if(enemy.container) enemy.container.remove(enemy);
                 this.enemies.splice(i, 1);
                 enemy.destroy(1);
             }
@@ -1996,6 +2032,9 @@ class Adventure extends Phaser.Scene {
 //TIMERS=================================================================================================================================
         this.gameFrame++;
         this.relative_gameFrame++;
+        if(my.sprite.gleeok_lh.visible == false && my.sprite.gleeok_rh.visible == false) {my.sprite.gleeok.visible = false; my.sprite.gleeok_lh2.visible = true; my.sprite.gleeok_rh2.visible = true} 
+
+        if(my.sprite.manhandla_bottom.visible == false && my.sprite.manhandla_top.visible == false && my.sprite.manhandla_left.visible == false && my.sprite.manhandla_right.visible == false) my.sprite.manhandla_body.visible = false;
     }
     else {
         if(Phaser.Input.Keyboard.JustDown(this.xKey)) {
