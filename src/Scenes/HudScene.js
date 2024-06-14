@@ -32,7 +32,7 @@ class HudScene extends Phaser.Scene {
             for (let j = 1; j <= 6; j++) {
                 if (((i*12)+(j*2)) > my.playerVal.max) {
                     // current heart above max health
-                    break;
+                    this.top_layer.putTileAt(this.mountain_tileset.firstgid + 34, j+31, i+3)
                 } else if (((i*12)+(j*2)) <= my.playerVal.health) {
                     // current heart full
                     this.top_layer.putTileAt(this.mountain_tileset.firstgid + 233, j+31, i+3);
