@@ -138,6 +138,7 @@ class HudScene extends Phaser.Scene {
                 break
         }
         if (item) {this.top_layer.putTileAt(item.firstgid, 21, 2);}
+        else {this.top_layer.removeTileAt(21, 2);}
     }
 
     update(){

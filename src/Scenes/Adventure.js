@@ -49,6 +49,8 @@ class Adventure extends Phaser.Scene {
         my.gameState.title = this.title;
         my.gameState.song = this.song;
 
+
+        this.rKey = this.input.keyboard.addKey('R');
         //console.log(my.playerVal.max, my.playerVal.health)
         // variables and settings
         this.move = true; // can move
@@ -1538,8 +1540,27 @@ class Adventure extends Phaser.Scene {
 
     update() {
         if(this.gameActive){
-            console.log(my.playerVal.rupees
-            );
+            if(Phaser.Input.Keyboard.JustDown(this.rKey)) {
+                this.overworld_theme.stop();
+                this.dungeon_theme.stop();
+                this.scene.restart({spawn_x: null,
+                spawn_y: null,
+                c_x: null,
+                c_y: null,
+                x_coord: null,
+                y_coord: null,
+                overworld: null,
+                items: null,
+                max: null,
+                rupees: null,
+                keys: null,
+                song:null,
+                title:null,
+                item_flags: null,
+                heart_containers_spawn: null
+            
+            })
+        }
             if(this.killed_bosses >= 2) {
                 this.gameActive = false;
                 this.winLayer.visible = true;
