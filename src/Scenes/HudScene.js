@@ -74,8 +74,10 @@ class HudScene extends Phaser.Scene {
             // convert single digit to tile
             if (num % 2 === 0){
                 this.top_layer.putTileAt(this.graveyard_tileset.firstgid + (num/2), 16, 2);
+                this.top_layer.putTileAt(this.graveyard_tileset.firstgid + 34, 17, 2);
             } else {
                 this.top_layer.putTileAt(this.graveyard_tileset.firstgid + ((num-1)/2)+16, 16, 2);
+                this.top_layer.putTileAt(this.graveyard_tileset.firstgid + 34, 17, 2);
             }
         } else {
             // extract digits

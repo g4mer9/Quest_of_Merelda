@@ -19,6 +19,7 @@ class Adventure extends Phaser.Scene {
         this.x_coord = data.x_coord || 1;
         this.y_coord = data.y_coord || 4;
         if(data.overworld != null) this.overworld = data.overworld; else this.overworld = true;
+        if(data.title != null) this.title = data.title; else this.title = true;
         this.items = data.items || [];
         this.max = data.max || 6;
         this.heart_containers_spawn = data.heart_containers_spawn || [0, 1, 2, 3, 4, 5, 6, 7, 8]
@@ -44,6 +45,7 @@ class Adventure extends Phaser.Scene {
         my.gameState.rupees = this.rupees;
         my.gameState.keys = this.keys;
         my.gameState.heart_containers_spawn = this.heart_containers_spawn;
+        my.gameState.title = this.title;
 
         //console.log(my.playerVal.max, my.playerVal.health)
         // variables and settings
@@ -200,6 +202,9 @@ class Adventure extends Phaser.Scene {
         this.winLayer.visible = false;
         this.enemyBoundary.visible = false;
         this.transitionsLayer.visible = false;
+        this.titleLayer.visible = my.gameState.title;
+        this.creditsLayer.visible = my.gameState.title;
+
         
         this.enemyBoundary.setCollisionByProperty({//collision with geometry layer
             collides: true
@@ -838,7 +843,7 @@ class Adventure extends Phaser.Scene {
             //this.sound.play('sfx_gem');
            
             
-            if(my.playerVal.rupees >= 15 && this.move) {
+            if(my.playerVal.rupees >= 30 && this.move) {
                 this.sound.play('sfx_item');
                 my.playerVal.rupees -= 30;
                 my.gameState.rupees -= 30;
@@ -864,7 +869,8 @@ class Adventure extends Phaser.Scene {
 
            
 
-            if(my.playerVal.rupees >= 30 && this.move) {
+
+            if(my.playerVal.rupees >= 15 && this.move) {
                 this.sound.play('sfx_item');
                 my.playerVal.rupees -= 15;
                 my.gameState.rupees -= 15;
@@ -921,7 +927,8 @@ class Adventure extends Phaser.Scene {
         this.spawn_locations.forEach((spawn) =>{
             //console.log(spawn.screen, ", ", my.playerVal.pos)
             if(spawn.screen == my.playerVal.pos) {
-                my.sprite.enemy = this.physics.add.sprite(spawn.x, spawn.y, spawn.type+"_front");
+                if (spawn.type != "peahat" || spawn.type != "keese") my.sprite.enemy = this.physics.add.sprite(spawn.x, spawn.y, spawn.type+"_front");
+                else my.sprite.enemy = this.physics.add.sprite(spawn.x, spawn.y, spawn.type+"-0.png");
                 my.sprite.enemy.type = spawn.type;
                 if(spawn.type == "peahat" || spawn.type == "keese") {my.sprite.enemy.body.setSize(my.sprite.enemy.width / 2, my.sprite.enemy.height / 2);  my.sprite.enemy.body.setOffset(0, 0);}
                 my.sprite.enemy.weakness = spawn.weakness;
@@ -1009,13 +1016,25 @@ class Adventure extends Phaser.Scene {
         if(tile.index != -1) {
             
             this.sound.play('sfx_stairs');
-            my.gameState.spawn_x = tile.properties['tx'];
-            my.gameState.spawn_y= tile.properties['ty'];
-            my.gameState.c_x= tile.properties['cx'];
-            my.gameState.c_y= tile.properties['cy'];
-            my.gameState.x_coord = tile.properties['x_coord'];
-            my.gameState.y_coord = tile.properties['y_coord'];
-            my.gameState.overworld = tile.properties['overworld'];
+            if (tile.properties['overworld'] == false) {
+                my.gameState.spawn_x = tile.properties['tx'];
+                my.gameState.spawn_y= tile.properties['ty'];
+                my.gameState.c_x= tile.properties['cx'];
+                my.gameState.c_y= tile.properties['cy'];
+                my.gameState.x_coord = tile.properties['x_coord'];
+                my.gameState.y_coord = tile.properties['y_coord'];
+                my.gameState.overworld = tile.properties['overworld'];
+            } else {
+                my.gameState.spawn_x = 480;
+                my.gameState.spawn_y= 694;
+                my.gameState.c_x= 320;
+                my.gameState.c_y= 576;
+                my.gameState.x_coord = 1;
+                my.gameState.y_coord = 4;
+                my.gameState.overworld = true;
+            }
+
+            
             player.x = tile.properties['tx'];
             player.y = tile.properties['ty'];
             this.mapCamera.scrollX = tile.properties['cx'];
@@ -1508,7 +1527,8 @@ class Adventure extends Phaser.Scene {
 
     update() {
         if(this.gameActive){
-            console.log(this.killed_bosses);
+            console.log(my.playerVal.rupees
+            );
             if(this.killed_bosses >= 2) {
                 this.gameActive = false;
                 this.winLayer.visible = true;
@@ -1615,7 +1635,7 @@ class Adventure extends Phaser.Scene {
                         this.e_shoot(enemy)
                     }
             }
-            if((this.collides(enemy, my.sprite.sword_side) && my.sprite.sword_side.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.sword_up) && my.sprite.sword_up.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.arrow_side) && my.sprite.arrow_side.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.arrow_up) && my.sprite.arrow_up.visible && enemy.iframes_counter <= 0)) {
+            if((this.collides(enemy, my.sprite.sword_side) && my.sprite.sword_side.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.sword_up) && my.sprite.sword_up.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.arrow_side) && my.sprite.arrow_side.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.arrow_up) && my.sprite.arrow_up.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.ice_wand_side) && my.sprite.ice_wand_side.visible && enemy.iframes_counter <= 0) || (this.collides(enemy, my.sprite.ice_wand_up) && my.sprite.ice_wand_up.visible && enemy.iframes_counter <= 0)) {
                 my.sprite.arrow_side.isMoving = false;
                 my.sprite.arrow_side.setVelocity(0, 0);
                 my.sprite.arrow_side.visible = false;
@@ -2035,6 +2055,7 @@ class Adventure extends Phaser.Scene {
     else {
         if(Phaser.Input.Keyboard.JustDown(this.xKey)) {
             this.gameActive = true;
+            my.gameState.title = false;
             this.linkActive = true;
             my.gameState.linkActive = true;
             my.gameState.gameActive = true;
